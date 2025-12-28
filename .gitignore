@@ -1,2 +1,10 @@
 data/
 models/
+vectorstore/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
