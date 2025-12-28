@@ -1,11 +1,19 @@
-from transformers import AutoModel, AutoTokenizer
+from sentence_transformers import SentenceTransformer
+import os
 
-model_name = "hkunlp/instructor-large"
-local_dir = "models/instructor-large"
+# Use a repo-relative models path so the script saves into
+# backend/cardiology/models regardless of the current working dir.
+MODEL_NAME = "hkunlp/instructor-large"
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+LOCAL_DIR = os.path.join(BASE_DIR, "models", "instructor-large")
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModel.from_pretrained(model_name)
+os.makedirs(LOCAL_DIR, exist_ok=True)
 
-tokenizer.save_pretrained(local_dir)
-model.save_pretrained(local_dir)
-print(f"Model and tokenizer saved to {local_dir}")
+print("Loading Instructor model using SentenceTransformer...")
+model = SentenceTransformer(MODEL_NAME)
+
+print("Saving model in SentenceTransformer format...")
+model.save(LOCAL_DIR)
+
+print(f"✅ Instructor model saved correctly at: {LOCAL_DIR}")
+print("Embedding dimension:", model.get_sentence_embedding_dimension())
