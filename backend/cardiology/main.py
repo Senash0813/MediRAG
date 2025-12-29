@@ -5,6 +5,16 @@ from retriever import load_vectorstore
 import numpy as np
 
 # --------------------------------------------------
+# UTILS
+# --------------------------------------------------
+def l2_normalize(vec: np.ndarray) -> np.ndarray:
+    """L2-normalize a vector safely."""
+    norm = np.linalg.norm(vec)
+    if norm == 0:
+        return vec
+    return vec / norm
+
+# --------------------------------------------------
 # MAIN PIPELINE
 # --------------------------------------------------
 def main():
@@ -18,12 +28,14 @@ def main():
     # -----------------------------
     print("\n[1] Embedding and projecting user query...")
     proj_emb = embed_and_project(query)
+    proj_emb = l2_normalize(proj_emb)
 
     # -----------------------------
     # STEP 2: HyDE Generation
     # -----------------------------
     print("[2] Generating hypothetical documents (HyDE)...")
     hyde_emb, hyde_docs = generate_hypothetical_docs(query)
+    hyde_emb = l2_normalize(hyde_emb)
 
     # -----------------------------
     # STEP 3: Fusion
@@ -34,6 +46,7 @@ def main():
         hyde_query=hyde_emb,
         alpha=0.5
     )
+    final_emb = l2_normalize(final_emb)
 
     # -----------------------------
     # STEP 4: Retrieval
@@ -41,9 +54,10 @@ def main():
     print("[4] Loading FAISS index and retrieving top documents...")
     vectorstore = load_vectorstore()
 
-    # Use FAISS directly to also get similarity scores
-    docs_and_scores = vectorstore.similarity_search_by_vector_with_score(
-        embedding=final_emb.tolist(),
+    # ✅ IMPORTANT:
+    # Pass a 1D list, NOT a reshaped numpy array
+    docs_and_scores = vectorstore.similarity_search_with_score_by_vector(
+        embedding=final_emb.tolist(),  # <-- CORRECT
         k=5
     )
 

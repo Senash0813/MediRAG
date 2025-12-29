@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 # -----------------------------
 # MODEL PATHS
@@ -19,26 +19,23 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 # -----------------------------
 hyde_tokenizer = AutoTokenizer.from_pretrained(HYDE_PATH)
 hyde_model = AutoModelForSeq2SeqLM.from_pretrained(HYDE_PATH).to(device)
-hyde_model.eval()  # inference mode
+hyde_model.eval()
 
 # -----------------------------
-# LOAD EMBEDDING MODEL
+# LOAD INSTRUCTOR EMBEDDINGS (768-d)
 # -----------------------------
 embeddings_model = HuggingFaceEmbeddings(
     model_name=INSTRUCTOR_PATH,
     model_kwargs={"device": device},
-    encode_kwargs={"normalize_embeddings": False}  # we normalize manually
+    encode_kwargs={"normalize_embeddings": False}
 )
 
 # -----------------------------
 # UTILS
 # -----------------------------
 def l2_normalize(vec: np.ndarray) -> np.ndarray:
-    """Safely L2-normalize a vector"""
     norm = np.linalg.norm(vec)
-    if norm == 0:
-        return vec
-    return vec / norm
+    return vec if norm == 0 else vec / norm
 
 # -----------------------------
 # HYDE PIPELINE
@@ -49,12 +46,12 @@ def generate_hypothetical_docs(
     max_new_tokens: int = 300
 ):
     """
-    Generates HyDE hypothetical documents, embeds them,
-    and returns a single averaged normalized embedding.
+    HyDE:
+    Query → Hypothetical answers → Instructor embeddings
+    → mean pool → L2 normalize (768-d)
     """
 
     instruction = "Represent the cardiology document for retrieval:"
-
     prompt = f"Question: {query}\nParagraph:"
 
     # Tokenize
@@ -64,7 +61,7 @@ def generate_hypothetical_docs(
         truncation=True
     ).to(device)
 
-    # Generate hypothetical documents
+    # Generate hypothetical answers
     with torch.no_grad():
         outputs = hyde_model.generate(
             **inputs,
@@ -75,34 +72,32 @@ def generate_hypothetical_docs(
             max_new_tokens=max_new_tokens,
         )
 
-    # Decode outputs
     replies = [
         hyde_tokenizer.decode(out, skip_special_tokens=True)
         for out in outputs
     ]
 
-    # Add Instructor-style instruction
     docs = [f"{instruction}\n{reply}" for reply in replies]
 
-    # Embed documents
-    embeddings = embeddings_model.embed_documents(docs)
-    embeddings = np.array(embeddings)
+    # Instructor embeddings (768-d)
+    embeddings = np.array(
+        embeddings_model.embed_documents(docs),
+        dtype=np.float32
+    )
 
-    # Mean pooling + L2 normalize (HyDE standard)
+    # Row-wise normalize
+    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    embeddings = embeddings / norms
+
+    # Mean pooling + normalize
     avg_embedding = l2_normalize(np.mean(embeddings, axis=0))
 
     return avg_embedding, docs
 
 # -----------------------------
-# EXAMPLE USAGE
+# DEBUG
 # -----------------------------
 if __name__ == "__main__":
-    query = "How does sevoflurane postconditioning protect against myocardial ischemia-reperfusion injury?"
-
-    embedding, hyde_docs = generate_hypothetical_docs(query)
-
-    print("Generated HyDE Documents:\n")
-    for i, doc in enumerate(hyde_docs, 1):
-        print(f"[{i}] {doc}\n")
-
-    print("Embedding shape:", embedding.shape)
+    emb, docs = generate_hypothetical_docs("What is cardiology?")
+    print("Embedding shape:", emb.shape)  # MUST be (768,)
