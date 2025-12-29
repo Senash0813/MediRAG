@@ -2,9 +2,14 @@
 /data division logic/miriad_neurology.jsonl
 /data division logic/miriad_neurology.json
 /data division logic/miriad_4.4M.jsonl 
+/data division logic/miriad_neurology_first30.json
+/data division logic/miriad_neurology_first50.json
 
 /fine tuning re-writer/t5_rewriter_train_split.jsonl
 /fine tuning re-writer/t5_rewriter_val_split.jsonl
 /fine tuning re-writer/t5_rewriter_train.jsonl
+
+chunk-rag pipeline/embeddings/
+chunk-rag pipeline/flan_t5_neuro_rewriter/
 
 .env
