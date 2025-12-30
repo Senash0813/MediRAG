@@ -12,4 +12,11 @@
 chunk-rag pipeline/embeddings/
 chunk-rag pipeline/flan_t5_neuro_rewriter/
 
+backend/neurology/venv/
+backend/neurology/data/
+backend/neurology/__pycache__/
+backend/neurology/models/__pycache__
+backend/neurology/prompts/__pycache__/
+backend/neurology/retrieval/__pycache__/
+
 .env
