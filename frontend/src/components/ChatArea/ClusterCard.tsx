@@ -51,7 +51,7 @@ export const ClusterCard = ({ clusterNumber, name, icon: Icon, description, onSe
       </div>
       
       <div className="flex-1">
-        <p className="text-xs text-[#e3e3e3] group-hover:text-white transition-colors leading-relaxed">
+        <p className="text-[12.5px] font-medium text-[#e3e3e3] group-hover:text-white transition-colors leading-relaxed">
           {description}
         </p>
       </div>

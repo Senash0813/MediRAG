@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+transformers
+sentence-transformers
+torch
+faiss-cpu
+rank-bm25
+nltk
+pydantic

@@ -1,0 +1,4 @@
+backend/neurology/__pycache__/
+backend/neurology/data/
+backend/neurology/model_weights/
+backend/venv/
