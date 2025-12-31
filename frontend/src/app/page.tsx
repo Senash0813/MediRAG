@@ -12,12 +12,38 @@ interface Message {
   timestamp: Date;
 }
 
+type SelectedCluster = 1 | 2 | 3 | 4;
+
+type QueryRequestPayload =
+  | { query: string; k?: number; alpha?: number }
+  | { query: string; top_k: number }
+  | { question: string };
+
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
+
+  // Keep backend routing in one place to avoid accidental mismatches.
+  // NOTE: Cluster 4 must use the primary care backend on port 8003.
+  const BACKEND_URL_BY_CLUSTER: Record<number, string> = {
+    1: 'http://127.0.0.1:8000/query',
+    2: 'http://127.0.0.1:8000/query2',
+    3: 'http://127.0.0.1:8000/query3',
+    4: 'http://127.0.0.1:8003/query4',
+  };
+
+  // Build request bodies per cluster. By default, keep the current payload shape
+  // so existing backends keep working; adjust individual clusters as needed.
+  const REQUEST_BODY_BY_CLUSTER: Record<SelectedCluster, (question: string) => QueryRequestPayload> = {
+    1: (q: string) => ({ question: q }),
+    2: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
+    // Cluster 3 will be wired later; keep a backward-compatible default for now.
+    3: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
+    4: (q: string) => ({ query: q, top_k: 5 }),
+  };
 
   const handleClusterSelect = (clusterNumber: number) => {
     setSelectedCluster(selectedCluster === clusterNumber ? null : clusterNumber);
@@ -53,17 +79,17 @@ export default function Home() {
     setIsLoading(true);
     
       try {
-      // Map Neurosciences (cluster 1) and Cardiology (cluster 2) to backends
-      // Update these URLs if your services run on different ports/hosts
-      const backendUrl = selectedCluster === 1
-        ? 'http://127.0.0.1:8000/query'
-        : selectedCluster === 2
-          ? 'http://127.0.0.1:8000/query2'
-          : null;
+      // Map clusters to backends.
+      const backendUrl = BACKEND_URL_BY_CLUSTER[selectedCluster] ?? null;
 
       if (!backendUrl) {
         throw new Error('Backend not available for this cluster');
       }
+
+      const requestBodyBuilder = REQUEST_BODY_BY_CLUSTER[selectedCluster as SelectedCluster];
+      const requestBody = requestBodyBuilder
+        ? requestBodyBuilder(question)
+        : ({ query: question, k: 5, alpha: 0.5 } satisfies QueryRequestPayload);
 
       // Backend expects { query, k, alpha }
       const response = await fetch(backendUrl, {
@@ -71,7 +97,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: question, k: 5, alpha: 0.5 }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
