@@ -28,9 +28,19 @@ class Settings:
 
 
 def load_settings() -> Settings:
-    backend_dir = Path(__file__).resolve().parents[1]
+    # This package lives under backend/primarycare/medirag.
+    # Default data lives one level above "primarycare" (i.e., backend/).
+    primarycare_dir = Path(__file__).resolve().parents[1]
+    backend_root_dir = primarycare_dir.parent
 
-    jsonl_path = Path(os.getenv("MEDIRAG_JSONL_PATH", str(backend_dir / "sampled_2500_per_specialty.jsonl")))
+    backend_dir = primarycare_dir
+
+    jsonl_path = Path(
+        os.getenv(
+            "MEDIRAG_JSONL_PATH",
+            str(backend_root_dir / "sampled_2500_per_specialty.jsonl"),
+        )
+    )
 
     # Keep the notebook's concept of cached files, but place them under backend/.cache by default.
     cache_dir = Path(os.getenv("MEDIRAG_CACHE_DIR", str(backend_dir / ".cache")))

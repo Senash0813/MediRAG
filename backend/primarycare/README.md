@@ -22,10 +22,7 @@ pip install -r requirements.txt
 Set required environment variables:
 
 ```bat
-set S2_API_KEY=
-set LMSTUDIO_BASE_URL=http://localhost:1234/v1
-set LMSTUDIO_MODEL=qwen2.5-3b-instruct
-```
+
 
 (Optional) override data/index locations:
 
