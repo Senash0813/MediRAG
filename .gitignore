@@ -2,3 +2,8 @@ backend/neurology/__pycache__/
 backend/neurology/data/
 backend/neurology/model_weights/
 backend/venv/
+
+data/
+backend/cardiology/__pycache__/
+backend/cardiology/models/
+backend/cardiology/vectorstore/

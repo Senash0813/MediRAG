@@ -52,23 +52,26 @@ export default function Home() {
     setPendingQuestion(question);
     setIsLoading(true);
     
-    try {
-      // For now, only cluster 1 (Neurosciences) has backend
-      // You can add logic to map other clusters to their respective backends later
-      const backendUrl = selectedCluster === 1 
+      try {
+      // Map Neurosciences (cluster 1) and Cardiology (cluster 2) to backends
+      // Update these URLs if your services run on different ports/hosts
+      const backendUrl = selectedCluster === 1
         ? 'http://127.0.0.1:8000/query'
-        : null;
+        : selectedCluster === 2
+          ? 'http://127.0.0.1:8000/query2'
+          : null;
 
       if (!backendUrl) {
         throw new Error('Backend not available for this cluster');
       }
 
+      // Backend expects { query, k, alpha }
       const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ query: question, k: 5, alpha: 0.5 }),
       });
 
       if (!response.ok) {
