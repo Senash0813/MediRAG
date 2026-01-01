@@ -1,0 +1,21 @@
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+numpy==1.26.4
+
+# Windows note: SciSpaCy/spaCy can fail to install on Python 3.12 without MSVC build tools.
+# Recommended: Python 3.11 (or Conda/WSL) to use prebuilt wheels.
+sentence-transformers==3.3.1
+transformers==4.47.1
+accelerate==1.2.1
+torch
+faiss-cpu
+spacy==3.7.4
+scispacy==0.5.4
+sentencepiece
+
+tqdm
+
+# SciSpacy models used in the notebook
+https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
+https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz
