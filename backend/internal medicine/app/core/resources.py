@@ -14,6 +14,7 @@ import spacy
 from app.core import settings
 from app.services.faiss_index import build_faiss_index, load_index_and_metadata
 from app.services.kb_loader import load_kb
+from app.services.ollama import OllamaGenerator
 
 
 @dataclass(frozen=True)
@@ -63,9 +64,20 @@ def load_resources() -> AppResources:
 
     embedder = SentenceTransformer(settings.EMBEDDING_MODEL_NAME)
 
-    tokenizer = AutoTokenizer.from_pretrained(settings.GENERATOR_MODEL_NAME, use_fast=True)
-    model = AutoModelForSeq2SeqLM.from_pretrained(settings.GENERATOR_MODEL_NAME)
-    rag_generator = pipeline("text2text-generation", model=model, tokenizer=tokenizer, device=device)
+    if settings.GENERATOR_PROVIDER == "ollama":
+        rag_generator = OllamaGenerator(
+            base_url=settings.OLLAMA_BASE_URL,
+            model=settings.OLLAMA_MODEL_NAME,
+            timeout_s=settings.OLLAMA_TIMEOUT_S,
+        )
+    elif settings.GENERATOR_PROVIDER == "hf":
+        tokenizer = AutoTokenizer.from_pretrained(settings.GENERATOR_MODEL_NAME, use_fast=True)
+        model = AutoModelForSeq2SeqLM.from_pretrained(settings.GENERATOR_MODEL_NAME)
+        rag_generator = pipeline("text2text-generation", model=model, tokenizer=tokenizer, device=device)
+    else:
+        raise ValueError(
+            f"Unknown MEDIRAG_GENERATOR_PROVIDER={settings.GENERATOR_PROVIDER!r}. Expected 'hf' or 'ollama'."
+        )
 
     nlp_sci = spacy.load("en_core_sci_sm")
     nlp_bc5cdr = spacy.load("en_ner_bc5cdr_md")
