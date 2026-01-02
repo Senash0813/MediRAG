@@ -58,7 +58,7 @@ def generate_hypothetical_docs(
     inputs = hyde_tokenizer(
         prompt,
         return_tensors="pt",
-        truncation=True
+        # truncation=True
     ).to(device)
 
     # Generate hypothetical answers

@@ -52,7 +52,7 @@ Answer (concise, medical, factual):
     }
 
     try:
-        response = requests.post(OLLAMA_URL, json=payload, timeout=120)
+        response = requests.post(OLLAMA_URL, json=payload, timeout=600)
         response.raise_for_status()
 
         data = response.json()
@@ -174,7 +174,7 @@ def main():
     # -----------------------------
     # STEP 5: FINAL ANSWER WITH OLLAMA
     # -----------------------------
-    print("\n[5] Generating final answer with LLaMA 3.2 (Ollama)...")
+    print("\n[5] Generating final answer with phi:2.7b (Ollama)...")
     retrieved_docs = [doc for doc, _ in docs_and_scores]
     final_answer = generate_final_answer(query, retrieved_docs)
 
