@@ -24,7 +24,7 @@ def main():
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
 
-    raw_data = raw_data[:100]  # limit for testing
+    raw_data = raw_data[:10000]  # limit for testing
     print(f"🔹 Loaded {len(raw_data)} records")
 
     # Prepare documents
