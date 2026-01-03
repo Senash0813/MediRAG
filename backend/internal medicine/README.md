@@ -14,7 +14,7 @@ The most reliable path is:
 - Recreate your venv
 - Then install dependencies
 
-Example (Conda):
+Example (Conda)::
 
 - `conda create -n medირag python=3.11 -y`
 - `conda activate medirag`
