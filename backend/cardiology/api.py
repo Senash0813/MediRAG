@@ -12,6 +12,13 @@ from main import generate_final_answer, l2_normalize
 
 app = FastAPI(title="MediRAG Cardiology API")
 
+
+@app.on_event("startup")
+def _warm_vectorstore() -> None:
+    # Load once per process; subsequent calls are served from cache.
+    # This avoids re-loading large models/indexes on every request.
+    load_vectorstore()
+
 # Allow browser requests from the frontend (development origins)
 app.add_middleware(
     CORSMiddleware,

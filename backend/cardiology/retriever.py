@@ -1,4 +1,5 @@
 import numpy as np
+from functools import lru_cache
 from typing import List, Tuple
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -22,6 +23,7 @@ def l2_normalize(vec: np.ndarray) -> np.ndarray:
 # -----------------------------
 # LOAD VECTORSTORE
 # -----------------------------
+@lru_cache(maxsize=1)
 def load_vectorstore() -> FAISS:
     """
     Load FAISS index using the SAME embedding model
