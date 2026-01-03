@@ -30,8 +30,8 @@ export default function Home() {
   // NOTE: Cluster 4 must use the primary care backend on port 8003.
   const BACKEND_URL_BY_CLUSTER: Record<number, string> = {
     1: 'http://127.0.0.1:8000/query',
-    2: 'http://127.0.0.1:8000/query2',
-    3: 'http://127.0.0.1:8000/query3',
+    2: 'http://127.0.0.1:8001/query2',
+    3: 'http://127.0.0.1:8002/rag/answer-verified',
     4: 'http://127.0.0.1:8003/query4',
   };
 
@@ -41,7 +41,7 @@ export default function Home() {
     1: (q: string) => ({ question: q }),
     2: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
     // Cluster 3 will be wired later; keep a backward-compatible default for now.
-    3: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
+    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0.0 }),
     4: (q: string) => ({ query: q, top_k: 5 }),
   };
 
