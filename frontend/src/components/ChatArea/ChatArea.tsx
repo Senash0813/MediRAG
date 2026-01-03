@@ -117,10 +117,10 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
   const showChat = messages.length > 0 || pendingQuestion !== null;
 
   return (
-    <div className={`flex-1 flex flex-col max-w-4xl mx-auto w-full px-6 overflow-y-auto scrollbar-hide transition-all duration-500 ${
+    <div className={`flex-1 flex flex-col max-w-4xl mx-auto w-full px-6 overflow-y-auto scrollbar-hide transition-all duration-500 min-h-0 ${
       !showChat 
         ? 'items-center justify-center pb-32' 
-        : 'pb-4 pt-4'
+        : 'pb-32 pt-4'
     }`}>
       {!showChat ? (
         // Initial view - show welcome and clusters (even when one is selected)
