@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+.env/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+
+# Type checkers / linters
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs
+*.log
+
+# Data artifacts (generated)
+# Keep the folder, ignore generated index outputs
+/data/kb_faiss.index
+/data/kb_metadata.json
+
+# Optional local caches (only if created under backend)
+.cache/

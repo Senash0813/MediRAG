@@ -3,3 +3,10 @@ uvicorn[standard]>=0.22.0
 numpy
 requests
 langchain-community
+pydantic
+langchain-huggingface
+transformers
+torch
+sentence-transformers
+sentencepiece
+faiss-cpu
