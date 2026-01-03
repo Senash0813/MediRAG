@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar/Sidebar';
 import { Header } from '@/components/Header/Header';
 import { ChatArea } from '@/components/ChatArea/ChatArea';
 import { InputArea } from '@/components/InputArea/InputArea';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
   question: string;
@@ -25,6 +26,7 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
+  const { theme } = useTheme();
 
   // Keep backend routing in one place to avoid accidental mismatches.
   // NOTE: Cluster 4 must use the primary care backend on port 8003.
@@ -134,7 +136,11 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-[#131314] text-[#e3e3e3] font-sans overflow-hidden">
+    <div className={`flex h-screen font-sans overflow-hidden ${
+      theme === 'dark' 
+        ? 'bg-[#131314] text-[#e3e3e3]' 
+        : 'bg-white text-gray-900'
+    }`}>
       <Sidebar 
         isOpen={isSidebarOpen} 
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}

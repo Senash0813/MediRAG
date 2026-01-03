@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface ClusterCardProps {
   clusterNumber: number;
@@ -13,6 +14,7 @@ interface ClusterCardProps {
 }
 
 export const ClusterCard = ({ clusterNumber, name, icon: Icon, description, onSelect, isSelected = false }: ClusterCardProps) => {
+  const { theme } = useTheme();
   const colorClasses = [
     'border-blue-500/30 hover:border-blue-500/60 bg-blue-500/5',
     'border-purple-500/30 hover:border-purple-500/60 bg-purple-500/5',
@@ -35,23 +37,33 @@ export const ClusterCard = ({ clusterNumber, name, icon: Icon, description, onSe
       onClick={onSelect}
       className={`
         ${colorClass}
-        ${isSelected ? 'ring-2 ring-offset-2 ring-offset-[#131314]' : ''}
+        ${isSelected ? `ring-2 ring-offset-2 ${theme === 'dark' ? 'ring-offset-[#131314]' : 'ring-offset-white'}` : ''}
         p-4 rounded-xl flex flex-col cursor-pointer 
         transition-all border-2 group
         ${isSelected ? 'scale-[1.02]' : 'hover:scale-[1.02]'}
       `}
     >
       <div className="flex items-center gap-3 mb-4">
-        <div className={`w-8 h-8 rounded-lg bg-[#1e1f20] flex items-center justify-center ${iconColor}`}>
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconColor} ${
+          theme === 'dark' ? 'bg-[#1e1f20]' : 'bg-gray-100'
+        }`}>
           <Icon className="w-4 h-4" />
         </div>
-        <h3 className="text-base font-medium text-[#e3e3e3] group-hover:text-white transition-colors">
+        <h3 className={`text-base font-medium transition-colors ${
+          theme === 'dark' 
+            ? 'text-[#e3e3e3] group-hover:text-white' 
+            : 'text-gray-900 group-hover:text-gray-800'
+        }`}>
           {name}
         </h3>
       </div>
       
       <div className="flex-1">
-        <p className="text-[12.5px] font-medium text-[#e3e3e3] group-hover:text-white transition-colors leading-relaxed">
+        <p className={`text-[12.5px] font-medium transition-colors leading-relaxed ${
+          theme === 'dark' 
+            ? 'text-[#e3e3e3] group-hover:text-white' 
+            : 'text-gray-700 group-hover:text-gray-800'
+        }`}>
           {description}
         </p>
       </div>

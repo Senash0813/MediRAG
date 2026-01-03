@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, Heart, Stethoscope, Activity, Sparkles, Copy, Check } from 'lucide-react';
+import { Brain, Heart, Stethoscope, Activity, Sparkles, Copy, Check, Moon, Sun } from 'lucide-react';
 import { ClusterCard } from './ClusterCard';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
   question: string;
@@ -29,6 +30,7 @@ const loadingMessages = [
 export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQuestion, isLoading }: ChatAreaProps) => {
   const [currentLoadingMessage, setCurrentLoadingMessage] = useState(0);
   const startTimeRef = useRef<number | null>(null);
+  const { theme, toggleTheme } = useTheme();
   const [copiedIndex, setCopiedIndex] = useState<{ type: 'question' | 'answer'; index: number } | null>(null);
 
   const handleCopy = async (text: string, type: 'question' | 'answer', index: number) => {
@@ -131,7 +133,9 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
                 Welcome to MediRAG
               </span>
             </h1>
-            <h4 className="text-3xl font-medium text-[#444746] tracking-tight">
+            <h4 className={`text-3xl font-medium tracking-tight ${
+              theme === 'dark' ? 'text-[#444746]' : 'text-gray-400'
+            }`}>
               Find your focus. Ask your questions.
             </h4>
           </div>
@@ -149,6 +153,23 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
               />
             ))}
           </div>
+
+          {/* Theme Toggle Button - Bottom Right */}
+          <button
+            onClick={toggleTheme}
+            className={`fixed bottom-8 right-8 p-3 rounded-full shadow-lg transition-all z-10 ${
+              theme === 'dark' 
+                ? 'bg-[#1e1f20] border border-[#3c4043] hover:bg-[#282a2c] text-[#e3e3e3]' 
+                : 'bg-white border border-gray-200 hover:bg-gray-100 text-gray-800'
+            }`}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? (
+              <Moon className="w-5 h-5" />
+            ) : (
+              <Sun className="w-5 h-5" />
+            )}
+          </button>
         </>
       ) : (
         // Chat view - show messages at top, conversation flows down
@@ -158,12 +179,22 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
             <div key={index} className="space-y-4">
               {/* User Question - Right aligned */}
               <div className="flex flex-col items-end">
-                <div className="max-w-[80%] bg-[#1e1f20] border border-[#3c4043] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <p className="text-[#e3e3e3] text-[15.5px] font-medium tracking-tight leading-relaxed">{message.question}</p>
+                <div className={`max-w-[80%] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-right-4 duration-300 ${
+                  theme === 'dark'
+                    ? 'bg-[#1e1f20] border border-[#3c4043]'
+                    : 'bg-gray-100 border border-gray-200'
+                }`}>
+                  <p className={`text-[15.5px] font-medium tracking-tight leading-relaxed ${
+                    theme === 'dark' ? 'text-[#e3e3e3]' : 'text-gray-900'
+                  }`}>{message.question}</p>
                 </div>
                 <button
                   onClick={() => handleCopy(message.question, 'question', index)}
-                  className="mt-1 p-1.5 hover:bg-[#282a2c] rounded-lg transition-colors text-[#8e9196] hover:text-[#e3e3e3]"
+                  className={`mt-1 p-1.5 rounded-lg transition-colors ${
+                    theme === 'dark'
+                      ? 'hover:bg-[#282a2c] text-[#8e9196] hover:text-[#e3e3e3]'
+                      : 'hover:bg-gray-200 text-gray-500 hover:text-gray-700'
+                  }`}
                   title="Copy question"
                 >
                   {copiedIndex?.type === 'question' && copiedIndex?.index === index ? (
@@ -176,12 +207,22 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
 
               {/* Bot Answer - Left aligned */}
               <div className="flex flex-col items-start">
-                <div className="max-w-[80%] bg-[#282a2c] border border-[#3c4043] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-left-4 duration-300">
-                  <p className="text-[#e3e3e3] text-[15.5px] font-medium tracking-tight leading-relaxed whitespace-pre-wrap">{message.answer}</p>
+                <div className={`max-w-[80%] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-left-4 duration-300 ${
+                  theme === 'dark'
+                    ? 'bg-[#282a2c] border border-[#3c4043]'
+                    : 'bg-gray-50 border border-gray-200'
+                }`}>
+                  <p className={`text-[15.5px] font-medium tracking-tight leading-relaxed whitespace-pre-wrap ${
+                    theme === 'dark' ? 'text-[#e3e3e3]' : 'text-gray-900'
+                  }`}>{message.answer}</p>
                 </div>
                 <button
                   onClick={() => handleCopy(message.answer, 'answer', index)}
-                  className="mt-1 p-1.5 hover:bg-[#282a2c] rounded-lg transition-colors text-[#8e9196] hover:text-[#e3e3e3]"
+                  className={`mt-1 p-1.5 rounded-lg transition-colors ${
+                    theme === 'dark'
+                      ? 'hover:bg-[#282a2c] text-[#8e9196] hover:text-[#e3e3e3]'
+                      : 'hover:bg-gray-200 text-gray-500 hover:text-gray-700'
+                  }`}
                   title="Copy answer"
                 >
                   {copiedIndex?.type === 'answer' && copiedIndex?.index === index ? (
@@ -199,12 +240,22 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
             <div className="space-y-4">
               {/* User Question - Right aligned */}
               <div className="flex flex-col items-end">
-                <div className="max-w-[80%] bg-[#1e1f20] border border-[#3c4043] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <p className="text-[#e3e3e3] text-[15.5px] font-medium tracking-tight leading-relaxed">{pendingQuestion}</p>
+                <div className={`max-w-[80%] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-right-4 duration-300 ${
+                  theme === 'dark'
+                    ? 'bg-[#1e1f20] border border-[#3c4043]'
+                    : 'bg-gray-100 border border-gray-200'
+                }`}>
+                  <p className={`text-[15.5px] font-medium tracking-tight leading-relaxed ${
+                    theme === 'dark' ? 'text-[#e3e3e3]' : 'text-gray-900'
+                  }`}>{pendingQuestion}</p>
                 </div>
                 <button
                   onClick={() => handleCopy(pendingQuestion, 'question', -1)}
-                  className="mt-1 p-1.5 hover:bg-[#282a2c] rounded-lg transition-colors text-[#8e9196] hover:text-[#e3e3e3]"
+                  className={`mt-1 p-1.5 rounded-lg transition-colors ${
+                    theme === 'dark'
+                      ? 'hover:bg-[#282a2c] text-[#8e9196] hover:text-[#e3e3e3]'
+                      : 'hover:bg-gray-200 text-gray-500 hover:text-gray-700'
+                  }`}
                   title="Copy question"
                 >
                   {copiedIndex?.type === 'question' && copiedIndex?.index === -1 ? (
@@ -217,8 +268,14 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
 
               {/* Loading Answer - Left aligned */}
               <div className="flex justify-start">
-                <div className="max-w-[80%] bg-[#282a2c] border border-[#3c4043] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-left-4 duration-300">
-                  <div className="flex items-center gap-2 text-[#8e9196]">
+                <div className={`max-w-[80%] rounded-2xl px-4 py-3 animate-in fade-in slide-in-from-left-4 duration-300 ${
+                  theme === 'dark'
+                    ? 'bg-[#282a2c] border border-[#3c4043]'
+                    : 'bg-gray-50 border border-gray-200'
+                }`}>
+                  <div className={`flex items-center gap-2 ${
+                    theme === 'dark' ? 'text-[#8e9196]' : 'text-gray-500'
+                  }`}>
                     <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
                     <span className="text-[14.5px] font-medium">{loadingMessages[currentLoadingMessage]}</span>
                   </div>
