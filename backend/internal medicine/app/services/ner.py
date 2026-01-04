@@ -11,12 +11,12 @@ def split_sentences(text, *, nlp_sci):
 def extract_entities_multi_ner(text, *, nlp_bc5cdr, biomed_ner):
     entities = []
 
-    # 1️⃣ SciSpacy BC5CDR (diseases, chemicals)
+    # 1️ SciSpacy BC5CDR (diseases, chemicals)
     doc = nlp_bc5cdr(text)
     for ent in doc.ents:
         entities.append({"text": ent.text, "label": ent.label_})
 
-    # 2️⃣ Transformer Biomedical NER (more general coverage)
+    # 2️ Transformer Biomedical NER (more general coverage)
     for ent in biomed_ner(text):
         entities.append({"text": ent["word"], "label": ent["entity_group"]})
 
@@ -62,7 +62,7 @@ def build_final_results(claims: List[str], *, nlp_bc5cdr, biomed_ner):
         # 4. Append final claim with entities
         final_results.append({"claim": claim, "entities": merged_entities})
 
-    # ✅ Final results ready
+    #  Final results ready
     return final_results
 
 

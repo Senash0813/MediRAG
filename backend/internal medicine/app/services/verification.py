@@ -150,12 +150,12 @@ def verify_and_postprocess(
             sim_threshold=sim_threshold,
         )
 
-        # ❌ HARD STOP if any high-risk claim is unsupported
+        #  HARD STOP if any high-risk claim is unsupported
         if not sim_result["passed"]:
             verification_failed = True
             break
 
-        # ✅ Continue with NLI only if similarity passes
+        #  Continue with NLI only if similarity passes
         nli_result = nli_claim_verification(
             claim=sim_result["claim"],
             evidence=sim_result["best_evidence"],

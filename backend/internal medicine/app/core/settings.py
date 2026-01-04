@@ -16,7 +16,7 @@ def _env(name: str, default: str) -> str:
 KB_PATH = Path(_env("MEDIRAG_KB_PATH", str(BACKEND_DIR / "miriad_balanced_300.json")))
 
 EMBEDDING_MODEL_NAME = _env("MEDIRAG_EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
-GENERATOR_MODEL_NAME = _env("MEDIRAG_GENERATOR_MODEL", "google/flan-t5-base")
+#GENERATOR_MODEL_NAME = _env("MEDIRAG_GENERATOR_MODEL", "google/flan-t5-base")
 
 # LLM generator backend
 # - hf: Hugging Face Transformers pipeline (default)
