@@ -4,16 +4,25 @@
 /data division logic/miriad_4.4M.jsonl 
 /data division logic/miriad_neurology_first30.json
 /data division logic/miriad_neurology_first50.json
+/data division logic/miriad_neurology_first100.json
+/data division logic/miriad_neurology_first10_rewritten.json
 
 /fine tuning re-writer/t5_rewriter_train_split.jsonl
 /fine tuning re-writer/t5_rewriter_val_split.jsonl
 /fine tuning re-writer/t5_rewriter_train.jsonl
+
+fine tuning SLM 1(Scorig module)/miriad_neuro_neurosurg_balanced_14k.jsonl
+fine tuning SLM 1(Scorig module)/slm1_finetune_dataset.jsonl
+fine tuning SLM 1(Scorig module)/slm1_pair_candidates.jsonl
+fine tuning SLM 1(Scorig module)/slm1_probe_results.json
+fine tuning SLM 1(Scorig module)/slm1_training_data.jsonl
 
 chunk-rag pipeline/embeddings/
 chunk-rag pipeline/flan_t5_neuro_rewriter/
 
 backend/neurology/venv/
 backend/neurology/data/
+backend/neurology/cli.py
 backend/neurology/__pycache__/
 backend/neurology/models/__pycache__
 backend/neurology/prompts/__pycache__/

@@ -1,32 +1,72 @@
-Knowledge base creation :
+**Knowledge base creation :**
+
+
 
 the 'answer' column of the MIRIAD can be used but with a important condition; the LLM used to generate the final output should not be a truth generator it should only rephrase and align the retrieved content to the users' query.
 
+
+
 to use the 'answer' column as the knowledge source the final LLMs role should be locked as follows:
+
 it is allowed to, Rephrase, Combine multiple retrieved answers, Remove redundancy and Match user phrasing but is cannot be allowed to add Medical facts, infer beyond the text, generalize, explain mechanisms that are not stated.
+
+
 
 created a FAISS index using the 'answer' column and a Metadata file. the FAISS id of a vector is mapped with rows of the metadata file. FAISS index position == metadata list position.
 
 
-Scoring Module (Novel Component)
+
+
+
+###### **Scoring Module (Novel Component):**
+
+
 
 consist of 2 SLMs. both work as filters. begins the second filtration phase after the hybrid retrieval phase(uses the top-k results returned by hybrid retrieval).
 
-SLM 1- Gatekeeper (Constraint-aware filtration):
+
+
+**SLM 1- Gatekeeper (Constraint-aware filtration):**
+
 it takes the user query and extracts certain constraints from the user query. basically it decides what things the 'perfect' answer should have to a given user query. based on those decided constraints it filters the initial result set. SLM 1 is trained to identify the non-negotiables a certain chunk should have in-order for it to be a suitable answer for the user query. 
 
+ex: user query -> constraints (things a correct answer should mention).
+
+
+
+***Process of creating SLM 1:***
+
+
+
 -----
+
+
 
 embedded the entire dataset (Neurology/Neurosurgery) and created the 3 indexes needed(FAISS, bm25, metadata file). then ran an evaluation to test how retrieval works on 50 questions. 86% of the time the correct answer for a given question was in the top-10 results retrieved by the retrieval step. this is enough to move on to the rest of the pipeline implementation steps. 
 
 
 
 
+
+
+
+
+
 -----
 
+
+
 Optimizations tried:
+
 Hybrid retrieval
+
 in the hybrid retrieval mechanism, tried using Weighted RRF instead of plain RRF. it did not make the retrieval better. giving an higher weight to FAISS decreased the percentage where the correct chunk(answer given to the question in the dataset) appears in the top 10 results. 
+
+
+
+
+
+
 
 
 
