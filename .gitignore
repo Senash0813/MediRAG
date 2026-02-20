@@ -11,11 +11,13 @@
 /fine tuning re-writer/t5_rewriter_val_split.jsonl
 /fine tuning re-writer/t5_rewriter_train.jsonl
 
-fine tuning SLM 1(Scorig module)/miriad_neuro_neurosurg_balanced_14k.jsonl
-fine tuning SLM 1(Scorig module)/slm1_finetune_dataset.jsonl
-fine tuning SLM 1(Scorig module)/slm1_pair_candidates.jsonl
-fine tuning SLM 1(Scorig module)/slm1_probe_results.json
-fine tuning SLM 1(Scorig module)/slm1_training_data.jsonl
+fine tuning SLM 1(Scoring module)/miriad_neuro_neurosurg_balanced_14k.jsonl
+fine tuning SLM 1(Scoring module)/slm1_finetune_dataset.jsonl
+fine tuning SLM 1(Scoring module)/slm1_pair_candidates.jsonl
+fine tuning SLM 1(Scoring module)/slm1_probe_results.json
+fine tuning SLM 1(Scoring module)/slm1_training_data.jsonl
+fine tuning SLM 1(Scoring module)/slm1_finetune_chat.jsonl
+fine tuning SLM 1(Scoring module)/slm1_training_data_v2.jsonl
 
 chunk-rag pipeline/embeddings/
 chunk-rag pipeline/flan_t5_neuro_rewriter/

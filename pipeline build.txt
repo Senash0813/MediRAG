@@ -15,6 +15,10 @@ consist of 2 SLMs. both work as filters. begins the second filtration phase afte
 SLM 1- Gatekeeper (Constraint-aware filtration):
 it takes the user query and extracts certain constraints from the user query. basically it decides what things the 'perfect' answer should have to a given user query. based on those decided constraints it filters the initial result set. SLM 1 is trained to identify the non-negotiables a certain chunk should have in-order for it to be a suitable answer for the user query. 
 
+ex: user query -> constraints (things a correct answer should mention).
+
+Process of creating SLM 1:
+
 -----
 
 embedded the entire dataset (Neurology/Neurosurgery) and created the 3 indexes needed(FAISS, bm25, metadata file). then ran an evaluation to test how retrieval works on 50 questions. 86% of the time the correct answer for a given question was in the top-10 results retrieved by the retrieval step. this is enough to move on to the rest of the pipeline implementation steps. 
