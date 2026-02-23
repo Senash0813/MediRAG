@@ -37,7 +37,7 @@ Final Answer:
         response = requests.post(
             f"{self.base_url}/api/generate",
             json=payload,
-            timeout=120
+            timeout=180
         )
 
         response.raise_for_status()

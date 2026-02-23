@@ -7,3 +7,9 @@ faiss-cpu
 rank-bm25
 nltk
 pydantic
+requests
+accelerate
+peft
+bitsandbytes
+
+
