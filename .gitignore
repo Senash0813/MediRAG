@@ -19,6 +19,12 @@ fine tuning SLM 1(Scoring module)/slm1_training_data.jsonl
 fine tuning SLM 1(Scoring module)/slm1_finetune_chat.jsonl
 fine tuning SLM 1(Scoring module)/slm1_training_data_v2.jsonl
 
+fine tuning SLM 2(Scoring module)/blueprints_2k.jsonl
+fine tuning SLM 2(Scoring module)/blueprints_failed.jsonl
+fine tuning SLM 2(Scoring module)/first20_blueprints.jsonl
+fine tuning SLM 2(Scoring module)/sampled_2k.jsonl
+fine tuning SLM 2(Scoring module)/slm2_llama3_blueprint_finetune.jsonl
+
 chunk-rag pipeline/embeddings/
 chunk-rag pipeline/flan_t5_neuro_rewriter/
 chunk-rag pipeline/adapters/
