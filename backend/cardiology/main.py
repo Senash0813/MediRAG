@@ -2,6 +2,7 @@ from embedder import embed_and_project
 from hyde import generate_hypothetical_docs
 from fusion import fuse_embeddings
 from retriever import load_vectorstore
+from query_classifier import classify_query
 import numpy as np
 import requests
 from typing import List
@@ -23,18 +24,104 @@ def l2_normalize(vec: np.ndarray) -> np.ndarray:
         return vec
     return vec / norm
 
-def generate_final_answer(query: str, retrieved_docs: List[Document]) -> str:
-    """Call locally running Ollama API to generate final answer."""
+def generate_final_answer(
+    query: str, 
+    retrieved_docs: List[Document],
+    intent: str = "CARDIOLOGY",
+    confidence: float = 1.0
+) -> str:
+    """
+    Call locally running Ollama API to generate final answer.
+    
+    Args:
+        query: User query
+        retrieved_docs: Retrieved documents from vectorstore
+        intent: Query intent classification (CARDIOLOGY, GENERAL_GREETING, etc.)
+        confidence: Confidence score of classification
+    """
+    
+    # ======================
+    # GREETING RESPONSE
+    # ======================
+    if intent == "GENERAL_GREETING":
+        greeting_responses = [
+            "Hello! I'm a medical AI assistant specialized in cardiology. How can I help you today? Feel free to ask any cardiology questions!",
+            "Hi there! 👋 I'm here to help with cardiology questions. What would you like to know?",
+            "Greetings! I'm a cardiology assistant. Ask me anything about heart health, cardiovascular diseases, or cardiology procedures!"
+        ]
+        import random
+        return random.choice(greeting_responses)
+    
+    # ======================
+    # GENERAL CHAT RESPONSE
+    # ======================
+    if intent == "GENERAL_CHAT":
+        prompt = f"""You are a helpful general assistant.
+
+Question: {query}
+
+Provide a helpful, accurate answer to this general knowledge question.
+Keep your response concise and informative.
+
+Answer:
+"""
+        payload = {
+            "model": MODEL_NAME,
+            "prompt": prompt,
+            "stream": False
+        }
+        
+        try:
+            response = requests.post(OLLAMA_URL, json=payload, timeout=120)
+            response.raise_for_status()
+            data = response.json()
+            
+            candidate = None
+            if isinstance(data, dict):
+                candidate = data.get("response") or data.get("text")
+                if not candidate and "choices" in data and isinstance(data["choices"], list):
+                    first = data["choices"][0]
+                    if isinstance(first, dict):
+                        candidate = first.get("text") or first.get("message") or first.get("response")
+            
+            if candidate is None and isinstance(data, str):
+                candidate = data
+            
+            if not candidate or not str(candidate).strip():
+                return "I can help best with cardiology-related questions. Please ask about heart health, cardiovascular diseases, or cardiology procedures!"
+            
+            return str(candidate).strip()
+        
+        except Exception as e:
+            return "I'm specialized in cardiology. For general questions, please ask something about cardiology or heart health!"
+    
+    # ======================
+    # OTHER MEDICAL DOMAIN
+    # ======================
+    if intent == "OTHER_MEDICAL":
+        return "I'm specialized in cardiology and therefore cannot provide reliable information about this medical domain. I recommend consulting with a specialist in that field. However, if you have any cardiology-related questions, I'd be happy to help!"
+    
+    # ======================
+    # UNCLEAR / LOW CONFIDENCE
+    # ======================
+    if intent == "UNCLEAR":
+        if not retrieved_docs:
+            return "I couldn't find relevant information in my cardiology database for this query. Could you rephrase your question or ask something specifically about cardiology?"
+        # Fall through to cardiology processing with retrieved docs
+    
+    # ======================
+    # CARDIOLOGY RESPONSE (DEFAULT)
+    # ======================
     if not retrieved_docs:
-        return "No relevant documents found."
+        return "No relevant documents found in the cardiology database."
 
     context = "\n\n".join(doc.page_content for doc in retrieved_docs)
 
-    prompt = f"""
-You are a cardiology assistant.
+    prompt = f"""You are an expert cardiology assistant.
 
 Answer the question using ONLY the context below.
 If the answer is not in the context, say you don't know.
+Provide accurate, medical, and factual information.
 
 Context:
 {context}
@@ -42,7 +129,7 @@ Context:
 Question:
 {query}
 
-Answer (concise, medical, factual):
+Answer:
 """
 
     payload = {
@@ -57,17 +144,14 @@ Answer (concise, medical, factual):
 
         data = response.json()
 
-        # Ollama may return different shapes; try a few common keys
         candidate = None
         if isinstance(data, dict):
             candidate = data.get("response") or data.get("text")
-            # older/newer formats might nest choices
             if not candidate and "choices" in data and isinstance(data["choices"], list):
                 first = data["choices"][0]
                 if isinstance(first, dict):
                     candidate = first.get("text") or first.get("message") or first.get("response")
 
-        # fallback: if API returned a top-level string
         if candidate is None and isinstance(data, str):
             candidate = data
 
@@ -82,60 +166,81 @@ Answer (concise, medical, factual):
         return f"❌ Ollama error: {e}"
 
 # --------------------------------------------------
-# MAIN PIPELINE
+# MAIN PIPELINE (UPDATED WITH INTENT CLASSIFICATION)
 # --------------------------------------------------
 def main():
-    print("\n🚀 MediRAG Cardiology Assistant\n")
+    print("\n🚀 MediRAG Cardiology Assistant (Intent-Aware)\n")
 
-    # -----------------------------
+    # ===================================
     # USER QUERY
-    # -----------------------------
-    query = input("Enter your cardiology question: ").strip()
+    # ===================================
+    query = input("Enter your question: ").strip()
     if not query:
         print("❌ Empty query provided. Exiting.")
         return
 
-    # -----------------------------
-    # STEP 1: EMBEDDING + PROJECTION
-    # -----------------------------
-    print("\n[1] Embedding and projecting user query...")
+    # ===================================
+    # STEP 0: QUERY CLASSIFICATION
+    # ===================================
+    print("\n[0] Classifying query intent...")
+    vectorstore = load_vectorstore()
+    intent, confidence, metadata = classify_query(query, vectorstore=vectorstore)
+    
+    print(f"📊 Query Intent: {intent}")
+    print(f"   Confidence: {confidence:.2%}")
+    print(f"   Similarity Score: {metadata['similarity_score']:.4f}")
+    print(f"   Has Cardiology Keywords: {metadata['has_cardiology_keywords']}")
+    print()
+
+    # ===================================
+    # HANDLE NON-CARDIOLOGY QUERIES
+    # ===================================
+    if intent in ["GENERAL_GREETING", "GENERAL_CHAT", "OTHER_MEDICAL"]:
+        print("[1] Generating context-aware response...")
+        final_answer = generate_final_answer(query, [], intent=intent, confidence=confidence)
+        
+        print("\n====================== RESPONSE ======================")
+        print(final_answer if final_answer else "❌ Empty response returned.")
+        print("====================================================\n")
+        return
+
+    # ===================================
+    # CARDIOLOGY QUERY PIPELINE
+    # ===================================
+    print("[1] Embedding and projecting user query...")
     proj_emb = embed_and_project(query)
     proj_emb = l2_normalize(np.array(proj_emb))
 
-    # -----------------------------
-    # STEP 2: HyDE Generation
-    # -----------------------------
+    # ===================================
+    # STEP 2: HYDE GENERATION (ONLY FOR CARDIOLOGY)
+    # ===================================
     print("[2] Generating hypothetical documents (HyDE)...")
+    print("   ⚡ HyDE only generated for cardiology queries!")
     hyde_emb, hyde_docs = generate_hypothetical_docs(query)
     hyde_emb = l2_normalize(np.array(hyde_emb))
 
-    # -----------------------------
-    # STEP 3: Fusion
-    # -----------------------------
-    print("[3] Fusing embeddings...")
+    # ===================================
+    # STEP 3: FUSION
+    # ===================================
+    print("[3] Fusing embeddings (Projection + HyDE)...")
     final_emb = fuse_embeddings(proj_query=proj_emb, hyde_query=hyde_emb, alpha=0.5)
     final_emb = l2_normalize(np.array(final_emb))
 
-    # -----------------------------
-    # STEP 4: Retrieval
-    # -----------------------------
-    print("[4] Loading FAISS index and retrieving top documents...")
-    vectorstore = load_vectorstore()
+    # ===================================
+    # STEP 4: RETRIEVAL
+    # ===================================
+    print("[4] Retrieving relevant cardiology documents...")
 
-    # Debug: inspect FAISS index and embedding shape
+    # Debug: inspect FAISS index
     try:
         faiss_index = getattr(vectorstore, "index", None)
         if faiss_index is not None:
             try:
-                print(f"FAISS index total vectors: {faiss_index.ntotal}, dim: {faiss_index.d}")
+                print(f"   FAISS Index: {faiss_index.ntotal} vectors, dimension {faiss_index.d}")
             except Exception:
-                print("FAISS index present but couldn't read ntotal/d")
-        else:
-            print("Loaded vectorstore has no attribute 'index'")
-    except Exception as e:
-        print("Error inspecting vectorstore.index:", e)
-
-    print(f"Final embedding shape: {getattr(final_emb, 'shape', None)}, dtype: {getattr(final_emb, 'dtype', None)}")
+                pass
+    except Exception:
+        pass
 
     try:
         docs_and_scores = vectorstore.similarity_search_with_score_by_vector(
@@ -143,49 +248,51 @@ def main():
             k=5
         )
     except Exception as e:
-        print("Error during FAISS similarity search:", e)
+        print("❌ Error during FAISS retrieval:", e)
         docs_and_scores = []
 
     if not docs_and_scores:
-        print("❌ No documents retrieved from FAISS.")
+        print("❌ No documents retrieved from the cardiology database.")
         return
 
-    # -----------------------------
-    # PRINT RETRIEVAL RESULTS
-    # -----------------------------
-    print("\n📄 RETRIEVED DOCUMENTS (with similarity scores)")
+    # ===================================
+    # DISPLAY RETRIEVAL RESULTS
+    # ===================================
+    print("\n📄 TOP RETRIEVED CARDIOLOGY DOCUMENTS:")
     print("=" * 80)
     for rank, (doc, score) in enumerate(docs_and_scores, start=1):
-        print(f"\n--- Rank {rank} ---")
-        print(f"FAISS distance score: {score:.4f}")
+        print(f"\n[Document {rank}] Score: {score:.4f}")
         print("-" * 80)
         print(doc.page_content[:400])
         print("-" * 80)
 
-    # -----------------------------
-    # PRINT HyDE OUTPUTS
-    # -----------------------------
-    print("\n🧠 GENERATED HYPOTHETICAL ANSWERS (HyDE)")
+    # ===================================
+    # DISPLAY HYDE OUTPUTS
+    # ===================================
+    print("\n🧠 GENERATED HYPOTHETICAL ANSWERS (HyDE):")
     print("=" * 80)
     for i, doc in enumerate(hyde_docs, 1):
-        print(f"\n--- Hypothesis {i} ---")
-        print(doc.replace("Represent the cardiology document for retrieval:\n", "").strip())
+        print(f"\n[Hypothesis {i}]")
+        clean_doc = doc.replace("Represent the cardiology document for retrieval:\n", "").strip()
+        print(clean_doc[:300] + ("..." if len(clean_doc) > 300 else ""))
 
-    # -----------------------------
-    # STEP 5: FINAL ANSWER WITH OLLAMA
-    # -----------------------------
-    print("\n[5] Generating final answer with LLaMA 3.2 (Ollama)...")
+    # ===================================
+    # STEP 5: FINAL ANSWER GENERATION
+    # ===================================
+    print("\n[5] Generating final answer using LLM...")
     retrieved_docs = [doc for doc, _ in docs_and_scores]
-    final_answer = generate_final_answer(query, retrieved_docs)
+    final_answer = generate_final_answer(query, retrieved_docs, intent=intent, confidence=confidence)
 
-    # -----------------------------
-    # PRINT FINAL ANSWER
-    # -----------------------------
-    print("\n====================== FINAL ANSWER ======================")
+    # ===================================
+    # DISPLAY FINAL ANSWER
+    # ===================================
+    print("\n" + "=" * 80)
+    print("FINAL ANSWER")
+    print("=" * 80)
     print(final_answer if final_answer else "❌ Empty answer returned.")
-    print("=========================================================")
+    print("=" * 80 + "\n")
 
-    print("\n✅ Pipeline execution completed successfully.\n")
+    print("✅ Pipeline execution completed successfully.\n")
 
 # --------------------------------------------------
 # ENTRY POINT
