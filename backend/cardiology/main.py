@@ -53,47 +53,17 @@ def generate_final_answer(
         return random.choice(greeting_responses)
     
     # ======================
-    # GENERAL CHAT RESPONSE
+    # UNRELATED / OFF-TOPIC RESPONSE (NEW)
     # ======================
-    if intent == "GENERAL_CHAT":
-        prompt = f"""You are a helpful general assistant.
-
-Question: {query}
-
-Provide a helpful, accurate answer to this general knowledge question.
-Keep your response concise and informative.
-
-Answer:
-"""
-        payload = {
-            "model": MODEL_NAME,
-            "prompt": prompt,
-            "stream": False
-        }
-        
-        try:
-            response = requests.post(OLLAMA_URL, json=payload, timeout=120)
-            response.raise_for_status()
-            data = response.json()
-            
-            candidate = None
-            if isinstance(data, dict):
-                candidate = data.get("response") or data.get("text")
-                if not candidate and "choices" in data and isinstance(data["choices"], list):
-                    first = data["choices"][0]
-                    if isinstance(first, dict):
-                        candidate = first.get("text") or first.get("message") or first.get("response")
-            
-            if candidate is None and isinstance(data, str):
-                candidate = data
-            
-            if not candidate or not str(candidate).strip():
-                return "I can help best with cardiology-related questions. Please ask about heart health, cardiovascular diseases, or cardiology procedures!"
-            
-            return str(candidate).strip()
-        
-        except Exception as e:
-            return "I'm specialized in cardiology. For general questions, please ask something about cardiology or heart health!"
+    if intent == "UNRELATED":
+        unrelated_responses = [
+            "I'm specialized in cardiology and medical topics. Your question appears to be outside my area of expertise. Could you ask something about heart health, cardiovascular diseases, or cardiology procedures?",
+            "That question is outside my scope as a cardiology specialist. I'm here to help with heart health and cardiovascular topics. What cardiology questions do you have?",
+            "I'm focused on cardiology assistance. I can't help with that particular topic, but I'd be happy to answer any questions about the heart, heart disease, or cardiac treatment!",
+            "I can best assist with cardiology-related questions. Please feel free to ask me about heart conditions, cardiovascular procedures, or cardiac health!"
+        ]
+        import random
+        return random.choice(unrelated_responses)
     
     # ======================
     # OTHER MEDICAL DOMAIN
@@ -189,13 +159,14 @@ def main():
     print(f"📊 Query Intent: {intent}")
     print(f"   Confidence: {confidence:.2%}")
     print(f"   Similarity Score: {metadata['similarity_score']:.4f}")
-    print(f"   Has Cardiology Keywords: {metadata['has_cardiology_keywords']}")
+    if metadata.get("top_k_similarity"):
+        print(f"   Top-K Similarities: {[round(x, 4) for x in metadata['top_k_similarity']]}")
     print()
 
     # ===================================
     # HANDLE NON-CARDIOLOGY QUERIES
     # ===================================
-    if intent in ["GENERAL_GREETING", "GENERAL_CHAT", "OTHER_MEDICAL"]:
+    if intent in ["GENERAL_GREETING", "UNRELATED", "OTHER_MEDICAL"]:
         print("[1] Generating context-aware response...")
         final_answer = generate_final_answer(query, [], intent=intent, confidence=confidence)
         
