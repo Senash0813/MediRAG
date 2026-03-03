@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import clientPromise from '@/lib/mongodb';
+import { validatePassword } from '@/lib/passwordValidation';
 
 export async function POST(request: Request) {
   try {
@@ -23,9 +24,13 @@ export async function POST(request: Request) {
     }
 
     // Validate password strength
-    if (password.length < 6) {
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
       return NextResponse.json(
-        { error: 'Password must be at least 6 characters long' },
+        { 
+          error: 'Password does not meet requirements',
+          details: passwordValidation.errors
+        },
         { status: 400 }
       );
     }

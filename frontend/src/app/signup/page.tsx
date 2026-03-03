@@ -1,11 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Mail, Lock, User, AlertCircle, CheckCircle, Sun, Moon } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle, CheckCircle, Sun, Moon, Check, X } from 'lucide-react';
+import { 
+  validatePassword, 
+  getPasswordRequirements, 
+  getPasswordStrengthColor,
+  getPasswordStrengthText 
+} from '@/lib/passwordValidation';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -17,6 +23,11 @@ export default function SignupPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+
+  // Real-time password validation
+  const passwordValidation = useMemo(() => validatePassword(password), [password]);
+  const passwordRequirements = useMemo(() => getPasswordRequirements(password), [password]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,8 +40,8 @@ export default function SignupPage() {
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+    if (!passwordValidation.isValid) {
+      setError('Password does not meet security requirements');
       return;
     }
 
@@ -236,12 +247,62 @@ export default function SignupPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setShowPasswordRequirements(true)}
                   required
                   className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="••••••••"
                   disabled={isLoading || success}
                 />
               </div>
+
+              {/* Password Strength Indicator */}
+              {password && (
+                <div className="mt-2 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      Password strength:
+                    </span>
+                    <span className={`text-xs font-medium ${
+                      passwordValidation.strength === 'weak' ? 'text-red-500' :
+                      passwordValidation.strength === 'medium' ? 'text-yellow-500' :
+                      'text-green-500'
+                    }`}>
+                      {getPasswordStrengthText(passwordValidation.strength)}
+                    </span>
+                  </div>
+                  <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all duration-300 ${getPasswordStrengthColor(passwordValidation.strength)}`}
+                      style={{ width: `${(passwordValidation.score / 6) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Password Requirements */}
+              {showPasswordRequirements && password && (
+                <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-2 animate-in fade-in duration-200">
+                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Password must contain:
+                  </p>
+                  {passwordRequirements.map((req, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      {req.met ? (
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      ) : (
+                        <X className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                      )}
+                      <span className={`text-xs ${
+                        req.met 
+                          ? 'text-green-600 dark:text-green-400' 
+                          : 'text-gray-600 dark:text-gray-400'
+                      }`}>
+                        {req.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div>
@@ -264,11 +325,38 @@ export default function SignupPage() {
                   disabled={isLoading || success}
                 />
               </div>
+              {/* Password Match Indicator */}
+              {confirmPassword && (
+                <div className="mt-2 flex items-center gap-2">
+                  {password === confirmPassword ? (
+                    <>
+                      <Check className="w-4 h-4 text-green-500" />
+                      <span className="text-xs text-green-600 dark:text-green-400">
+                        Passwords match
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <X className="w-4 h-4 text-red-500" />
+                      <span className="text-xs text-red-600 dark:text-red-400">
+                        Passwords do not match
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             <button
               type="submit"
-              disabled={isLoading || success}
+              disabled={
+                isLoading || 
+                success || 
+                !passwordValidation.isValid || 
+                password !== confirmPassword ||
+                !name ||
+                !email
+              }
               className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Creating account...' : success ? 'Success!' : 'Create Account'}
