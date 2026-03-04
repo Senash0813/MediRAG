@@ -12,3 +12,14 @@ backend/cardiology/.venv
 
 backend/internal medicine/miriad_balanced_300.json
 
+
+backend/primarycare/.venv/
+backend/primarycare/__pycache__/
+backend/primarycare/resources
+backend/primarycare/medirag/__pycache__/
+backend/primarycare/medirag/api/__pycache__/
+backend/primarycare/medirag/config/__pycache__/
+backend/primarycare/medirag/domain/__pycache__/
+backend/primarycare/medirag/llm/__pycache__/
+backend/primarycare/medirag/pipeline/__pycache__/
+backend/primarycare/medirag/retrieval/__pycache__/

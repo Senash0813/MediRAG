@@ -13,6 +13,7 @@ interface Message {
   question: string;
   answer: string;
   timestamp: Date;
+  cluster: number;
 }
 
 type SelectedCluster = 1 | 2 | 3 | 4;
@@ -47,7 +48,7 @@ export default function Home() {
     1: (q: string) => ({ question: q }),
     2: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
     // Cluster 3 will be wired later; keep a backward-compatible default for now.
-    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0.0 }),
+    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0 }),
     4: (q: string) => ({ query: q, top_k: 5 }),
   };
 
@@ -112,13 +113,31 @@ export default function Home() {
 
       const data = await response.json();
 
+      // Format the answer based on cluster-specific response structure
+      let formattedAnswer = '';
+      
+      if (selectedCluster === 4) {
+        // Cluster 4 (Primary Care) returns: direct_answer, evidence_summary, limitations
+        formattedAnswer = data.direct_answer;
+        if (data.evidence_summary) {
+          formattedAnswer += '\n\n**Evidence Summary:**\n' + data.evidence_summary;
+        }
+        if (data.limitations) {
+          formattedAnswer += '\n\n**Limitations:**\n' + data.limitations;
+        }
+      } else {
+        // Other clusters return a simple 'answer' field
+        formattedAnswer = data.answer || data.direct_answer || 'No answer received';
+      }
+
       // Add the message with answer and clear pending question
       setMessages(prev => [
         ...prev,
         {
           question,
-          answer: data.answer,
+          answer: formattedAnswer,
           timestamp: new Date(),
+          cluster: selectedCluster,
         },
       ]);
       setPendingQuestion(null);
@@ -130,6 +149,7 @@ export default function Home() {
         {
           question,
           answer: 'Sorry, I encountered an error. Please try again.',
+          cluster: selectedCluster || 0,
           timestamp: new Date(),
         },
       ]);
