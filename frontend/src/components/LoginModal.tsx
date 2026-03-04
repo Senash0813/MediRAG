@@ -1,19 +1,58 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Mail, Lock, AlertCircle, Sun, Moon } from 'lucide-react';
+import { Mail, Lock, AlertCircle, X } from 'lucide-react';
 
-export default function LoginPage() {
-  const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
+interface LoginModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSwitchToSignup: () => void;
+  onSuccess?: () => void;
+}
+
+export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: LoginModalProps) {
+  const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setEmail('');
+      setPassword('');
+      setError('');
+      setIsLoading(false);
+    }
+  }, [isOpen]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,13 +68,18 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError(result.error);
+        setIsLoading(false);
       } else {
-        router.push('/');
-        router.refresh();
+        // Success
+        if (onSuccess) {
+          onSuccess();
+        }
+        onClose();
+        // Refresh to update session
+        window.location.reload();
       }
     } catch (err) {
       setError('An unexpected error occurred');
-    } finally {
       setIsLoading(false);
     }
   };
@@ -50,37 +94,47 @@ export default function LoginPage() {
     }
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-8 transition-colors duration-300">
-      {/* Theme Toggle */}
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
-        aria-label="Toggle theme"
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+      onClick={handleBackdropClick}
+    >
+      {/* Backdrop with blur */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+      {/* Modal */}
+      <div
+        className={`relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 ${
+          theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'
+        }`}
       >
-        {theme === 'dark' ? (
-          <Sun className="w-5 h-5 text-yellow-500" />
-        ) : (
-          <Moon className="w-5 h-5 text-gray-700" />
-        )}
-      </button>
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${
+            theme === 'dark'
+              ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
+              : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'
+          }`}
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-      <div className="w-full max-w-md">
-        {/* Logo/Brand Section */}
-        <div className="text-center mb-8 animate-in fade-in duration-700">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-2">
-            MediRAG
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Medical RAG System
-          </p>
-        </div>
-
-        {/* Login Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 animate-in slide-in-from-bottom-4 duration-700 border border-gray-100 dark:border-gray-700">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+        {/* Content */}
+        <div className="p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
             Welcome Back
           </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-6">
+            Sign in to save your chat history
+          </p>
 
           {/* Error Message */}
           {error && (
@@ -95,7 +149,7 @@ export default function LoginPage() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full mb-6 flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
+            className="w-full mb-4 flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -118,7 +172,7 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-          <div className="relative mb-6">
+          <div className="relative mb-4">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
             </div>
@@ -130,10 +184,10 @@ export default function LoginPage() {
           </div>
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="modal-email"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Email Address
@@ -141,7 +195,7 @@ export default function LoginPage() {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  id="email"
+                  id="modal-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -155,7 +209,7 @@ export default function LoginPage() {
 
             <div>
               <label
-                htmlFor="password"
+                htmlFor="modal-password"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Password
@@ -163,7 +217,7 @@ export default function LoginPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  id="password"
+                  id="modal-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -187,19 +241,20 @@ export default function LoginPage() {
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             Don&apos;t have an account?{' '}
-            <Link
-              href="/signup"
+            <button
+              onClick={() => {
+                onClose();
+                onSwitchToSignup();
+              }}
               className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
             >
               Sign up
-            </Link>
+            </button>
           </p>
-        </div>
 
-        {/* Footer */}
-        <p className="mt-8 text-center text-xs text-gray-500 dark:text-gray-400">
-          By signing in, you agree to our Terms of Service and Privacy Policy
-        </p>
+          {/* Guest Info */}
+         
+        </div>
       </div>
     </div>
   );

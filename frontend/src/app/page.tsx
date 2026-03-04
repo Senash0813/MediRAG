@@ -5,6 +5,8 @@ import { Sidebar } from '@/components/Sidebar/Sidebar';
 import { Header } from '@/components/Header/Header';
 import { ChatArea } from '@/components/ChatArea/ChatArea';
 import { InputArea } from '@/components/InputArea/InputArea';
+import { LoginModal } from '@/components/LoginModal';
+import { SignupModal } from '@/components/SignupModal';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
@@ -26,6 +28,8 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const { theme } = useTheme();
 
   // Keep backend routing in one place to avoid accidental mismatches.
@@ -147,7 +151,7 @@ export default function Home() {
         onNewChat={handleNewChat}
       />
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        <Header />
+        <Header onLoginClick={() => setIsLoginModalOpen(true)} />
         <ChatArea 
           selectedCluster={selectedCluster}
           messages={messages}
@@ -163,6 +167,32 @@ export default function Home() {
           hasMessages={messages.length > 0 || pendingQuestion !== null}
         />
       </main>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSwitchToSignup={() => {
+          setIsLoginModalOpen(false);
+          setIsSignupModalOpen(true);
+        }}
+        onSuccess={() => {
+          console.log('Login successful');
+        }}
+      />
+
+      {/* Signup Modal */}
+      <SignupModal 
+        isOpen={isSignupModalOpen}
+        onClose={() => setIsSignupModalOpen(false)}
+        onSwitchToLogin={() => {
+          setIsSignupModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
+        onSuccess={() => {
+          console.log('Signup successful');
+        }}
+      />
     </div>
   );
 }

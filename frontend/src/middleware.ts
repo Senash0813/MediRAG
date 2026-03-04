@@ -15,19 +15,21 @@ export default withAuth(
   }
 );
 
-// Protect all routes except login, signup, and API routes
+// Only protect specific routes that require authentication
+// Homepage (/) is publicly accessible for guest users
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api/auth (auth API routes)
-     * - login
-     * - signup
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
+     * Match only protected routes:
+     * - /dashboard (if exists)
+     * - /profile (if exists)
+     * - /settings (if exists)
+     * Add specific protected routes here as needed
+     * 
+     * Homepage and all other routes are accessible to guests
      */
-    '/((?!api/auth|login|signup|_next/static|_next/image|favicon.ico|public).*)',
+    '/dashboard/:path*',
+    '/profile/:path*',
+    '/settings/:path*',
   ],
 };

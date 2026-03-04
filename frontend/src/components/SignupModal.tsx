@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Mail, Lock, User, AlertCircle, CheckCircle, Sun, Moon, Check, X } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle, CheckCircle, X, Check } from 'lucide-react';
 import { 
   validatePassword, 
   getPasswordRequirements, 
@@ -13,9 +11,15 @@ import {
   getPasswordStrengthText 
 } from '@/lib/passwordValidation';
 
-export default function SignupPage() {
-  const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
+interface SignupModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSwitchToLogin: () => void;
+  onSuccess?: () => void;
+}
+
+export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: SignupModalProps) {
+  const { theme } = useTheme();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,6 +32,45 @@ export default function SignupPage() {
   // Real-time password validation
   const passwordValidation = useMemo(() => validatePassword(password), [password]);
   const passwordRequirements = useMemo(() => getPasswordRequirements(password), [password]);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setError('');
+      setSuccess(false);
+      setIsLoading(false);
+      setShowPasswordRequirements(false);
+    }
+  }, [isOpen]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,10 +119,16 @@ export default function SignupPage() {
 
         if (result?.error) {
           setError('Account created, please sign in manually');
-          setTimeout(() => router.push('/login'), 2000);
+          setTimeout(() => {
+            onClose();
+            onSwitchToLogin();
+          }, 2000);
         } else {
-          router.push('/');
-          router.refresh();
+          if (onSuccess) {
+            onSuccess();
+          }
+          onClose();
+          window.location.reload();
         }
       }, 1500);
     } catch (err) {
@@ -98,37 +147,47 @@ export default function SignupPage() {
     }
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-8 transition-colors duration-300">
-      {/* Theme Toggle */}
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
-        aria-label="Toggle theme"
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+      onClick={handleBackdropClick}
+    >
+      {/* Backdrop with blur */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+      {/* Modal */}
+      <div
+        className={`relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 ${
+          theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-100'
+        }`}
       >
-        {theme === 'dark' ? (
-          <Sun className="w-5 h-5 text-yellow-500" />
-        ) : (
-          <Moon className="w-5 h-5 text-gray-700" />
-        )}
-      </button>
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className={`absolute top-4 right-4 p-2 rounded-full transition-colors z-10 ${
+            theme === 'dark'
+              ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
+              : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'
+          }`}
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
 
-      <div className="w-full max-w-md">
-        {/* Logo/Brand Section */}
-        <div className="text-center mb-8 animate-in fade-in duration-700">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent mb-2">
-            MediRAG
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Medical RAG System
-          </p>
-        </div>
-
-        {/* Signup Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 animate-in slide-in-from-bottom-4 duration-700 border border-gray-100 dark:border-gray-700">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+        {/* Content */}
+        <div className="p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
             Create Account
           </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-6">
+            Sign up to save your chat history
+          </p>
 
           {/* Error Message */}
           {error && (
@@ -143,17 +202,17 @@ export default function SignupPage() {
             <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-3 animate-in fade-in duration-300">
               <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-green-600 dark:text-green-400">
-                Account created successfully! Redirecting...
+                Account created successfully! Signing you in...
               </p>
             </div>
           )}
 
-          {/* Google Sign In */}
+          {/* Google Sign Up */}
           <button
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading || success}
-            className="w-full mb-6 flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
+            className="w-full mb-4 flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -176,7 +235,7 @@ export default function SignupPage() {
             Continue with Google
           </button>
 
-          <div className="relative mb-6">
+          <div className="relative mb-4">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
             </div>
@@ -188,10 +247,10 @@ export default function SignupPage() {
           </div>
 
           {/* Signup Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                htmlFor="name"
+                htmlFor="signup-name"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Full Name
@@ -199,7 +258,7 @@ export default function SignupPage() {
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  id="name"
+                  id="signup-name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -213,7 +272,7 @@ export default function SignupPage() {
 
             <div>
               <label
-                htmlFor="email"
+                htmlFor="signup-email"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Email Address
@@ -221,7 +280,7 @@ export default function SignupPage() {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  id="email"
+                  id="signup-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -235,7 +294,7 @@ export default function SignupPage() {
 
             <div>
               <label
-                htmlFor="password"
+                htmlFor="signup-password"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Password
@@ -243,7 +302,7 @@ export default function SignupPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  id="password"
+                  id="signup-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -286,7 +345,7 @@ export default function SignupPage() {
                     Password must contain:
                   </p>
                   {passwordRequirements.map((req, index) => (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={req.label} className="flex items-center gap-2">
                       {req.met ? (
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
                       ) : (
@@ -307,7 +366,7 @@ export default function SignupPage() {
 
             <div>
               <label
-                htmlFor="confirmPassword"
+                htmlFor="signup-confirm-password"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
                 Confirm Password
@@ -315,7 +374,7 @@ export default function SignupPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  id="confirmPassword"
+                  id="signup-confirm-password"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -366,19 +425,19 @@ export default function SignupPage() {
           {/* Sign In Link */}
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <Link
-              href="/login"
+            <button
+              onClick={() => {
+                onClose();
+                onSwitchToLogin();
+              }}
               className="font-medium text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300 transition-colors"
             >
               Sign in
-            </Link>
+            </button>
           </p>
-        </div>
 
-        {/* Footer */}
-        <p className="mt-8 text-center text-xs text-gray-500 dark:text-gray-400">
-          By signing up, you agree to our Terms of Service and Privacy Policy
-        </p>
+         
+        </div>
       </div>
     </div>
   );
