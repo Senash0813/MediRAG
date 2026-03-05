@@ -1,4 +1,14 @@
-/venv/
-/data division logic/miriad_neurology.jsonl
-/data division logic/miriad_neurology.json
-/data division logic/miriad_4.4M.jsonl
+backend/neurology/__pycache__/
+backend/neurology/data/
+backend/neurology/model_weights/
+backend/venv/
+
+data/
+backend/cardiology/__pycache__/
+backend/cardiology/models/
+backend/cardiology/vectorstore/
+backend/cardiology/qa_pairs.json
+backend/cardiology/.venv
+
+backend/internal medicine/miriad_balanced_300.json
+
