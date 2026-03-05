@@ -185,9 +185,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
             Create Account
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-6">
-            Sign up to save your chat history
-          </p>
+         
 
           {/* Error Message */}
           {error && (
