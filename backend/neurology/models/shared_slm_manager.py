@@ -37,13 +37,14 @@ class SharedSLMManager:
                 "device_map": "auto",
                 "torch_dtype": torch.float16,
             }
-        # Mac (MPS) or CPU: no BNB (CUDA-only), use auto device and float16
+        # Mac or CPU: use CPU to avoid PEFT offload KeyError and MPS allocation limits
         if torch.backends.mps.is_available():
-            print("[Shared SLM] Using Apple MPS (Metal); no quantization")
+            print("[Shared SLM] Using CPU (MPS skipped to avoid large-buffer limits); no quantization")
         else:
             print("[Shared SLM] Using CPU; no quantization")
+        device_map = "cpu"
         return {
-            "device_map": "auto",
+            "device_map": device_map,
             "torch_dtype": torch.float16,
             "low_cpu_mem_usage": True,
         }
@@ -89,6 +90,13 @@ class SharedSLMManager:
         self.model.eval()
         self._initialized = True
         print("[Shared SLM] ✓ Base model + adapters loaded successfully")
+
+    @property
+    def device(self):
+        """Device of the model (for moving inputs). Uses first parameter's device when using device_map."""
+        if self.model is None:
+            return torch.device("cpu")
+        return next(self.model.parameters()).device
 
     def set_adapter(self, adapter_name: str):
         if adapter_name not in self.VALID_ADAPTERS:

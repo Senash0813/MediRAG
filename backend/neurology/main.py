@@ -1,5 +1,5 @@
-# from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 # from pydantic import BaseModel
 
 # from config import *
@@ -13,14 +13,8 @@
 
 # app = FastAPI(title="RAG Backend v1")
 
-# # Add CORS middleware to allow frontend requests
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+# Add CORS middleware to allow frontend requests
+
 
 # # Load everything ONCE
 # query_rewriter = QueryRewriter(QUERY_REWRITER_DIR)
@@ -98,6 +92,14 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="RAG Backend v1", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class QueryRequest(BaseModel):
     question: str
