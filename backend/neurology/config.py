@@ -14,7 +14,16 @@ OLLAMA_BASE_URL = "http://localhost:11434"
 # SLM1 Gatekeeper Configuration
 SLM1_BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct"  # This should have the correct Ollama model name
 SLM1_ADAPTER_PATH = "C:\\Users\\USER\\Desktop\\MediRAG\\chunk-rag pipeline\\adapters\\slm1_lora_adapter_2"  # update this path to point to SLM 1 adapter
-SLM1_HF_TOKEN = "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"
+SLM1_HF_TOKEN = "MediRAG Token"
+
+# --- SLM 2 (Blueprint Generator) Configuration ---
+SLM2_BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct" 
+SLM2_ADAPTER_PATH = "C:\\Users\\USER\\Desktop\\MediRAG\\chunk-rag pipeline\\adapters\\slm2_lora_adapter" # Update this path!
+SLM2_HF_TOKEN = SLM1_HF_TOKEN # Reusing the token from SLM 1
+
+# --- Instruction-Following Re-ranker Configuration ---
+RERANKER_MODEL_NAME = "BAAI/bge-reranker-base"
+RERANKER_TOP_K = 3 # The number of chunks we want to send to the final LLM
 
 FAISS_TOP_K = 20
 BM25_TOP_K = 50
