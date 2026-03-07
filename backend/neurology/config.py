@@ -16,6 +16,18 @@ QUERY_REWRITER_DIR = str(BASE_DIR / "model_weights/flan_t5_neuro_rewriter")  # y
 OLLAMA_MODEL_NAME = "phi:2.7b"  
 OLLAMA_BASE_URL = "http://localhost:11434"
 
+# SLM1 Gatekeeper Configuration
+SLM1_BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct"  # This should have the correct Ollama model name
+SLM1_ADAPTER_PATH = str(BASE_DIR / "model_weights/slm1_lora_adapter_2")  # update this path to point to SLM 1 adapter
+SLM1_HF_TOKEN = "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"
+
+SLM2_BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct" 
+SLM2_ADAPTER_PATH = str(BASE_DIR / "model_weights/slm2-lora-adapter") # Update this path!
+SLM2_HF_TOKEN = SLM1_HF_TOKEN # Reusing the token from SLM 1
+
+# --- Instruction-Following Re-ranker Configuration ---
+RERANKER_MODEL_NAME = "BAAI/bge-reranker-base"
+RERANKER_TOP_K = 3 # The number of chunks we want to send to the final LLM
 
 FAISS_TOP_K = 20
 BM25_TOP_K = 50
