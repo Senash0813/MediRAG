@@ -9,6 +9,8 @@ backend/cardiology/models/
 backend/cardiology/vectorstore/
 backend/cardiology/qa_pairs.json
 backend/cardiology/.venv
+backend/cardiology/evaluation/__pycache__/
+
 
 backend/internal medicine/miriad_balanced_300.json
 
