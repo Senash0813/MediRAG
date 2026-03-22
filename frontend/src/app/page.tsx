@@ -14,6 +14,7 @@ interface Message {
   answer: string;
   timestamp: Date;
   cluster: number;
+  verificationLevel?: number;
 }
 
 type SelectedCluster = 1 | 2 | 3 | 4;
@@ -115,6 +116,7 @@ export default function Home() {
 
       // Format the answer based on cluster-specific response structure
       let formattedAnswer = '';
+      let verificationLevel: number | undefined;
       
       if (selectedCluster === 4) {
         // Cluster 4 (Primary Care) returns: direct_answer, evidence_summary, limitations
@@ -125,6 +127,11 @@ export default function Home() {
         if (data.limitations) {
           formattedAnswer += '\n\n**Limitations:**\n' + data.limitations;
         }
+
+		// Capture verification level (1-4) for UI warnings, if provided
+		if (typeof data.verification_level === 'number') {
+			verificationLevel = data.verification_level;
+		}
       } else {
         // Other clusters return a simple 'answer' field
         formattedAnswer = data.answer || data.direct_answer || 'No answer received';
@@ -138,6 +145,7 @@ export default function Home() {
           answer: formattedAnswer,
           timestamp: new Date(),
           cluster: selectedCluster,
+			verificationLevel,
         },
       ]);
       setPendingQuestion(null);

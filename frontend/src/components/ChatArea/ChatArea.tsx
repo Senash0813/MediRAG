@@ -11,6 +11,7 @@ interface Message {
   answer: string;
   timestamp: Date;
   cluster: number;
+  verificationLevel?: number;
 }
 
 interface ChatAreaProps {
@@ -214,7 +215,11 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
                     ? 'bg-[#282a2c] border border-[#3c4043]'
                     : 'bg-gray-50 border border-gray-200'
                 }`}>
-                  <FormattedAnswer answer={message.answer} isCluster4={message.cluster === 4} />
+                  <FormattedAnswer
+						answer={message.answer}
+						isCluster4={message.cluster === 4}
+						verificationLevel={message.cluster === 4 ? message.verificationLevel : undefined}
+					/>
                 </div>
                 <button
                   onClick={() => handleCopy(message.answer, 'answer', index)}

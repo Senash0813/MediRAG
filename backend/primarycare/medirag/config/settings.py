@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Literal
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -87,6 +87,13 @@ class AppSettings(BaseSettings):
 		env="S2_API_KEY",
 	)
 
+	# LLM Provider selection
+	llm_provider: Literal["lmstudio", "ollama"] = Field(
+		"lmstudio",
+		description="Which LLM provider to use: 'lmstudio' or 'ollama'.",
+		env="MEDIRAG_LLM_PROVIDER",
+	)
+
 	# LLM / LM Studio
 	lmstudio_base_url: str = Field(
 		"http://127.0.0.1:1234",
@@ -96,6 +103,14 @@ class AppSettings(BaseSettings):
 		"qwen2.5-3b-instruct:2",
 		description="Model identifier served by LM Studio.",
 	)
+	ollama_base_url: str = Field(
+		"http://127.0.0.1:11434",
+		description="Base URL for Ollama HTTP API.",
+	)
+	ollama_model: str = Field(
+		"qwen2.5:3b",
+		description="Model identifier to use with Ollama.",
+	)
 	lm_max_new_tokens: int = Field(700, description="Max tokens for LLM generations.")
 	lm_temperature: float = Field(0.0, description="Temperature for deterministic generations.")
 
@@ -103,14 +118,31 @@ class AppSettings(BaseSettings):
 		env_prefix = "MEDIRAG_"
 		case_sensitive = False
 
+	@property
+	def llm_base_url(self) -> str:
+		"""Return the active LLM base URL based on provider selection."""
+		if self.llm_provider == "ollama":
+			return self.ollama_base_url
+		return self.lmstudio_base_url
+
+	@property
+	def llm_model(self) -> str:
+		"""Return the active LLM model identifier based on provider selection."""
+		if self.llm_provider == "ollama":
+			return self.ollama_model
+		return self.lmstudio_model
+
 
 def load_settings() -> AppSettings:
     """Load application settings from environment with sane defaults."""
 
     settings = AppSettings()
     
-    # Debug: print the actual path being used
+    # Debug: print the actual path and LLM provider being used
     print(f"DEBUG: passages_path = {settings.passages_path}")
+    print(f"DEBUG: LLM Provider = {settings.llm_provider}")
+    print(f"DEBUG: LLM Base URL = {settings.llm_base_url}")
+    print(f"DEBUG: LLM Model = {settings.llm_model}")
 
     # Enforce Semantic Scholar configuration as "required" for now.
     if not settings.s2_api_key:
