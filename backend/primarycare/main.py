@@ -12,6 +12,9 @@ from medirag.api.schemas import (
 	RetrieveDocsResponse,
 	RetrievedDocument,
 	DetailedPipelineResponse,
+	BatchQueryRequest,
+	BatchQueryResponse,
+	BatchQueryItem,
 )
 from medirag.config import load_settings
 from medirag.pipeline.orchestrator import init_assets, run_pipeline, run_detailed_pipeline
@@ -157,4 +160,54 @@ def retrieve_detailed(req: RetrieveDocsRequest) -> DetailedPipelineResponse:
 				"limitations": "- System error occurred.",
 			},
 		)
+
+
+@app.post("/batch-query", response_model=BatchQueryResponse)
+def batch_query(req: BatchQueryRequest) -> BatchQueryResponse:
+	"""Process multiple queries at once and return question-answer pairs with context."""
+	results = []
+	successful_count = 0
+	
+	for query_text in req.queries:
+		try:
+			# Get the answer from pipeline
+			result = run_pipeline(assets=_assets, query=query_text, k=req.top_k)
+			
+			# Get context passages
+			verified_docs = verify_and_rank_final_flat(
+				query=query_text,
+				settings=_assets.settings,
+				embedder=_assets.embedder,
+				faiss_assets=_assets.faiss_assets,
+				s2_cache=_assets.s2_cache,
+				semantic_n=_assets.settings.semantic_top_n,
+				final_k=req.top_k,
+			)
+			
+			# Extract passage texts as context
+			context_passages = [doc.passage_text for doc in verified_docs if doc.passage_text]
+			
+			results.append(
+				BatchQueryItem(
+					question=query_text,
+					answer=result["direct_answer"],
+					context=context_passages,
+				)
+			)
+			successful_count += 1
+		except Exception:
+			logger.exception(f"Failed to process query: {query_text}")
+			results.append(
+				BatchQueryItem(
+					question=query_text,
+					answer="Error: Unable to process this query.",
+					context=[],
+				)
+			)
+	
+	return BatchQueryResponse(
+		results=results,
+		total_queries=len(req.queries),
+		successful=successful_count,
+	)
 

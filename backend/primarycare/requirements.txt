@@ -7,3 +7,10 @@ faiss-cpu
 numpy
 requests
 tqdm
+
+# Evaluation dependencies
+ragas
+datasets
+langchain
+langchain-community
+langchain-openai

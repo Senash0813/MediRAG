@@ -27,10 +27,10 @@ class LMStudioClient:
 		temperature: float | None = None,
 	) -> str:
 		settings = self._settings
-		url = settings.lmstudio_base_url.rstrip("/") + "/v1/chat/completions"
+		url = settings.llm_base_url.rstrip("/") + "/v1/chat/completions"
 
 		body: Dict = {
-			"model": settings.lmstudio_model,
+			"model": settings.llm_model,
 			"messages": [
 				{"role": "system", "content": system_prompt},
 				{"role": "user", "content": user_prompt},

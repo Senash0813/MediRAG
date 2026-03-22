@@ -591,67 +591,140 @@
 
         // Generate Interactive Demo HTML
         function generateInteractiveDemo(query, data) {
-            // Get the entire current page HTML
-            const currentHTML = document.documentElement.outerHTML;
+            // Clone the current document
+            const clonedDoc = document.cloneNode(true);
             
-            // Create a modified version with embedded data
-            const modifiedHTML = currentHTML
-                // Change title to include query
-                .replace(/<title>.*?<\/title>/, `<title>RAG Pipeline - ${escapeHtml(query)}</title>`)
-                // Remove the API_URL line and replace with embedded data
+            // Reset to initial state
+            const clonedComparison = clonedDoc.getElementById('comparisonSection');
+            const clonedPipeline = clonedDoc.getElementById('pipelineViz');
+            const clonedQuery = clonedDoc.getElementById('querySection');
+            const clonedContent = clonedDoc.getElementById('contentSection');
+            
+            // Show landing page, hide pipeline sections
+            if (clonedComparison) {
+                clonedComparison.className = 'h-full flex flex-col items-center justify-center px-6 py-12 bg-white';
+            }
+            if (clonedPipeline) {
+                clonedPipeline.className = 'hidden flex-shrink-0 bg-slate-50 px-6 py-4 border-b border-slate-200';
+            }
+            if (clonedQuery) {
+                clonedQuery.className = 'hidden flex-shrink-0 bg-white px-6 py-4 border-b border-slate-200';
+            }
+            if (clonedContent) {
+                clonedContent.className = 'hidden flex-1 overflow-y-auto px-6 py-6 bg-white';
+                clonedContent.innerHTML = `
+                    <div class="max-w-5xl mx-auto text-center py-12">
+                        <h2 class="text-2xl font-light text-slate-500">Ready to demonstrate the pipeline</h2>
+                        <p class="text-sm text-slate-400 mt-2">Click "Start Pipeline" to begin</p>
+                    </div>
+                `;
+            }
+            
+            // Reset all pipeline stages
+            clonedDoc.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.className = 'pipeline-stage flex-1 text-center cursor-pointer group';
+            });
+            
+            // Reset progress bar
+            const clonedProgress = clonedDoc.getElementById('pipelineProgress');
+            if (clonedProgress) {
+                clonedProgress.style.width = '0%';
+            }
+            
+            // Pre-fill inputs with setAttribute to ensure it's in the HTML
+            const clonedLandingInput = clonedDoc.getElementById('landingQueryInput');
+            const clonedQueryInput = clonedDoc.getElementById('queryInput');
+            if (clonedLandingInput) {
+                clonedLandingInput.setAttribute('value', query);
+                clonedLandingInput.value = query;
+            }
+            if (clonedQueryInput) {
+                clonedQueryInput.setAttribute('value', query);
+                clonedQueryInput.value = query;
+            }
+            
+            // Hide download button
+            const clonedDownloadBtn = clonedDoc.getElementById('downloadBtn');
+            if (clonedDownloadBtn) {
+                clonedDownloadBtn.style.display = 'none';
+            }
+            
+            // Get the HTML
+            let htmlContent = clonedDoc.documentElement.outerHTML;
+            
+            // Inject embedded data and modify startPipeline function
+            htmlContent = htmlContent
+                .replace(/<title>.*?<\/title>/, `<title>RAG Pipeline Demo - ${escapeHtml(query)}</title>`)
                 .replace(
                     /const API_URL = .*?;/,
-                    `// Data embedded in downloaded file\n        const EMBEDDED_DATA = ${JSON.stringify(data, null, 2)};`
+                    `const EMBEDDED_DATA = ${JSON.stringify(data, null, 2)};\n        const API_URL = 'http://localhost:8000/retrieve/detailed';`
                 )
-                // Modify startPipeline to use embedded data
                 .replace(
                     /async function startPipeline\(\) \{[\s\S]*?finally \{[\s\S]*?}\s*}/,
                     `async function startPipeline() {
-            // Use embedded data instead of API call
-            if (EMBEDDED_DATA) {
+            // Check for embedded data first
+            if (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA) {
+                startBtn.disabled = true;
+                showLoading();
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
                 pipelineData = EMBEDDED_DATA;
                 currentStage = 0;
-                renderStage(0);
-                updateNavigationButtons();
+                navigateToStage(0);
                 autoPlayBtn.disabled = false;
                 downloadBtn.disabled = false;
-            } else {
-                alert('No embedded data found');
+                startBtn.disabled = false;
+                return;
+            }
+            
+            // Original API call
+            const query = queryInput.value.trim();
+            if (!query) {
+                alert('Please enter a query');
+                return;
+            }
+
+            showLoading();
+            startBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) {
+                    throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+                }
+
+                pipelineData = await response.json();
+                currentStage = 0;
+                navigateToStage(0);
+                autoPlayBtn.disabled = false;
+                downloadBtn.disabled = false;
+            } catch (error) {
+                contentSection.innerHTML = \`
+                    <div class="bg-slate-50 border border-slate-300 rounded-lg p-6 my-6">
+                        <h3 class="text-base font-semibold text-slate-900 mb-2">⚠️ Error</h3>
+                        <p class="text-sm text-slate-600">\${escapeHtml(error.message)}</p>
+                    </div>
+                \`;
+            } finally {
+                startBtn.disabled = false;
             }
         }`
                 )
-                // Hide the query input section and start button since data is pre-loaded
                 .replace(
-                    /<div class="query-section">/,
-                    `<div class="query-section" style="background: #e8f4fd; border: 2px solid #3498db;">
-            <div style="text-align: center; padding: 15px; margin-bottom: 10px;">
-             
-                <p style="color: #5a6c7d; font-size: 1.1em;">Query: <strong>${escapeHtml(query)}</strong></p>
-                <p style="color: #7f8c8d; font-size: 0.95em; margin-top: 5px;">Generated: ${new Date().toLocaleString()}</p>
-            </div>
-            <div class="query-section" style="display: none;">`
-                )
-                // Disable download button in the downloaded version
-                .replace(
-                    /id="downloadBtn"/,
-                    `id="downloadBtn" style="display: none;"`
-                )
-                // Auto-start on page load
-                .replace(
-                    /<script>/,
-                    `<script>
-        // Auto-load embedded data on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (typeof EMBEDDED_DATA !== 'undefined') {
-                setTimeout(() => {
-                    startPipeline();
-                }, 500);
-            }
-        });
-        `
+                    /<body[^>]*>/,
+                    `<body>
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 16px; text-align: center; font-size: 13px; font-weight: 500;">
+            📦 Standalone Interactive Demo - Generated: ${new Date().toLocaleString()}
+        </div>`
                 );
             
-            return modifiedHTML;
+            return htmlContent;
         }
 
         // Reset Demo
@@ -739,7 +812,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -830,7 +903,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -905,7 +978,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -1032,7 +1105,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -1091,45 +1164,48 @@
                                     if (fresh === 'acceptable') return 'bg-slate-100 text-slate-700';
                                     return 'bg-slate-100 text-slate-600';
                                 };
+                                const qualityScore = (doc.final_score != null && doc.answerability_score != null) 
+                                    ? ((doc.final_score - 0.55 * doc.answerability_score) / 0.45) 
+                                    : null;
                                 return `
                                 <div class="border border-slate-200 rounded-lg p-4 space-y-3">
-                                    <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                        <span class="px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${getQualityColor(doc.quality_tier)}">${(doc.quality_tier || 'low').toUpperCase()}</span>
+                                    </div>
                                     
-                                    <div class="flex flex-wrap gap-2">
-                                        <div class="flex-1 min-w-[120px]">
-                                            <div class="text-xs text-slate-600 mb-1">Quality Tier</div>
-                                            <span class="px-2 py-0.5 rounded text-xs font-medium ${getQualityColor(doc.quality_tier)}">${(doc.quality_tier || 'low').toUpperCase()}</span>
+                                    <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-sm font-medium text-slate-700">Quality Score</div>
+                                            <div class="text-xl font-semibold text-slate-900 font-mono">${qualityScore != null ? qualityScore.toFixed(3) : 'N/A'}</div>
                                         </div>
-                                        <div class="flex-1 min-w-[120px]">
-                                            <div class="text-xs text-slate-600 mb-1">Final Score</div>
-                                            <div class="text-sm text-slate-900 font-mono">${doc.final_score != null ? doc.final_score.toFixed(3) : 'N/A'}</div>
-                                        </div>
-                                        ${doc.answerability_score != null ? `
-                                        <div class="flex-1 min-w-[120px]">
-                                            <div class="text-xs text-slate-600 mb-1">Answerability (55%)</div>
-                                            <div class="text-sm text-slate-900 font-mono">${doc.answerability_score.toFixed(3)}</div>
-                                        </div>
-                                        ` : ''}
+                                        <div class="text-xs text-slate-600 mt-1">Authority & evidence quality assessment (out of 1)</div>
                                     </div>
 
-                                    <div class="flex flex-wrap gap-4 text-xs">
-                                        <div>
-                                            <span class="text-slate-600">Authority:</span>
-                                            <span class="ml-1 px-2 py-0.5 rounded text-xs font-medium ${getAuthorityColor(doc.authority_level)}">
+                                    <div class="flex flex-wrap gap-4">
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Authority Level</div>
+                                            <span class="px-2 py-0.5 rounded text-xs font-medium ${getAuthorityColor(doc.authority_level)}">
                                                 ${(doc.authority_level || 'low').toUpperCase()}
                                             </span>
                                         </div>
-                                        <div class="text-slate-600">
-                                            <span class="font-medium">Citations:</span> <span class="text-slate-900">${doc.citation_count || 0}</span>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Citations</div>
+                                            <div class="text-sm text-slate-900">${doc.citation_count || 0}</div>
                                         </div>
-                                        <div>
-                                            <span class="text-slate-600">Freshness:</span>
-                                            <span class="ml-1 px-2 py-0.5 rounded text-xs font-medium ${getFreshnessColor(doc.freshness)}">
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Evidence Score</div>
+                                            <div class="text-sm text-slate-900">${doc.evidence_score != null ? doc.evidence_score.toFixed(1) : 'N/A'}</div>
+                                        </div>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Freshness</div>
+                                            <span class="px-2 py-0.5 rounded text-xs font-medium ${getFreshnessColor(doc.freshness)}">
                                                 ${(doc.freshness || 'unknown').toUpperCase()}
                                             </span>
                                         </div>
-                                        <div class="text-slate-600">
-                                            <span class="font-medium">Evidence Score:</span> <span class="text-slate-900">${doc.evidence_score != null ? doc.evidence_score.toFixed(1) : 'N/A'}</span>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Year</div>
+                                            <div class="text-sm text-slate-900">${doc.year || 'N/A'}</div>
                                         </div>
                                     </div>
 
@@ -1175,7 +1251,7 @@
                         <div>
                             <h2 class="text-2xl font-semibold text-slate-900">Stage 5: Final Verification</h2>
                             <p class="text-sm text-slate-600 mt-2">
-                                Reliability assessment and confidence level determination
+                                Final document ranking and reliability confidence assessment
                             </p>
                         </div>
                         <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
@@ -1184,7 +1260,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -1214,6 +1290,20 @@
                                 <span class="text-slate-600">High-Quality Documents</span>
                                 <span class="text-slate-900">${highQualityCount} of ${verified.length}</span>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Final Scoring Formula -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-2">
+                        <h3 class="text-base font-semibold text-slate-900">Final Ranking Score</h3>
+                        <p class="text-sm text-slate-600">
+                            Documents are ranked using a weighted combination of all pipeline metrics:
+                        </p>
+                        <div class="bg-slate-50 rounded-lg p-3 text-sm font-mono text-slate-700">
+                            Final Score = 55% Answerability + 45% Quality
+                        </div>
+                        <div class="text-xs text-slate-600">
+                            Quality encompasses authority signals (citations), evidence type, and temporal currency (freshness).
                         </div>
                     </div>
 
@@ -1253,28 +1343,47 @@
                                 };
                                 return `
                                 <div class="border border-slate-200 rounded-lg p-4 space-y-3">
-                                    <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
-                                    
-                                    <div class="flex flex-wrap gap-4">
-                                        <div>
-                                            <div class="text-xs text-slate-600 mb-1">Rank</div>
-                                            <div class="text-sm text-slate-900 font-semibold">#${idx + 1}</div>
-                                        </div>
-                                        <div>
-                                            <div class="text-xs text-slate-600 mb-1">Final Score</div>
-                                            <div class="text-sm text-slate-900 font-mono">${doc.final_score != null ? doc.final_score.toFixed(3) : 'N/A'}</div>
-                                        </div>
-                                        <div>
-                                            <div class="text-xs text-slate-600 mb-1">Quality</div>
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                        <div class="flex items-center gap-2 flex-shrink-0">
                                             <span class="px-2 py-0.5 rounded text-xs font-medium ${getQualityColor(doc.quality_tier)}">${(doc.quality_tier || 'low').toUpperCase()}</span>
+                                            <div class="text-xs text-slate-600">Rank #${idx + 1}</div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-sm font-medium text-slate-700">Final Score</div>
+                                            <div class="text-xl font-semibold text-blue-700 font-mono">${doc.final_score != null ? doc.final_score.toFixed(3) : 'N/A'}</div>
+                                        </div>
+                                        <div class="text-xs text-slate-600 mt-1">Combined ranking across all pipeline stages</div>
+                                    </div>
 
-                                    <div class="flex flex-wrap gap-4 text-xs text-slate-600">
-                                        <div><span class="font-medium">Citations:</span> <span class="text-slate-900">${doc.citation_count || 0}</span></div>
-                                        <div><span class="font-medium">Year:</span> <span class="text-slate-900">${doc.year || 'N/A'}</span></div>
-                                        <div><span class="font-medium">Authority:</span> <span class="text-slate-900">${doc.authority_level || 'N/A'}</span></div>
-                                        <div><span class="font-medium">Evidence Score:</span> <span class="text-slate-900">${doc.evidence_score != null ? doc.evidence_score.toFixed(1) : 'N/A'}</span></div>
+                                    <div class="grid grid-cols-2 gap-3 text-xs">
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Answerability:</span>
+                                            <span class="text-slate-900 font-mono">${doc.answerability_score != null ? doc.answerability_score.toFixed(3) : 'N/A'}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Citations:</span>
+                                            <span class="text-slate-900">${doc.citation_count || 0}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Evidence:</span>
+                                            <span class="text-slate-900">${doc.evidence_score != null ? doc.evidence_score.toFixed(1) : 'N/A'}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Freshness:</span>
+                                            <span class="text-slate-900">${(doc.freshness || 'unknown').toUpperCase()}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Year:</span>
+                                            <span class="text-slate-900">${doc.year || 'N/A'}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Authority:</span>
+                                            <span class="text-slate-900">${(doc.authority_level || 'N/A').toUpperCase()}</span>
+                                        </div>
                                     </div>
 
                                     ${doc.risk_flags && doc.risk_flags.length > 0 ? `
@@ -1319,7 +1428,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -1490,7 +1599,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -1554,7 +1663,7 @@
 
                     ${requiredSectionsCount > 0 ? `
                         <!-- Injected Required Sections (Collapsible) -->
-                        <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                             <div class="px-4 py-3 bg-slate-50">
                                 <div class="flex items-center justify-between">
                                     <h4 class="text-sm font-medium text-slate-700">Injected Required Sections (${requiredSectionsCount})</h4>
@@ -1575,7 +1684,7 @@
 
                     ${constraintsCount > 0 ? `
                         <!-- Injected Constraints (Collapsible) -->
-                        <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                             <div class="px-4 py-3 bg-slate-50">
                                 <div class="flex items-center justify-between">
                                     <h4 class="text-sm font-medium text-slate-700"> Injected Constraints (${constraintsCount})</h4>
@@ -1662,7 +1771,7 @@
 
                     ${answerData.rendered_prompt ? `
                         <!-- View Final Prompt (Collapsible) -->
-                        <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                             <div class="px-4 py-3 bg-slate-50">
                                 <div class="flex items-center justify-between">
                                     <h4 class="text-sm font-medium text-slate-700">View Final Prompt Sent to Answer LLM</h4>
@@ -1712,7 +1821,7 @@
                     </div>
 
                     <!-- Why This Matters (Collapsible) -->
-                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
                         <div class="px-4 py-3 bg-slate-50">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm font-medium text-slate-700">Why This Matters</div>
@@ -1735,6 +1844,65 @@
                             Tone and structural constraints are conditioned on validation outcomes.
                         </div>
                     </div>
+
+                    <!-- Medical Evidence Warning (Based on Verification Level) -->
+                    ${verificationLevel === 1 ? `
+                        <div class="bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-red-900 mb-1">⚠️ Limited Evidence - Clinical Consultation Required</h4>
+                                    <p class="text-xs text-red-800 leading-relaxed">
+                                        <strong>Low verification level (L1)</strong> indicates insufficient or low-quality evidence. This response is based on limited medical literature and should NOT be used for clinical decision-making. Always consult with a qualified healthcare professional before making any medical decisions.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : verificationLevel === 2 ? `
+                        <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-amber-900 mb-1"> Moderate Evidence - Professional Judgment Required</h4>
+                                    <p class="text-xs text-amber-800 leading-relaxed">
+                                        <strong>Moderate verification level (L2)</strong> indicates emerging or mixed-quality evidence. Clinical judgment and professional consultation are essential. Individual patient factors may significantly influence treatment decisions.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : verificationLevel === 3 ? `
+                        <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-blue-900 mb-1"> Good Evidence Base - Clinical Application Recommended</h4>
+                                    <p class="text-xs text-blue-800 leading-relaxed">
+                                        <strong>High verification level (L3)</strong> indicates good-quality supporting evidence from peer-reviewed sources. While evidence is robust, individual patient circumstances, contraindications, and clinical context should be evaluated by healthcare professionals.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="bg-green-50 border-l-4 border-green-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-green-900 mb-1">✓ Strong Evidence Base - Standard of Care Guidance</h4>
+                                    <p class="text-xs text-green-800 leading-relaxed">
+                                        <strong>Very high verification level (L4)</strong> indicates strong, consistent evidence from high-quality sources (e.g., meta-analyses, systematic reviews, RCTs). This information aligns with established medical guidelines. However, healthcare decisions should always be individualized based on patient-specific factors and professional assessment.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `}
 
                     <!-- Direct Answer -->
                     <div class="border border-slate-200 rounded-lg p-4 space-y-2">
@@ -1799,3 +1967,4 @@
     </script>
 </body>
 </html>
+

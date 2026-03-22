@@ -140,19 +140,18 @@ def run_pipeline(*, assets: PipelineAssets, query: str, k: int) -> Dict[str, Any
 		"in_scope": scope.in_scope,
 		"best_specialty": scope.best_specialty,
 		"score": scope.score,
-		"threshold": settings.scope_threshold,
 	}
 
 	if not scope.in_scope:
 		return {
 			"query": query,
 			"direct_answer": (
-				"The query appears to be outside the primary-care domain. "
-				"Closest specialty: "
-				f"{scope.best_specialty or 'unknown'} (score={scope.score:.3f})."
+				"This query appears to be out of domain for this system. "
+				"Please try another question within the primary-care domain."
 			),
 			"evidence_summary": "",
-			"limitations": "- Out-of-domain query; pipeline refused to answer.",
+			"limitations": "- Out-of-domain query; the system refused to answer.",
+			"verification_level": 1,
 			"debug": {"scope": scope_debug},
 		}
 
@@ -167,12 +166,15 @@ def run_pipeline(*, assets: PipelineAssets, query: str, k: int) -> Dict[str, Any
 		final_k=k or settings.default_top_k,
 	)
 
+	verification_level = compute_verification_level(verified_docs)
+
 	if not verified_docs:
 		return {
 			"query": query,
 			"direct_answer": "No supporting documents were retrieved for this query.",
 			"evidence_summary": "",
 			"limitations": "- Retrieval returned no results.",
+			"verification_level": verification_level,
 			"debug": {"scope": scope_debug},
 		}
 
@@ -195,6 +197,7 @@ def run_pipeline(*, assets: PipelineAssets, query: str, k: int) -> Dict[str, Any
 		"direct_answer": answer_sections["direct_answer"],
 		"evidence_summary": answer_sections["evidence_summary"],
 		"limitations": answer_sections["limitations"],
+		"verification_level": verification_level,
 		"debug": {"scope": scope_debug},
 	}
 

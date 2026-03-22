@@ -23,6 +23,10 @@ class QueryResponse(BaseModel):
 	direct_answer: str = Field(..., description="Primary answer text.")
 	evidence_summary: str = Field(..., description="Bullet-style evidence summary.")
 	limitations: str = Field(..., description="Limitations and caveats.")
+	verification_level: Optional[int] = Field(
+		default=None,
+		description="Verification level (1-4) reflecting overall evidence strength.",
+	)
 
 	# Optional: could later include verified_docs or debug fields if desired.
 	debug: Optional[dict] = Field(
@@ -172,4 +176,29 @@ class DetailedPipelineResponse(BaseModel):
 	verification_level: int = Field(..., description="Computed verification level (1-4).")
 	instructor_prompt: InstructorPromptInfo = Field(..., description="Instructor prompt details.")
 	final_answer: FinalAnswerInfo = Field(..., description="Final grounded answer.")
+
+
+# === Batch Query Schemas ===
+
+class BatchQueryRequest(BaseModel):
+	"""Request for processing multiple queries at once."""
+	
+	queries: List[str] = Field(..., description="List of questions to process.")
+	top_k: int = Field(5, description="Number of context documents per query.")
+
+
+class BatchQueryItem(BaseModel):
+	"""Single question-answer pair in batch response."""
+	
+	question: str = Field(..., description="Original question.")
+	answer: str = Field(..., description="Direct answer to the question.")
+	context: List[str] = Field(default_factory=list, description="Context passages used for answering.")
+
+
+class BatchQueryResponse(BaseModel):
+	"""Response containing multiple question-answer pairs."""
+	
+	results: List[BatchQueryItem] = Field(..., description="List of question-answer pairs.")
+	total_queries: int = Field(..., description="Total number of queries processed.")
+	successful: int = Field(..., description="Number of successfully processed queries.")
 

@@ -113,17 +113,19 @@ def run_instructor_llm(
 	compact = build_compact_evidence(verified_docs, top_k=5)
 	user_prompt = make_instructor_user_prompt(query, vlevel, compact)
 
-	raw = client.generate_chat(INSTRUCTOR_SYSTEM, user_prompt)
-	candidate = _extract_first_json_object(raw)
-	candidate = _sanitize_instructor_json(candidate)
-
 	try:
+		# Primary path: ask the LLM to build the instruction JSON
+		raw = client.generate_chat(INSTRUCTOR_SYSTEM, user_prompt)
+		candidate = _extract_first_json_object(raw)
+		candidate = _sanitize_instructor_json(candidate)
+
 		parsed = json.loads(candidate)
 		obj = _normalize_instruction_obj(parsed)
 		_validate_instruction_obj(obj)
 		return obj
 	except Exception:
-		# Fallback: minimal deterministic instruction
+		# Fallback: minimal deterministic instruction if the LLM call fails
+		# (including HTTP 5xx from the backend) or returns malformed JSON.
 		context_plan = [
 			{"doc_id": str(d.paper_id), "use_for": "supporting evidence", "priority": i + 1}
 			for i, d in enumerate(verified_docs[:2])
