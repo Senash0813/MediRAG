@@ -5,12 +5,16 @@ import { Sidebar } from '@/components/Sidebar/Sidebar';
 import { Header } from '@/components/Header/Header';
 import { ChatArea } from '@/components/ChatArea/ChatArea';
 import { InputArea } from '@/components/InputArea/InputArea';
+import { LoginModal } from '@/components/LoginModal';
+import { SignupModal } from '@/components/SignupModal';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
   question: string;
   answer: string;
   timestamp: Date;
+  cluster: number;
+  verificationLevel?: number;
 }
 
 type SelectedCluster = 1 | 2 | 3 | 4;
@@ -26,6 +30,8 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const { theme } = useTheme();
 
   // Keep backend routing in one place to avoid accidental mismatches.
@@ -43,7 +49,7 @@ export default function Home() {
     1: (q: string) => ({ question: q }),
     2: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
     // Cluster 3 will be wired later; keep a backward-compatible default for now.
-    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0.0 }),
+    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0 }),
     4: (q: string) => ({ query: q, top_k: 5 }),
   };
 
@@ -108,13 +114,38 @@ export default function Home() {
 
       const data = await response.json();
 
+      // Format the answer based on cluster-specific response structure
+      let formattedAnswer = '';
+      let verificationLevel: number | undefined;
+      
+      if (selectedCluster === 4) {
+        // Cluster 4 (Primary Care) returns: direct_answer, evidence_summary, limitations
+        formattedAnswer = data.direct_answer;
+        if (data.evidence_summary) {
+          formattedAnswer += '\n\n**Evidence Summary:**\n' + data.evidence_summary;
+        }
+        if (data.limitations) {
+          formattedAnswer += '\n\n**Limitations:**\n' + data.limitations;
+        }
+
+		// Capture verification level (1-4) for UI warnings, if provided
+		if (typeof data.verification_level === 'number') {
+			verificationLevel = data.verification_level;
+		}
+      } else {
+        // Other clusters return a simple 'answer' field
+        formattedAnswer = data.answer || data.direct_answer || 'No answer received';
+      }
+
       // Add the message with answer and clear pending question
       setMessages(prev => [
         ...prev,
         {
           question,
-          answer: data.answer,
+          answer: formattedAnswer,
           timestamp: new Date(),
+          cluster: selectedCluster,
+			verificationLevel,
         },
       ]);
       setPendingQuestion(null);
@@ -126,6 +157,7 @@ export default function Home() {
         {
           question,
           answer: 'Sorry, I encountered an error. Please try again.',
+          cluster: selectedCluster || 0,
           timestamp: new Date(),
         },
       ]);
@@ -147,7 +179,7 @@ export default function Home() {
         onNewChat={handleNewChat}
       />
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        <Header />
+        <Header onLoginClick={() => setIsLoginModalOpen(true)} />
         <ChatArea 
           selectedCluster={selectedCluster}
           messages={messages}
@@ -163,6 +195,32 @@ export default function Home() {
           hasMessages={messages.length > 0 || pendingQuestion !== null}
         />
       </main>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSwitchToSignup={() => {
+          setIsLoginModalOpen(false);
+          setIsSignupModalOpen(true);
+        }}
+        onSuccess={() => {
+          console.log('Login successful');
+        }}
+      />
+
+      {/* Signup Modal */}
+      <SignupModal 
+        isOpen={isSignupModalOpen}
+        onClose={() => setIsSignupModalOpen(false)}
+        onSwitchToLogin={() => {
+          setIsSignupModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
+        onSuccess={() => {
+          console.log('Signup successful');
+        }}
+      />
     </div>
   );
 }

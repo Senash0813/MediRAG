@@ -3,12 +3,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Brain, Heart, Stethoscope, Activity, Sparkles, Copy, Check, Moon, Sun } from 'lucide-react';
 import { ClusterCard } from './ClusterCard';
+import { FormattedAnswer } from './FormattedAnswer';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
   question: string;
   answer: string;
   timestamp: Date;
+  cluster: number;
+  verificationLevel?: number;
 }
 
 interface ChatAreaProps {
@@ -212,9 +215,11 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
                     ? 'bg-[#282a2c] border border-[#3c4043]'
                     : 'bg-gray-50 border border-gray-200'
                 }`}>
-                  <p className={`text-[15.5px] font-medium tracking-tight leading-relaxed whitespace-pre-wrap ${
-                    theme === 'dark' ? 'text-[#e3e3e3]' : 'text-gray-900'
-                  }`}>{message.answer}</p>
+                  <FormattedAnswer
+						answer={message.answer}
+						isCluster4={message.cluster === 4}
+						verificationLevel={message.cluster === 4 ? message.verificationLevel : undefined}
+					/>
                 </div>
                 <button
                   onClick={() => handleCopy(message.answer, 'answer', index)}

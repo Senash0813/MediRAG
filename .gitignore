@@ -8,7 +8,23 @@ backend/cardiology/__pycache__/
 backend/cardiology/models/
 backend/cardiology/vectorstore/
 backend/cardiology/qa_pairs.json
-backend/cardiology/.venv
+backend/cardiology/venv
 
-backend/internal medicine/miriad_balanced_300.json
+backend/internal_medicine/miriad_balanced_300.json
+backend/internal_medicine/.venv/
+backend/internal_medicine/app/__pycache__/
+backend/internal_medicine/app/services/__pycache__/
+backend/internal_medicine/app/core/__pycache__/
+backend/internal_medicine/app/api/__pycache__/
 
+
+backend/primarycare/.venv/
+backend/primarycare/__pycache__/
+backend/primarycare/resources
+backend/primarycare/medirag/__pycache__/
+backend/primarycare/medirag/api/__pycache__/
+backend/primarycare/medirag/config/__pycache__/
+backend/primarycare/medirag/domain/__pycache__/
+backend/primarycare/medirag/llm/__pycache__/
+backend/primarycare/medirag/pipeline/__pycache__/
+backend/primarycare/medirag/retrieval/__pycache__/
