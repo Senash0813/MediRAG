@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical RAG Pipeline - Professional Demo</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Minimal custom styles for animations only */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        .animate-fade-out { animation: fadeOut 0.3s ease-in-out; }
+        .animate-slide-up { animation: slideUp 0.4s ease-out; }
+    </style>
+</head>
+
+<body class="font-sans antialiased bg-slate-50 text-slate-900">
+    <!-- Main Container -->
+    <div class="flex flex-col h-screen w-full bg-white">
+        
+        <!-- Header -->
+        <header class="flex-shrink-0 bg-slate-900 text-white px-6 py-4 border-b border-slate-800">
+            <h1 class="text-lg font-medium text-center leading-tight">
+                A Multi-Stage Validation-Driven RAG Architecture for Hallucination Mitigation via Dynamic Prompt Adaptation
+            </h1>
+        </header>
+
+        <!-- Landing Page Comparison -->
+        <div id="comparisonSection" class="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-8 z-50 animate-fade-in">
+            
+            <!-- Title -->
+            <div class="text-center text-white mb-12 max-w-4xl animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-normal mb-2">
+                    RAG Pipeline with  <span class="font-semibold text-blue-400">Dynamic Prompt Templating</span> and <span class="font-semibold text-blue-400">Retrieval Integration</span>
+                </h2>
+               
+            </div>
+            
+            <!-- Comparison Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6 max-w-6xl w-full mb-12">
+                
+                <!-- Standard RAG -->
+                <div class="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2 mb-4 text-slate-900">
+                        <span class="text-2xl"></span>
+                        <h3 class="text-lg font-semibold">Standard RAG</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-center gap-2 text-sm text-slate-600 p-2 bg-slate-50 rounded border border-slate-100">
+                            
+                            <span>Embed Query</span>
+                        </div>
+
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                           
+                        <div class="flex items-center justify-center gap-2 text-sm text-slate-600 p-2 bg-slate-50 rounded border border-slate-100">
+                            
+                            <span>Vector Search</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 text-sm text-slate-600 p-2 bg-slate-50 rounded border border-slate-100">
+                            
+                            <span>Retrieve Top-K</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 text-sm text-slate-600 p-2 bg-slate-50 rounded border border-slate-100">
+                            
+                            <span>Generate Answer</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- VS Divider -->
+                <div class="flex items-center justify-center">
+                    <span class="text-4xl font-bold text-white">VS</span>
+                </div>
+                
+                <!-- Enhanced RAG -->
+                <div class="bg-white rounded-lg p-6 border-2 border-blue-500 shadow-sm">
+                    <div class="flex items-center gap-2 mb-4 text-slate-900">
+                        <span class="text-2xl"></span>
+                        <h3 class="text-lg font-semibold">Enhanced RAG</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Scope Gate</span>
+                        </div>
+
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Retrieval</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Validation Phase 01</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Validation Phase 02</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Verification</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Instructor LLM</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Final Prompt</span>
+                        </div>
+                        <div class="w-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z" fill="#000000"/>
+</svg>
+                        </div>
+                        <div class="flex items-start gap-2 text-sm text-slate-700 p-2 bg-blue-50 rounded border border-blue-100 justify-center">
+                            
+                            <span>Answer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="text-center max-w-3xl w-full">
+                <p class="text-slate-300 text-sm mb-4">Enter your medical query to see the enhanced pipeline in action</p>
+                <div class="flex flex-col md:flex-row gap-3">
+                    <input 
+                        type="text" 
+                        id="landingQueryInput" 
+                        class="flex-1 px-4 py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                        placeholder="What psychiatric symptoms occur in anti-NMDA receptor encephalitis?"
+                    />
+                    <button 
+                        id="startDemoBtn" 
+                        class="px-6 py-3 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                    >
+                        Start Demo →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pipeline Visualization -->
+        <div class="hidden flex-shrink-0 bg-slate-50 px-6 py-4 border-b border-slate-200" id="pipelineViz">
+            <h2 class="text-sm font-medium text-slate-900 mb-4 text-center">Pipeline Architecture</h2>
+            <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-4 relative">
+                <!-- Progress Line -->
+                <div class="hidden md:block absolute top-11 left-0 right-0 h-px bg-slate-200" style="z-index: 0;"></div>
+                <div class="hidden md:block absolute top-11 left-0 h-px bg-blue-600 transition-all duration-700" id="pipelineProgress" style="width: 0%; z-index: 1;"></div>
+                
+                <!-- Stage 1: Scope Gate -->
+                <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="0">
+                    <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="z-index: 2; position: relative;">1</div>
+                    <div class="text-xs font-medium text-slate-600">Scope Gate</div>
+                    <div class="text-[10px] text-slate-400">Filtering</div>
+                </div>
+
+                <!-- Stage 2: Retrieval -->
+                <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="1">
+                    <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="z-index: 2; position: relative;">2</div>
+                    <div class="text-xs font-medium text-slate-600">Retrieval</div>
+                    <div class="text-[10px] text-slate-400">Semantic Search</div>
+                </div>
+
+                <!-- Validation Engine (Phase 1 & 2) -->
+                <div class="flex-[2] flex justify-around items-center gap-2 relative py-6">
+                    <div class="absolute inset-0 bg-blue-50 border border-dashed border-blue-200 rounded-lg" style="z-index: 0;"></div>
+                    <div class="absolute top-1 left-1/2 -translate-x-1/2 bg-white px-2 py-px text-[10px] font-semibold text-blue-600 border border-blue-200 rounded whitespace-nowrap" style="z-index: 1;">Two-Phase Validation</div>
+                    
+                    <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="2" style="z-index: 2;">
+                        <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="position: relative;">3</div>
+                        <div class="text-xs font-medium text-slate-600">Phase-1</div>
+                        <div class="text-[10px] text-slate-400">Answerability</div>
+                    </div>
+
+                    <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="3" style="z-index: 2;">
+                        <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="position: relative;">4</div>
+                        <div class="text-xs font-medium text-slate-600">Phase-2</div>
+                        <div class="text-[10px] text-slate-400">Validation</div>
+                    </div>
+                </div>
+
+                <!-- Stage 5: Verification -->
+                <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="4">
+                    <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="z-index: 2; position: relative;">5</div>
+                    <div class="text-xs font-medium text-slate-600">Verification</div>
+                    <div class="text-[10px] text-slate-400">Reliability</div>
+                </div>
+
+                <!-- Stage 6: Instructor -->
+                <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="5">
+                    <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="z-index: 2; position: relative;">6</div>
+                    <div class="text-xs font-medium text-slate-600">Instructor</div>
+                    <div class="text-[10px] text-slate-400">Evidence Prep</div>
+                </div>
+
+                <!-- Stage 7: Prompt -->
+                <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="6">
+                    <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="z-index: 2; position: relative;">7</div>
+                    <div class="text-xs font-medium text-slate-600">Final Prompt</div>
+                    <div class="text-[10px] text-slate-400">Assembly</div>
+                </div>
+
+                <!-- Stage 8: Answer -->
+                <div class="pipeline-stage flex-1 text-center cursor-pointer group" data-stage="7">
+                    <div class="stage-circle w-10 h-10 rounded-full border-2 border-slate-300 bg-white flex items-center justify-center text-sm font-semibold text-slate-400 mx-auto mb-1 transition-all group-hover:scale-110" style="z-index: 2; position: relative;">8</div>
+                    <div class="text-xs font-medium text-slate-600">Answer</div>
+                    <div class="text-[10px] text-slate-400">Generation</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query Section -->
+        <div class="hidden flex-shrink-0 bg-white px-6 py-4 border-b border-slate-200" id="querySection">
+            <div class="flex flex-col md:flex-row gap-3 mb-3">
+                <input 
+                    type="text" 
+                    id="queryInput" 
+                    class="flex-1 px-4 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                    placeholder="Enter your medical query..."
+                    value="What psychiatric symptoms occur in anti-NMDA receptor encephalitis?"
+                />
+            </div>
+            <div class="flex flex-wrap justify-center gap-2">
+                <button id="startBtn" class="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Start Pipeline
+                </button>
+                <button id="autoPlayBtn" class="px-4 py-2 text-sm font-medium bg-slate-600 text-white rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Auto-Play
+                </button>
+                <button id="prevBtn" class="px-4 py-2 text-sm font-medium border border-slate-300 text-slate-700 bg-white rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    ← Previous
+                </button>
+                <button id="nextBtn" class="px-4 py-2 text-sm font-medium border border-slate-300 text-slate-700 bg-white rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Next →
+                </button>
+                <button id="downloadBtn" class="px-4 py-2 text-sm font-medium border border-slate-300 text-slate-700 bg-white rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Download Report
+                </button>
+                <button id="resetBtn" class="px-4 py-2 text-sm font-medium border border-slate-300 text-slate-700 bg-white rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors">
+                    Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="hidden flex-1 overflow-y-auto px-6 py-6 bg-white" id="contentSection">
+            <div class="max-w-5xl mx-auto text-center py-12">
+                <h2 class="text-2xl font-light text-slate-500">Ready to demonstrate the pipeline</h2>
+                <p class="text-sm text-slate-400 mt-2">Click "Start Pipeline" to begin</p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Active/Completed Pipeline Stage States */
+        .pipeline-stage.active .stage-circle {
+            @apply border-blue-600 bg-blue-600 text-white shadow-sm;
+        }
+        .pipeline-stage.completed .stage-circle {
+            @apply border-blue-600 bg-blue-600 text-white;
+            font-size: 0;
+        }
+        .pipeline-stage.completed .stage-circle::after {
+            content: '✓';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .pipeline-stage.active .text-xs,
+        .pipeline-stage.completed .text-xs {
+            @apply text-slate-900 font-semibold;
+        }
+        
+        /* Collapsed sections */
+        .collapsed > div:last-child {
+            max-height: 0 !important;
+            overflow: hidden;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    </style>
+
+    <script>
+        let pipelineData = null;
+        let currentStage = 0;
+        let autoPlayInterval = null;
+        const API_URL = 'http://localhost:8000/retrieve/detailed';
+
+        // DOM Elements
+        const comparisonSection = document.getElementById('comparisonSection');
+        const landingQueryInput = document.getElementById('landingQueryInput');
+        const startDemoBtn = document.getElementById('startDemoBtn');
+        const pipelineViz = document.getElementById('pipelineViz');
+        const querySection = document.getElementById('querySection');
+        const startBtn = document.getElementById('startBtn');
+        const autoPlayBtn = document.getElementById('autoPlayBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const queryInput = document.getElementById('queryInput');
+        const contentSection = document.getElementById('contentSection');
+        const pipelineStages = document.querySelectorAll('.pipeline-stage');
+        const pipelineProgress = document.getElementById('pipelineProgress');
+
+        // Transition from landing to pipeline
+        function transitionToPipeline() {
+            const query = landingQueryInput.value.trim();
+            if (!query) {
+                alert('Please enter a query');
+                return;
+            }
+            
+            // Copy query to pipeline input
+            queryInput.value = query;
+            
+            // Fade out landing page
+            comparisonSection.classList.add('animate-fade-out');
+            
+            setTimeout(() => {
+                comparisonSection.classList.add('hidden');
+                pipelineViz.classList.remove('hidden');
+                querySection.classList.remove('hidden');
+                contentSection.classList.remove('hidden');
+                
+                // Auto-start pipeline
+                setTimeout(() => startPipeline(), 300);
+            }, 500);
+        }
+        
+        // Event Listeners
+        startDemoBtn.addEventListener('click', transitionToPipeline);
+        landingQueryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') transitionToPipeline();
+        });
+        startBtn.addEventListener('click', startPipeline);
+        autoPlayBtn.addEventListener('click', toggleAutoPlay);
+        prevBtn.addEventListener('click', () => navigateToStage(currentStage - 1));
+        nextBtn.addEventListener('click', () => navigateToStage(currentStage + 1));
+        downloadBtn.addEventListener('click', downloadReport);
+        resetBtn.addEventListener('click', resetDemo);
+        
+        pipelineStages.forEach((stage, index) => {
+            stage.addEventListener('click', () => {
+                if (pipelineData) {
+                    navigateToStage(index);
+                }
+            });
+        });
+
+        // Utility Functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function toggleCollapse(element) {
+            element.classList.toggle('collapsed');
+        }
+
+        // Setup collapsible sections after rendering
+        function setupCollapsibles() {
+            // Make "Why This Matters" sections collapsible and start collapsed
+            document.querySelectorAll('.stage-purpose').forEach(section => {
+                section.classList.add('collapsed'); // Start collapsed
+                section.addEventListener('click', function() {
+                    this.classList.toggle('collapsed');
+                });
+            });
+        }
+
+        // Start Pipeline
+        async function startPipeline() {
+            const query = queryInput.value.trim();
+            if (!query) {
+                alert('Please enter a query');
+                return;
+            }
+
+            showLoading();
+            startBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                pipelineData = await response.json();
+                currentStage = 0;
+                navigateToStage(0);
+                autoPlayBtn.disabled = false;
+                downloadBtn.disabled = false;
+            } catch (error) {
+                contentSection.innerHTML = `
+                    <div class="bg-slate-50 border border-slate-300 rounded-lg p-6 my-6">
+                        <h3 class="text-base font-semibold text-slate-900 mb-2"> Error</h3>
+                        <p class="text-sm text-slate-600">${escapeHtml(error.message)}</p>
+                    </div>
+                `;
+            } finally {
+                startBtn.disabled = false;
+            }
+        }
+
+        // Show Loading
+        function showLoading() {
+            contentSection.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-12 space-y-4">
+                    <div class="w-12 h-12 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin"></div>
+                    <div class="text-base text-slate-600">Executing verification pipeline...</div>
+                </div>
+            `;
+        }
+
+        // Navigate to Stage
+        function navigateToStage(stageIndex) {
+            if (!pipelineData || stageIndex < 0 || stageIndex > 7) return;
+            
+            if (stageIndex === 0 && pipelineData.scope_gate && !pipelineData.scope_gate.in_scope) {
+                // Stay at stage 0 if out of scope
+                stageIndex = 0;
+            }
+
+            currentStage = stageIndex;
+            renderStage(stageIndex);
+            
+            // Scroll content section to top
+            contentSection.scrollTop = 0;
+            
+            updateNavigationButtons();
+        }
+
+        // Update Navigation Buttons
+        function updateNavigationButtons() {
+            prevBtn.disabled = currentStage === 0;
+            
+            if (pipelineData && pipelineData.scope_gate && !pipelineData.scope_gate.in_scope) {
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.disabled = currentStage === 7;
+            }
+
+            // Update pipeline visualization
+            pipelineStages.forEach((stage, index) => {
+                stage.classList.remove('active', 'completed');
+                if (index === currentStage) {
+                    stage.classList.add('active');
+                } else if (index < currentStage) {
+                    stage.classList.add('completed');
+                }
+            });
+
+            // Update connector
+            const progress = (currentStage / 7) * 100;
+            pipelineProgress.style.width = `${progress}%`;
+        }
+
+        // Toggle Auto Play
+        function toggleAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+                autoPlayBtn.textContent = '⚡ Auto-Play';
+            } else {
+                autoPlayBtn.textContent = '⏸ Pause';
+                autoPlayInterval = setInterval(() => {
+                    if (currentStage < 7 && (!pipelineData.scope_gate || pipelineData.scope_gate.in_scope)) {
+                        navigateToStage(currentStage + 1);
+                    } else {
+                        clearInterval(autoPlayInterval);
+                        autoPlayInterval = null;
+                        autoPlayBtn.textContent = '⚡ Auto-Play';
+                    }
+                }, 4000);
+            }
+        }
+
+        // Download Report
+        function downloadReport() {
+            if (!pipelineData) {
+                alert('No pipeline data to download');
+                return;
+            }
+
+            const query = pipelineData.query || queryInput.value.trim();
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+            const filename = `RAG_Pipeline_Interactive_${timestamp}.html`;
+
+            // Generate interactive HTML with embedded data and all animations
+            const reportHTML = generateInteractiveDemo(query, pipelineData);
+
+            // Create blob and download
+            const blob = new Blob([reportHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Generate Interactive Demo HTML
+        function generateInteractiveDemo(query, data) {
+            // Clone the current document
+            const clonedDoc = document.cloneNode(true);
+            
+            // Reset to initial state
+            const clonedComparison = clonedDoc.getElementById('comparisonSection');
+            const clonedPipeline = clonedDoc.getElementById('pipelineViz');
+            const clonedQuery = clonedDoc.getElementById('querySection');
+            const clonedContent = clonedDoc.getElementById('contentSection');
+            
+            // Show landing page, hide pipeline sections
+            if (clonedComparison) {
+                clonedComparison.className = 'h-full flex flex-col items-center justify-center px-6 py-12 bg-white';
+            }
+            if (clonedPipeline) {
+                clonedPipeline.className = 'hidden flex-shrink-0 bg-slate-50 px-6 py-4 border-b border-slate-200';
+            }
+            if (clonedQuery) {
+                clonedQuery.className = 'hidden flex-shrink-0 bg-white px-6 py-4 border-b border-slate-200';
+            }
+            if (clonedContent) {
+                clonedContent.className = 'hidden flex-1 overflow-y-auto px-6 py-6 bg-white';
+                clonedContent.innerHTML = `
+                    <div class="max-w-5xl mx-auto text-center py-12">
+                        <h2 class="text-2xl font-light text-slate-500">Ready to demonstrate the pipeline</h2>
+                        <p class="text-sm text-slate-400 mt-2">Click "Start Pipeline" to begin</p>
+                    </div>
+                `;
+            }
+            
+            // Reset all pipeline stages
+            clonedDoc.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.className = 'pipeline-stage flex-1 text-center cursor-pointer group';
+            });
+            
+            // Reset progress bar
+            const clonedProgress = clonedDoc.getElementById('pipelineProgress');
+            if (clonedProgress) {
+                clonedProgress.style.width = '0%';
+            }
+            
+            // Pre-fill inputs with setAttribute to ensure it's in the HTML
+            const clonedLandingInput = clonedDoc.getElementById('landingQueryInput');
+            const clonedQueryInput = clonedDoc.getElementById('queryInput');
+            if (clonedLandingInput) {
+                clonedLandingInput.setAttribute('value', query);
+                clonedLandingInput.value = query;
+            }
+            if (clonedQueryInput) {
+                clonedQueryInput.setAttribute('value', query);
+                clonedQueryInput.value = query;
+            }
+            
+            // Hide download button
+            const clonedDownloadBtn = clonedDoc.getElementById('downloadBtn');
+            if (clonedDownloadBtn) {
+                clonedDownloadBtn.style.display = 'none';
+            }
+            
+            // Get the HTML
+            let htmlContent = clonedDoc.documentElement.outerHTML;
+            
+            // Inject embedded data and modify startPipeline function
+            htmlContent = htmlContent
+                .replace(/<title>.*?<\/title>/, `<title>RAG Pipeline Demo - ${escapeHtml(query)}</title>`)
+                .replace(
+                    /const API_URL = .*?;/,
+                    `const EMBEDDED_DATA = ${JSON.stringify(data, null, 2)};\n        const API_URL = 'http://localhost:8000/retrieve/detailed';`
+                )
+                .replace(
+                    /async function startPipeline\(\) \{[\s\S]*?finally \{[\s\S]*?}\s*}/,
+                    `async function startPipeline() {
+            // Check for embedded data first
+            if (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA) {
+                startBtn.disabled = true;
+                showLoading();
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                pipelineData = EMBEDDED_DATA;
+                currentStage = 0;
+                navigateToStage(0);
+                autoPlayBtn.disabled = false;
+                downloadBtn.disabled = false;
+                startBtn.disabled = false;
+                return;
+            }
+            
+            // Original API call
+            const query = queryInput.value.trim();
+            if (!query) {
+                alert('Please enter a query');
+                return;
+            }
+
+            showLoading();
+            startBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) {
+                    throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+                }
+
+                pipelineData = await response.json();
+                currentStage = 0;
+                navigateToStage(0);
+                autoPlayBtn.disabled = false;
+                downloadBtn.disabled = false;
+            } catch (error) {
+                contentSection.innerHTML = \`
+                    <div class="bg-slate-50 border border-slate-300 rounded-lg p-6 my-6">
+                        <h3 class="text-base font-semibold text-slate-900 mb-2">⚠️ Error</h3>
+                        <p class="text-sm text-slate-600">\${escapeHtml(error.message)}</p>
+                    </div>
+                \`;
+            } finally {
+                startBtn.disabled = false;
+            }
+        }`
+                )
+                .replace(
+                    /<body[^>]*>/,
+                    `<body>
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 16px; text-align: center; font-size: 13px; font-weight: 500;">
+            📦 Standalone Interactive Demo - Generated: ${new Date().toLocaleString()}
+        </div>`
+                );
+            
+            return htmlContent;
+        }
+
+        // Reset Demo
+        function resetDemo() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
+            
+            pipelineData = null;
+            currentStage = 0;
+            autoPlayBtn.disabled = true;
+            autoPlayBtn.textContent = 'Auto-Play';
+            downloadBtn.disabled = true;
+            
+            pipelineStages.forEach(stage => {
+                stage.classList.remove('active', 'completed');
+            });
+            
+            pipelineProgress.style.width = '0%';
+            
+            contentSection.innerHTML = `
+                <div class="max-w-5xl mx-auto text-center py-12">
+                    <h2 class="text-2xl font-light text-slate-500">Ready to demonstrate the pipeline</h2>
+                    <p class="text-sm text-slate-400 mt-2">Click "Start Pipeline" to begin</p>
+                </div>
+            `;
+            
+            contentSection.scrollTop = 0;
+            updateNavigationButtons();
+            
+            // Return to landing page
+            pipelineViz.classList.add('hidden');
+            querySection.classList.add('hidden');
+            contentSection.classList.add('hidden');
+            comparisonSection.classList.remove('hidden');
+            comparisonSection.classList.remove('animate-fade-out');
+            comparisonSection.classList.add('animate-fade-in');
+            
+            // Clear inputs
+            queryInput.value = '';
+            landingQueryInput.value = '';
+        }
+
+        // Render Stage
+        function renderStage(stageIndex) {
+            const renderers = [
+                renderScopeGate,
+                renderRetrieval,
+                renderPhase1,
+                renderPhase2,
+                renderVerification,
+                renderInstructor,
+                renderFinalPrompt,
+                renderAnswer
+            ];
+
+            if (renderers[stageIndex]) {
+                renderers[stageIndex](pipelineData);
+                // Setup collapsible sections after rendering
+                setTimeout(setupCollapsibles, 50);
+            }
+        }
+
+        // ============ STAGE RENDERERS ============
+
+        function renderScopeGate(data) {
+            const scopeGate = data.scope_gate;
+            const inScope = scopeGate.in_scope;
+            const query = data.query || queryInput.value.trim();
+
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 1: Scope Gate</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Performs semantic specialty alignment to prevent out-of-domain generation and reduce unsupported responses
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium ${inScope ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-700'}">
+                            ${inScope ? '✓ PASS' : '✗ FAIL'}
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            Prevents unsupported generation by enforcing domain-constrained answering. This stage ensures that responses are only produced when sufficient domain alignment exists.
+                        </div>
+                    </div>
+
+                    ${!inScope ? `
+                        <div class="bg-slate-50 border border-slate-300 rounded-lg p-4">
+                            <h3 class="text-base font-semibold text-slate-900 mb-2"> Query Out of Scope</h3>
+                            <p class="text-sm text-slate-600">This query does not match our medical specialties. The pipeline stops here to prevent unreliable answers.</p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Analysis Results -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                        <h3 class="text-base font-semibold text-slate-900">Scope Analysis Results</h3>
+                        
+                        <div class="space-y-4 text-sm">
+                            <div class="flex flex-col gap-1 p-2.5 border border-slate-100 rounded-lg bg-slate-50">
+                                <span class="text-slate-600">Query</span>
+                                <span class="text-slate-900">"${escapeHtml(query)}"</span>
+                            </div>
+                            <div class="flex flex-col gap-1 p-2.5 border border-slate-100 rounded-lg bg-slate-50">
+                                <span class="text-slate-600">Best Matching Specialty</span>
+                                <span class="text-slate-900">${scopeGate.best_specialty || 'N/A'}</span>
+                            </div>
+                            <div class="flex flex-col gap-1 p-2.5 border border-slate-100 rounded-lg bg-slate-50">
+                                <span class="text-slate-600">Confidence Score</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-slate-900">${scopeGate.score != null ? scopeGate.score.toFixed(3) : 'N/A'}</span>
+                                    <span class="px-2 py-0.5 rounded text-xs font-medium ${scopeGate.score >= 0.3 ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-700'}">
+                                        ${scopeGate.score >= 0.3 ? 'Strong Match' : 'Weak Match'}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1 p-2.5 border border-slate-100 rounded-lg bg-slate-50">
+                                <span class="text-slate-600">Threshold</span>
+                                <span class="text-slate-900">${scopeGate.threshold != null ? scopeGate.threshold.toFixed(3) : 'N/A'}</span>
+                            </div>
+                            <div class="flex flex-col gap-1 p-2.5 border border-slate-100 rounded-lg bg-slate-50">
+                                <span class="text-slate-600">In Scope?</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-medium inline-block w-fit ${inScope ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-700'}">
+                                    ${inScope ? '✓ YES - Proceed to Retrieval' : '✗ NO - Pipeline Terminated'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${inScope ? `
+                        <div class="flex items-center justify-center gap-4 text-sm">
+                            <div class="text-center">
+                                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">✓</div>
+                                <div class="text-slate-600">Query Validated</div>
+                            </div>
+                            <div class="text-slate-400 text-2xl -mt-6">→</div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                                <div class="text-slate-600">Semantic Retrieval</div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderRetrieval(data) {
+            const retrieved = data.retrieval || [];
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 2: Semantic Retrieval</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                FAISS vector search finds passages semantically similar to the query
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
+                            ${retrieved.length} Documents
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            This recall-oriented stage intentionally retrieves a broader candidate set to maximize coverage. Downstream validation stages progressively refine this set to improve precision and reliability.
+                        </div>
+                    </div>
+
+                    <!-- Flow Indicator -->
+                    <div class="flex items-center justify-center gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${retrieved.length}</div>
+                            <div class="text-slate-600">Retrieved Candidates</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                            <div class="text-slate-600">Phase-1 Enrichment</div>
+                        </div>
+                    </div>
+
+                    <!-- Documents List (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-medium text-slate-700">Retrieved Documents (${retrieved.length})</h4>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-200 p-4 space-y-3">
+                            ${retrieved.map((doc, idx) => `
+                                <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                                    <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                    <div class="flex gap-4 text-xs">
+                                        <div>
+                                            <div class="text-slate-600">Semantic Score</div>
+                                            <div class="text-slate-900 font-mono">${doc.semantic_score != null ? doc.semantic_score.toFixed(3) : 'N/A'}</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 text-xs text-slate-600">
+                                        <div><span class="font-medium">Paper ID:</span> ${escapeHtml(doc.paper_id || 'N/A')}</div>
+                                        <div><span class="font-medium">QA ID:</span> ${escapeHtml(doc.qa_id || 'N/A')}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderPhase1(data) {
+            const phase1Docs = data.phase1_validation || [];
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 3: Phase-1 Validation</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Dual-level answerability estimation mechanism using passage-level and title-level semantic alignment
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
+                            ${phase1Docs.length} Documents
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            Introduces a dual-level answerability estimation mechanism: <strong>passage-level semantic alignment</strong> and <strong>title-level semantic alignment</strong>. Documents are re-ranked by a combined answerability score (70% passage + 30% title) to reduce false-positive retrievals where lexical similarity does not imply topical relevance.
+                        </div>
+                    </div>
+
+                    <!-- Flow Indicator -->
+                    <div class="flex items-center justify-center gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${phase1Docs.length}</div>
+                            <div class="text-slate-600">Ranked by Answerability</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                            <div class="text-slate-600">Phase-2 Evidence Authority</div>
+                        </div>
+                    </div>
+
+                    <!-- Answerability Re-Ranking Strategy -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                        <h3 class="text-base font-semibold text-slate-900">Answerability Re-Ranking Strategy</h3>
+                        <div class="space-y-3">
+                            <div class="bg-slate-50 rounded-lg p-4 space-y-2">
+                                <div class="text-sm font-semibold text-slate-900">Level 1: Passage Match (70%)</div>
+                                <div class="text-sm text-slate-600">
+                                    Measures how well the <strong>passage content</strong> matches the query (from FAISS retrieval)
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-4 space-y-2">
+                                <div class="text-sm font-semibold text-slate-900">Level 2: Title Match (30%)</div>
+                                <div class="text-sm text-slate-600">
+                                    Measures how well the <strong>paper title alone</strong> suggests it can answer the query. 
+                                    High title similarity = you can tell from the title this paper is relevant.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase-1 Documents (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-medium text-slate-700">Phase-1 Documents (${phase1Docs.length})</h4>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-200 p-4 space-y-3">
+                            ${phase1Docs.map((doc, idx) => {
+                                const semanticScore = doc.semantic_score || 0;
+                                const titleSim = doc.title_similarity || 0;
+                                const answerability = doc.answerability_score || 0;
+                                
+                                const getScoreBadge = (score) => {
+                                    if (score >= 0.7) return 'bg-blue-100 text-blue-700';
+                                    if (score >= 0.5) return 'bg-slate-100 text-slate-700';
+                                    return 'bg-slate-100 text-slate-600';
+                                };
+
+                                const getScoreLabel = (score) => {
+                                    if (score >= 0.7) return 'High';
+                                    if (score >= 0.5) return 'Medium';
+                                    return 'Low';
+                                };
+
+                                return `
+                                    <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                                        <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                        <div class="flex gap-4 text-xs text-slate-600">
+                                            <div><span class="font-medium">Paper ID:</span> ${escapeHtml(doc.paper_id || 'N/A')}</div>
+                                        </div>
+                                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 space-y-2">
+                                            <div class="text-sm font-semibold text-slate-900">
+                                                Answerability Score (Combined)
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xl font-bold text-slate-900">${answerability.toFixed(3)}</span>
+                                                <span class="px-2 py-0.5 rounded text-xs font-medium ${getScoreBadge(answerability)}">
+                                                    ${getScoreLabel(answerability)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-4 text-xs">
+                                            <div class="flex-1">
+                                                <div class="text-slate-600">Passage (70%)</div>
+                                                <div class="text-slate-900 font-mono font-semibold">${semanticScore.toFixed(3)}</div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="text-slate-600">Title (30%)</div>
+                                                <div class="text-slate-900 font-mono font-semibold">${titleSim.toFixed(3)}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderPhase2(data) {
+            const phase2Docs = data.phase2_validation || [];
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 4: Phase-2 Evidence Authority & Risk Modeling</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Integrates bibliometric signals, publication type, and freshness into structured evidence scoring
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
+                            ${phase2Docs.length} Documents
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            This stage integrates <strong>answerability_score from Phase-1</strong> (55% weight: 38.5% passage + 16.5% title) with bibliometric signals (15% citations), publication type (10% evidence score), and freshness (10% recency). The final_score uses Phase-1's dual-level answerability assessment instead of raw passage similarity, ensuring both semantic AND topical relevance influence final ranking.
+                        </div>
+                    </div>
+
+                    <!-- Flow Indicator -->
+                    <div class="flex items-center justify-center gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${phase2Docs.filter(d => (d.quality_tier || '').toUpperCase() === 'HIGH').length}</div>
+                            <div class="text-slate-600">High Quality</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">${phase2Docs.filter(d => (d.quality_tier || '').toUpperCase() === 'MEDIUM').length}</div>
+                            <div class="text-slate-600">Medium Quality</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">${phase2Docs.filter(d => (d.quality_tier || '').toUpperCase() === 'LOW').length}</div>
+                            <div class="text-slate-600">Low Quality</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                            <div class="text-slate-600">Final Verification</div>
+                        </div>
+                    </div>
+
+                    <!-- Phase-2 Validated Documents (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-medium text-slate-700"> Phase-2 Validated Documents (${phase2Docs.length})</h4>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-200 p-4 space-y-3">
+                            ${phase2Docs.map((doc, idx) => {
+                                const getQualityColor = (tier) => {
+                                    const t = (tier || 'low').toLowerCase();
+                                    if (t === 'high') return 'bg-blue-100 text-blue-700';
+                                    if (t === 'medium') return 'bg-slate-100 text-slate-700';
+                                    return 'bg-slate-100 text-slate-600';
+                                };
+                                const getAuthorityColor = (level) => {
+                                    if (level === 'high') return 'bg-blue-100 text-blue-700';
+                                    if (level === 'medium') return 'bg-slate-100 text-slate-700';
+                                    return 'bg-slate-100 text-slate-600';
+                                };
+                                const getFreshnessColor = (fresh) => {
+                                    if (fresh === 'current') return 'bg-blue-100 text-blue-700';
+                                    if (fresh === 'acceptable') return 'bg-slate-100 text-slate-700';
+                                    return 'bg-slate-100 text-slate-600';
+                                };
+                                const qualityScore = (doc.final_score != null && doc.answerability_score != null) 
+                                    ? ((doc.final_score - 0.55 * doc.answerability_score) / 0.45) 
+                                    : null;
+                                return `
+                                <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                        <span class="px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${getQualityColor(doc.quality_tier)}">${(doc.quality_tier || 'low').toUpperCase()}</span>
+                                    </div>
+                                    
+                                    <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-sm font-medium text-slate-700">Quality Score</div>
+                                            <div class="text-xl font-semibold text-slate-900 font-mono">${qualityScore != null ? qualityScore.toFixed(3) : 'N/A'}</div>
+                                        </div>
+                                        <div class="text-xs text-slate-600 mt-1">Authority & evidence quality assessment (out of 1)</div>
+                                    </div>
+
+                                    <div class="flex flex-wrap gap-4">
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Authority Level</div>
+                                            <span class="px-2 py-0.5 rounded text-xs font-medium ${getAuthorityColor(doc.authority_level)}">
+                                                ${(doc.authority_level || 'low').toUpperCase()}
+                                            </span>
+                                        </div>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Citations</div>
+                                            <div class="text-sm text-slate-900">${doc.citation_count || 0}</div>
+                                        </div>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Evidence Score</div>
+                                            <div class="text-sm text-slate-900">${doc.evidence_score != null ? doc.evidence_score.toFixed(1) : 'N/A'}</div>
+                                        </div>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Freshness</div>
+                                            <span class="px-2 py-0.5 rounded text-xs font-medium ${getFreshnessColor(doc.freshness)}">
+                                                ${(doc.freshness || 'unknown').toUpperCase()}
+                                            </span>
+                                        </div>
+                                        <div class="flex-1 min-w-[110px]">
+                                            <div class="text-xs text-slate-600 mb-1">Year</div>
+                                            <div class="text-sm text-slate-900">${doc.year || 'N/A'}</div>
+                                        </div>
+                                    </div>
+
+                                    ${doc.risk_flags && doc.risk_flags.length > 0 ? `
+                                        <div class="space-y-1">
+                                            ${doc.risk_flags.map(flag => `<div class="text-xs text-red-600 bg-red-50 rounded px-2 py-1 w-fit">⚠ ${escapeHtml(flag)}</div>`).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `}).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderVerification(data) {
+            const verificationLevel = data.verification_level || 1;
+            const verified = data.phase2_validation || [];
+            
+            const levelDescriptions = {
+                4: 'Excellent - High confidence with strong evidence and minimal risk',
+                3: 'Good - Moderate confidence with reliable evidence',
+                2: 'Fair - Adequate confidence but with some limitations',
+                1: 'Limited - Low confidence or insufficient evidence'
+            };
+
+            const levelColors = {
+                4: 'bg-blue-100 text-blue-700',
+                3: 'bg-blue-100 text-blue-700',
+                2: 'bg-slate-100 text-slate-700',
+                1: 'bg-slate-100 text-slate-600'
+            };
+
+            const highQualityCount = verified.filter(d => (d.quality_tier || '').toUpperCase() === 'HIGH').length;
+            
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 5: Final Verification</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Final document ranking and reliability confidence assessment
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
+                            Level ${verificationLevel}/4
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            The system assigns a verification level based on aggregate evidence reliability. This level directly determines the generation strategy in subsequent stages, ensuring behavioral adaptation to evidence strength.
+                        </div>
+                    </div>
+
+                    <!-- Verification Assessment -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                        <h3 class="text-base font-semibold text-slate-900">Verification Assessment</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Verification Level</span>
+                                <span class="px-3 py-1 rounded text-base font-medium inline-block w-fit ${levelColors[verificationLevel]}">
+                                    Level ${verificationLevel}
+                                </span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Quality Assessment</span>
+                                <span class="text-slate-900">${levelDescriptions[verificationLevel]}</span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">High-Quality Documents</span>
+                                <span class="text-slate-900">${highQualityCount} of ${verified.length}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Final Scoring Formula -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-2">
+                        <h3 class="text-base font-semibold text-slate-900">Final Ranking Score</h3>
+                        <p class="text-sm text-slate-600">
+                            Documents are ranked using a weighted combination of all pipeline metrics:
+                        </p>
+                        <div class="bg-slate-50 rounded-lg p-3 text-sm font-mono text-slate-700">
+                            Final Score = 55% Answerability + 45% Quality
+                        </div>
+                        <div class="text-xs text-slate-600">
+                            Quality encompasses authority signals (citations), evidence type, and temporal currency (freshness).
+                        </div>
+                    </div>
+
+                    <!-- Flow Indicator -->
+                    <div class="flex items-center justify-center gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${verified.length}</div>
+                            <div class="text-slate-600">Validated Documents</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">L${verificationLevel}</div>
+                            <div class="text-slate-600">Confidence Assessment</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                            <div class="text-slate-600">Instructor Prompt</div>
+                        </div>
+                    </div>
+
+                    <!-- Top-Ranked Documents (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-medium text-slate-700"> Top-Ranked Documents (${verified.length})</h4>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-200 p-4 space-y-3">
+                            ${verified.map((doc, idx) => {
+                                const getQualityColor = (tier) => {
+                                    const t = (tier || 'low').toLowerCase();
+                                    if (t === 'high') return 'bg-blue-100 text-blue-700';
+                                    if (t === 'medium') return 'bg-slate-100 text-slate-700';
+                                    return 'bg-slate-100 text-slate-600';
+                                };
+                                return `
+                                <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="font-medium text-slate-900 text-sm">${idx + 1}. ${escapeHtml(doc.title || 'Untitled')}</div>
+                                        <div class="flex items-center gap-2 flex-shrink-0">
+                                            <span class="px-2 py-0.5 rounded text-xs font-medium ${getQualityColor(doc.quality_tier)}">${(doc.quality_tier || 'low').toUpperCase()}</span>
+                                            <div class="text-xs text-slate-600">Rank #${idx + 1}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-sm font-medium text-slate-700">Final Score</div>
+                                            <div class="text-xl font-semibold text-blue-700 font-mono">${doc.final_score != null ? doc.final_score.toFixed(3) : 'N/A'}</div>
+                                        </div>
+                                        <div class="text-xs text-slate-600 mt-1">Combined ranking across all pipeline stages</div>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3 text-xs">
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Answerability:</span>
+                                            <span class="text-slate-900 font-mono">${doc.answerability_score != null ? doc.answerability_score.toFixed(3) : 'N/A'}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Citations:</span>
+                                            <span class="text-slate-900">${doc.citation_count || 0}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Evidence:</span>
+                                            <span class="text-slate-900">${doc.evidence_score != null ? doc.evidence_score.toFixed(1) : 'N/A'}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Freshness:</span>
+                                            <span class="text-slate-900">${(doc.freshness || 'unknown').toUpperCase()}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Year:</span>
+                                            <span class="text-slate-900">${doc.year || 'N/A'}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-slate-600">Authority:</span>
+                                            <span class="text-slate-900">${(doc.authority_level || 'N/A').toUpperCase()}</span>
+                                        </div>
+                                    </div>
+
+                                    ${doc.risk_flags && doc.risk_flags.length > 0 ? `
+                                        <div class="space-y-1">
+                                            ${doc.risk_flags.map(flag => `<div class="text-xs text-red-600 bg-red-50 rounded px-2 py-1 w-fit">⚠ ${escapeHtml(flag)}</div>`).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `}).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderInstructor(data) {
+            const instructorData = data.instructor_prompt || {};
+            const phase2Docs = data.phase2_validation || [];
+            
+            // Create a map of doc_id to document for looking up context plan items
+            const docMap = {};
+            phase2Docs.forEach(doc => {
+                if (doc.paper_id) {
+                    docMap[String(doc.paper_id)] = doc;
+                }
+            });
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 6: Instructor Output (What Gets Injected)</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Strategic decisions and instructions that will be injected into the Answer LLM prompt
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
+                            ${(instructorData.context_plan || []).length} Docs Selected
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            The Instructor LLM produces strategic outputs (verification level, answer mode, document selection, required sections, constraints) that will be injected into Stage 7's prompt. This adaptive layer ensures the Answer LLM receives different instructions based on evidence reliability.
+                        </div>
+                    </div>
+
+                    <!-- Key Concept -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="text-sm text-slate-900">
+                            <strong>Key Concept:</strong> The decisions below are the <strong>outputs from the Instructor LLM</strong>. 
+                            These will be injected into the final prompt in Stage 7 to guide the Answer LLM's generation behavior.
+                        </div>
+                    </div>
+
+                    <!-- Strategic Decisions -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                        <h3 class="text-base font-semibold text-slate-900">Strategic Decisions</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Verification Level</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded text-sm font-medium bg-blue-100 text-blue-700">Level ${instructorData.verification_level || 1}</span>
+                                    <span class="text-slate-600">
+                                        ${instructorData.verification_level === 3 ? 'Highly Confident' : 
+                                          instructorData.verification_level === 2 ? 'Moderate Confidence' : 'Low Confidence'}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Answer Strategy</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-medium inline-block w-fit ${instructorData.answer_mode === 'full' ? 'bg-blue-100 text-blue-700' : instructorData.answer_mode === 'partial' ? 'bg-slate-100 text-slate-700' : 'bg-slate-100 text-slate-600'}">
+                                    ${(instructorData.answer_mode || 'N/A').toUpperCase()}
+                                </span>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Documents to Inject</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700">${(instructorData.context_plan || []).length} documents</span>
+                                    <span class="text-xs text-slate-600">See list below</span>
+                                </div>
+                            </div>
+                            ${instructorData.required_sections && instructorData.required_sections.length > 0 ? `
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-slate-600">Required Sections (to inject)</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700">${instructorData.required_sections.length} sections</span>
+                                        <span class="text-xs text-slate-600">Will be injected in Stage 7</span>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${instructorData.constraints && instructorData.constraints.length > 0 ? `
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-slate-600">Constraints (to inject)</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">${instructorData.constraints.length} constraints</span>
+                                        <span class="text-xs text-slate-600">Will be injected in Stage 7</span>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Flow Indicator -->
+                    <div class="flex items-center justify-center gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">L${instructorData.verification_level || 1}</div>
+                            <div class="text-slate-600">Evidence Confidence</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${(instructorData.context_plan || []).length}</div>
+                            <div class="text-slate-600">Documents Selected</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                            <div class="text-slate-600">Prompt Assembly</div>
+                        </div>
+                    </div>
+
+                    ${instructorData.context_plan && instructorData.context_plan.length > 0 ? `
+                        <!-- Documents to Inject (Collapsible) -->
+                        <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                            <div class="px-4 py-3 bg-slate-50">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-slate-700">Documents to Inject into Final Prompt (${instructorData.context_plan.length} documents)</h4>
+                                    <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-4 space-y-3">
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-slate-900">
+                                    <strong>These will be injected into Stage 7:</strong> The instructor selected these documents and assigned purposes. 
+                                    Their full passages will be included in the final Answer LLM prompt.
+                                </div>
+                                ${instructorData.context_plan.map((item, idx) => {
+                                    const doc = docMap[String(item.doc_id)] || {};
+                                    const getQualityColor = (tier) => {
+                                        const t = (tier || 'low').toLowerCase();
+                                        if (t === 'high') return 'bg-blue-100 text-blue-700';
+                                        if (t === 'medium') return 'bg-slate-100 text-slate-700';
+                                        return 'bg-slate-100 text-slate-600';
+                                    };
+                                    return `
+                                    <div class="border border-slate-200 rounded-lg p-4 space-y-2">
+                                        <div class="flex items-start justify-between gap-3">
+                                            <div class="flex-1">
+                                                <div class="font-medium text-slate-900 text-sm mb-2">
+                                                    ${idx + 1}. ${escapeHtml(doc.title || `Doc ID: ${item.doc_id}`)}
+                                                </div>
+                                                ${item.use_for ? `
+                                                    <div class="text-sm text-blue-600 italic">
+                                                        <strong>Purpose:</strong> ${escapeHtml(item.use_for)}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            ${doc.quality_tier ? `
+                                                <span class="px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${getQualityColor(doc.quality_tier)}">
+                                                    ${doc.quality_tier.toUpperCase()}
+                                                </span>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderFinalPrompt(data) {
+            const instructorData = data.instructor_prompt || {};
+            const answerData = data.final_answer || {};
+            const phase2Docs = data.phase2_validation || [];
+            
+            // Create document map for context plan
+            const docMap = {};
+            phase2Docs.forEach(doc => {
+                docMap[String(doc.paper_id)] = doc;
+            });
+
+            // Count what's being injected
+            const contextDocsCount = (instructorData.context_plan || []).length;
+            const requiredSectionsCount = (instructorData.required_sections || []).length;
+            const constraintsCount = (instructorData.constraints || []).length;
+            
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 7: Final Prompt Assembly</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                Injects instructions, constraints, and document passages into the Answer LLM prompt
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-slate-100 text-slate-700">
+                            ${contextDocsCount + requiredSectionsCount + constraintsCount} Items Injected
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            The final generation prompt is dynamically assembled based on: verification level, risk flags, evidence authority, and required structural sections. This ensures generation behavior adapts to evidence strength rather than using a fixed prompt structure.
+                        </div>
+                    </div>
+
+                    <!-- What Gets Injected -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-3">
+                        <h3 class="text-base font-semibold text-slate-900">What Gets Injected Into the Final Prompt</h3>
+                        <div class="bg-slate-50 rounded-lg p-3 text-sm text-slate-600 mb-3">
+                            Based on the strategic decisions from Stage 6 (Level ${instructorData.verification_level || 1} confidence, 
+                            ${(instructorData.answer_mode || 'N/A').toUpperCase()} mode), the following content is injected:
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Required Sections</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700">${requiredSectionsCount} sections</span>
+                                    <span class="text-xs text-slate-600">See details below</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Constraints Applied</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">${constraintsCount} constraints</span>
+                                    <span class="text-xs text-slate-600">See details below</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-slate-600">Context Documents</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-700">${contextDocsCount} documents</span>
+                                    <span class="text-xs text-slate-600">With full passages</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow Indicator -->
+                    <div class="flex items-center justify-center gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${requiredSectionsCount + constraintsCount}</div>
+                            <div class="text-slate-600">Instructions Injected</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold mb-2 mx-auto">${contextDocsCount}</div>
+                            <div class="text-slate-600">Evidence Documents</div>
+                        </div>
+                        <div class="text-slate-400 text-2xl -mt-6">→</div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-semibold mb-2 mx-auto">Next</div>
+                            <div class="text-slate-600">LLM Generation</div>
+                        </div>
+                    </div>
+
+                    ${requiredSectionsCount > 0 ? `
+                        <!-- Injected Required Sections (Collapsible) -->
+                        <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                            <div class="px-4 py-3 bg-slate-50">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-slate-700">Injected Required Sections (${requiredSectionsCount})</h4>
+                                    <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-4 space-y-3">
+                                <div class="text-sm text-slate-900 space-y-2">
+                                    ${instructorData.required_sections.map(s => `<div class="flex items-start gap-2"><span>✓</span><span>${escapeHtml(s)}</span></div>`).join('')}
+                                </div>
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-slate-900">
+                                    <strong>Effect:</strong> The LLM is instructed to include these sections in its answer, 
+                                    ensuring comprehensive coverage of the query.
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${constraintsCount > 0 ? `
+                        <!-- Injected Constraints (Collapsible) -->
+                        <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                            <div class="px-4 py-3 bg-slate-50">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-slate-700"> Injected Constraints (${constraintsCount})</h4>
+                                    <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-4 space-y-3">
+                                <div class="text-sm text-slate-900 space-y-2">
+                                    ${instructorData.constraints.map(c => `<div class="flex items-start gap-2"><span>•</span><span>${escapeHtml(c)}</span></div>`).join('')}
+                                </div>
+                                <div class="bg-slate-50 border border-slate-300 rounded-lg p-3 text-sm text-slate-900">
+                                    <strong>Effect:</strong> These constraints guide the LLM to acknowledge limitations, 
+                                    avoid overgeneralization, and maintain medical accuracy.
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${contextDocsCount > 0 ? `
+                        <!-- Injected Evidence Context (Collapsible) -->
+                        <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                            <div class="px-4 py-3 bg-slate-50">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-slate-700">Injected Evidence Context (${contextDocsCount} documents)</h4>
+                                    <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-4 space-y-3">
+                                ${instructorData.context_plan.map((item, idx) => {
+                                    const doc = docMap[String(item.doc_id)] || {};
+                                    const getQualityColor = (tier) => {
+                                        const t = (tier || 'low').toLowerCase();
+                                        if (t === 'high') return 'bg-blue-100 text-blue-700';
+                                        if (t === 'medium') return 'bg-slate-100 text-slate-700';
+                                        return 'bg-slate-100 text-slate-600';
+                                    };
+                                    return `
+                                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                                        <div class="p-4 space-y-3">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div class="font-medium text-slate-900 text-sm flex-1">
+                                                    ${idx + 1}. ${escapeHtml(doc.title || `Doc ID: ${item.doc_id}`)}
+                                                </div>
+                                                <span class="px-2 py-0.5 rounded text-xs font-medium flex-shrink-0 ${getQualityColor(doc.quality_tier)}">
+                                                    ${(doc.quality_tier || 'LOW').toUpperCase()}
+                                                </span>
+                                            </div>
+                                            ${item.use_for ? `
+                                                <div class="bg-slate-50 border-l-2 border-blue-500 rounded p-2 text-sm text-slate-900">
+                                                    <strong>Injected for:</strong> ${escapeHtml(item.use_for)}
+                                                </div>
+                                            ` : ''}
+                                            <div class="flex gap-4 text-xs">
+                                                ${doc.final_score != null ? `
+                                                    <div>
+                                                        <div class="text-slate-600">Quality Score</div>
+                                                        <div class="text-slate-900 font-mono">${doc.final_score.toFixed(3)}</div>
+                                                    </div>
+                                                ` : ''}
+                                                ${doc.semantic_score != null ? `
+                                                    <div>
+                                                        <div class="text-slate-600">Semantic Relevance</div>
+                                                        <div class="text-slate-900 font-mono">${doc.semantic_score.toFixed(3)}</div>
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            ${doc.passage_text ? `
+                                                <div class="border-t border-slate-200 pt-3 mt-3">
+                                                    <div class="text-xs font-medium text-slate-700 mb-2"> View Injected Passage</div>
+                                                    <div class="text-xs text-slate-600 bg-slate-50 rounded p-2 max-h-32 overflow-y-auto">${escapeHtml(doc.passage_text)}</div>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `}).join('')}
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-slate-900">
+                                    <strong>Effect:</strong> These ${contextDocsCount} documents are included in the prompt as the evidence base. 
+                                    The LLM will synthesize information from these passages to construct its answer, 
+                                    with citations traceable back to these sources.
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${answerData.rendered_prompt ? `
+                        <!-- View Final Prompt (Collapsible) -->
+                        <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                            <div class="px-4 py-3 bg-slate-50">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-slate-700">View Final Prompt Sent to Answer LLM</h4>
+                                    <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-4 space-y-3">
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-slate-900">
+                                    <strong>This is the complete prompt sent to the Answer LLM</strong>, including:
+                                    <ul class="mt-2 ml-5 list-disc space-y-1 text-slate-600">
+                                        <li>Required sections (${(instructorData.required_sections || []).length})</li>
+                                        <li>Constraints (${(instructorData.constraints || []).length})</li>
+                                        <li>Evidence passages from ${(instructorData.context_plan || []).length} documents</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-slate-900 text-slate-100 rounded-lg p-4 text-xs font-mono overflow-x-auto">
+                                    <pre class="whitespace-pre-wrap">${escapeHtml(answerData.rendered_prompt.substring(0, 3000))}${answerData.rendered_prompt.length > 3000 ? '\n\n... (truncated for display, full prompt contains ' + answerData.rendered_prompt.length + ' characters)' : ''}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+
+        function renderAnswer(data) {
+            const answerData = data.final_answer || {};
+            const instructorData = data.instructor_prompt || {};
+            const answerMode = (instructorData.answer_mode || 'N/A').toUpperCase();
+            const verificationLevel = instructorData.verification_level || 1;
+            
+            const html = `
+                <div class="space-y-6">
+                    <!-- Stage Header -->
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Stage 8: Final Answer Generation</h2>
+                            <p class="text-sm text-slate-600 mt-2">
+                                LLM synthesizes evidence into a comprehensive, citation-backed answer
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 px-3 py-1 rounded-md text-sm font-medium bg-blue-100 text-blue-700">
+                            ✓ Complete
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters (Collapsible) -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden collapsed" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                        <div class="px-4 py-3 bg-slate-50">
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm font-medium text-slate-700">Why This Matters</div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 text-sm text-slate-600 border-t border-slate-200">
+                            Final LLM call synthesizes validated evidence into a structured response. Generation mode and structural constraints are conditioned on validation outcomes, ensuring tone and completeness adapt to evidence reliability.
+                        </div>
+                    </div>
+
+                    <!-- Generation Mode Info -->
+                    <div class="bg-slate-50 border border-slate-300 rounded-lg p-4 space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-slate-600">Generation Mode</span>
+                            <span class="px-2 py-0.5 rounded text-xs font-medium ${answerMode === 'FULL' ? 'bg-blue-100 text-blue-700' : answerMode === 'PARTIAL' ? 'bg-slate-100 text-slate-700' : 'bg-slate-100 text-slate-600'}">${answerMode}</span>
+                            <span class="text-xs text-slate-600">(based on verification level ${verificationLevel})</span>
+                        </div>
+                        <div class="text-xs text-slate-600 italic">
+                            Tone and structural constraints are conditioned on validation outcomes.
+                        </div>
+                    </div>
+
+                    <!-- Medical Evidence Warning (Based on Verification Level) -->
+                    ${verificationLevel === 1 ? `
+                        <div class="bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-red-900 mb-1">⚠️ Limited Evidence - Clinical Consultation Required</h4>
+                                    <p class="text-xs text-red-800 leading-relaxed">
+                                        <strong>Low verification level (L1)</strong> indicates insufficient or low-quality evidence. This response is based on limited medical literature and should NOT be used for clinical decision-making. Always consult with a qualified healthcare professional before making any medical decisions.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : verificationLevel === 2 ? `
+                        <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-amber-900 mb-1"> Moderate Evidence - Professional Judgment Required</h4>
+                                    <p class="text-xs text-amber-800 leading-relaxed">
+                                        <strong>Moderate verification level (L2)</strong> indicates emerging or mixed-quality evidence. Clinical judgment and professional consultation are essential. Individual patient factors may significantly influence treatment decisions.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : verificationLevel === 3 ? `
+                        <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-blue-900 mb-1"> Good Evidence Base - Clinical Application Recommended</h4>
+                                    <p class="text-xs text-blue-800 leading-relaxed">
+                                        <strong>High verification level (L3)</strong> indicates good-quality supporting evidence from peer-reviewed sources. While evidence is robust, individual patient circumstances, contraindications, and clinical context should be evaluated by healthcare professionals.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="bg-green-50 border-l-4 border-green-500 rounded-r-lg p-4 space-y-2">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-semibold text-green-900 mb-1">✓ Strong Evidence Base - Standard of Care Guidance</h4>
+                                    <p class="text-xs text-green-800 leading-relaxed">
+                                        <strong>Very high verification level (L4)</strong> indicates strong, consistent evidence from high-quality sources (e.g., meta-analyses, systematic reviews, RCTs). This information aligns with established medical guidelines. However, healthcare decisions should always be individualized based on patient-specific factors and professional assessment.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `}
+
+                    <!-- Direct Answer -->
+                    <div class="border border-slate-200 rounded-lg p-4 space-y-2">
+                        <h4 class="text-base font-semibold text-slate-900">Direct Answer</h4>
+                        <div class="text-sm text-slate-900 leading-relaxed">
+                            ${answerData.direct_answer ? escapeHtml(answerData.direct_answer).replaceAll('\n', '<br>') : 'N/A'}
+                        </div>
+                    </div>
+
+                    ${answerData.evidence_summary ? `
+                        <!-- Evidence Summary -->
+                        <div class="border border-slate-200 rounded-lg p-4 space-y-2">
+                            <h4 class="text-base font-semibold text-slate-900">Evidence Summary</h4>
+                            <div class="text-sm text-slate-900 leading-relaxed">
+                                ${escapeHtml(answerData.evidence_summary).replaceAll('\n', '<br>')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${answerData.limitations ? `
+                        <!-- Limitations & Caveats -->
+                        <div class="border border-slate-200 rounded-lg p-4 space-y-2">
+                            <h4 class="text-base font-semibold text-slate-900"> Limitations & Caveats</h4>
+                            <div class="text-sm text-slate-900 leading-relaxed">
+                                ${escapeHtml(answerData.limitations).replaceAll('\n', '<br>')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${answerData.citations && answerData.citations.length > 0 ? `
+                        <!-- Citations (Collapsible) -->
+                        <div class="border border-slate-200 rounded-lg overflow-hidden" onclick="toggleCollapse(this)" style="cursor: pointer;">
+                            <div class="px-4 py-3 bg-slate-50">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-medium text-slate-700">📖 Citations (${answerData.citations.length})</h4>
+                                    <svg class="w-4 h-4 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
+                            <div class="border-t border-slate-200 p-4 space-y-3">
+                                ${answerData.citations.map((cit, idx) => `
+                                    <div class="border border-slate-200 rounded-lg p-3 space-y-2">
+                                        <div class="flex items-start gap-2">
+                                            <span class="text-xs font-semibold text-slate-900">[${idx + 1}]</span>
+                                            <div class="flex-1 space-y-1">
+                                                <div class="text-sm font-semibold text-slate-900">${escapeHtml(cit.title || 'N/A')}</div>
+                                                <div class="flex gap-4 text-xs text-slate-600">
+                                                    ${cit.year ? `<div><span class="font-medium">Year:</span> ${cit.year}</div>` : ''}
+                                                    ${cit.venue ? `<div><span class="font-medium">Venue:</span> ${escapeHtml(cit.venue)}</div>` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            contentSection.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
+

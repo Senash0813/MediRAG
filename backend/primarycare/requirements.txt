@@ -1,7 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
 sentence-transformers
 faiss-cpu
 numpy
 requests
 tqdm
-fastapi
-uvicorn[standard]
+
+# Evaluation dependencies
+ragas
+datasets
+langchain
+langchain-community
+langchain-openai
