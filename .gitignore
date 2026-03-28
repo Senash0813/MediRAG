@@ -2,6 +2,7 @@ backend/neurology/__pycache__/
 backend/neurology/data/
 backend/neurology/model_weights/
 backend/neurology/venv
+backend/neurology/.env
 backend/venv/
 
 
