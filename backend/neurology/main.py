@@ -14,6 +14,7 @@ from models.shared_slm_manager import SharedSLMManager
 from retrieval.faiss_retriever import FaissRetriever
 from retrieval.bm25_retriever import BM25Retriever
 from retrieval.hybrid_rrf import rrf_fusion
+from models.domain_checker import DomainChecker
 
 query_rewriter = QueryRewriter(QUERY_REWRITER_DIR)
 embedder = Embedder(EMBEDDING_MODEL_NAME, hf_token=SLM1_HF_TOKEN)
@@ -21,6 +22,10 @@ faiss_retriever = FaissRetriever(FAISS_INDEX_PATH, METADATA_PATH)
 bm25_retriever = BM25Retriever(BM25_INDEX_PATH, METADATA_PATH)
 llm = LLMRephraser(model_name=OLLAMA_MODEL_NAME, base_url=OLLAMA_BASE_URL)
 instruction_reranker = InstructionReranker(model_name=RERANKER_MODEL_NAME, top_k=RERANKER_TOP_K)
+domain_checker = DomainChecker(                          
+    model_name=OLLAMA_MODEL_NAME,
+    base_url=OLLAMA_BASE_URL
+)
 
 shared_slm = SharedSLMManager(
     base_model=SLM1_BASE_MODEL, 
@@ -60,9 +65,23 @@ app.add_middleware(
 class QueryRequest(BaseModel):
     question: str
 
+OUT_OF_SCOPE_MESSAGE = (
+    "I'm sorry, but your question appears to be outside the scope of this assistant. "
+    "This system is specialized exclusively in Neurology and Neurosurgery. "
+    "Please ask a question related to neurological or neurosurgical conditions, "
+    "symptoms, diagnoses, or treatments."
+)
+
 @app.post("/query")
 def query_rag(req: QueryRequest):
     user_query = req.question
+
+    # --- Domain Gate ---
+    # Check if the query is within Neurology / Neurosurgery before doing anything else.
+    if not domain_checker.is_in_domain(user_query):
+        return {"question": user_query, "answer": OUT_OF_SCOPE_MESSAGE}
+
+    
     rewritten = query_rewriter.rewrite(user_query)
     embedding = embedder.encode(user_query)
     faiss_results = faiss_retriever.retrieve(embedding, FAISS_TOP_K)
@@ -71,6 +90,7 @@ def query_rag(req: QueryRequest):
     filtered_chunks = slm_gatekeeper.filter_chunks(user_query, fused)
     blueprint = slm_blueprint.generate_blueprint(user_query)
     ranked_chunks = instruction_reranker.rerank(user_query, blueprint, filtered_chunks)
+    ranked_chunks = fused
     final_answer = llm.rephrase(user_query, ranked_chunks)
     return {
         "question": user_query,
@@ -79,142 +99,142 @@ def query_rag(req: QueryRequest):
         "retrieved_answers": ranked_chunks
     }
 
-@app.post("/chunkrag/detailed")
-def query_rag_detailed(req: QueryRequest):
-    """
-    Detailed RAG pipeline endpoint showing outputs at each stage.
-    Perfect for demonstrations and explaining the pipeline flow.
-    """
-    user_query = req.question
+# @app.post("/chunkrag/detailed")
+# def query_rag_detailed(req: QueryRequest):
+#     """
+#     Detailed RAG pipeline endpoint showing outputs at each stage.
+#     Perfect for demonstrations and explaining the pipeline flow.
+#     """
+#     user_query = req.question
     
-    # Stage 1: Original Query
-    stage1_output = {
-        "stage": "1. Original Query",
-        "description": "User's input question",
-        "output": {
-            "query": user_query
-        }
-    }
+#     # Stage 1: Original Query
+#     stage1_output = {
+#         "stage": "1. Original Query",
+#         "description": "User's input question",
+#         "output": {
+#             "query": user_query
+#         }
+#     }
     
-    # Stage 2: Query Rewriting & Embedding
-    rewritten_query = query_rewriter.rewrite(user_query)
-    query_embedding = embedder.encode(user_query)
-    stage2_output = {
-        "stage": "2. Query Rewriting & Embedding",
-        "description": "Rewrite query for better retrieval and generate embedding vector",
-        "output": {
-            "original_query": user_query,
-            "rewritten_query": rewritten_query,
-            "embedding_dimension": len(query_embedding[0]),
-            "embedding_sample": query_embedding[0][:5].tolist()  # Show first 5 dimensions
-        }
-    }
+#     # Stage 2: Query Rewriting & Embedding
+#     rewritten_query = query_rewriter.rewrite(user_query)
+#     query_embedding = embedder.encode(user_query)
+#     stage2_output = {
+#         "stage": "2. Query Rewriting & Embedding",
+#         "description": "Rewrite query for better retrieval and generate embedding vector",
+#         "output": {
+#             "original_query": user_query,
+#             "rewritten_query": rewritten_query,
+#             "embedding_dimension": len(query_embedding[0]),
+#             "embedding_sample": query_embedding[0][:5].tolist()  # Show first 5 dimensions
+#         }
+#     }
     
-    # Stage 3: Hybrid Retrieval (BM25 + FAISS + Fusion)
-    faiss_results = faiss_retriever.retrieve(query_embedding, FAISS_TOP_K)
-    bm25_results = bm25_retriever.retrieve(rewritten_query, BM25_TOP_K)
-    fused_results = rrf_fusion(faiss_results, bm25_results, RRF_K)[:FINAL_TOP_K]
-    stage3_output = {
-        "stage": "3. Hybrid Retrieval",
-        "description": "Retrieve relevant chunks using BM25 (keyword) and FAISS (semantic), then fuse with RRF",
-        "output": {
-            "faiss_retrieved": len(faiss_results),
-            "bm25_retrieved": len(bm25_results),
-            "fused_top_k": len(fused_results),
-            "fused_chunks": [
-                {
-                    "qa_id": chunk.get("qa_id"),
-                    "question": chunk.get("question", ""),
-                    "answer_preview": chunk.get("answer", "")[:200] + "...",
-                    "rrf_score": chunk.get("rrf_score", 0)
-                }
-                for chunk in fused_results
-            ]
-        }
-    }
+#     # Stage 3: Hybrid Retrieval (BM25 + FAISS + Fusion)
+#     faiss_results = faiss_retriever.retrieve(query_embedding, FAISS_TOP_K)
+#     bm25_results = bm25_retriever.retrieve(rewritten_query, BM25_TOP_K)
+#     fused_results = rrf_fusion(faiss_results, bm25_results, RRF_K)[:FINAL_TOP_K]
+#     stage3_output = {
+#         "stage": "3. Hybrid Retrieval",
+#         "description": "Retrieve relevant chunks using BM25 (keyword) and FAISS (semantic), then fuse with RRF",
+#         "output": {
+#             "faiss_retrieved": len(faiss_results),
+#             "bm25_retrieved": len(bm25_results),
+#             "fused_top_k": len(fused_results),
+#             "fused_chunks": [
+#                 {
+#                     "qa_id": chunk.get("qa_id"),
+#                     "question": chunk.get("question", ""),
+#                     "answer_preview": chunk.get("answer", "")[:200] + "...",
+#                     "rrf_score": chunk.get("rrf_score", 0)
+#                 }
+#                 for chunk in fused_results
+#             ]
+#         }
+#     }
     
-    # Stage 4: SLM 1 - Gatekeeper (Filter chunks)
-    filtered_chunks = slm_gatekeeper.filter_chunks(user_query, fused_results)
-    stage4_output = {
-        "stage": "4. SLM 1 - Gatekeeper",
-        "description": "Filter chunks using constraint-aware SLM to remove irrelevant or contradictory content",
-        "output": {
-            "input_chunks": len(fused_results),
-            "filtered_chunks": len(filtered_chunks),
-            "chunks_removed": len(fused_results) - len(filtered_chunks),
-            "passed_chunks": [
-                {
-                    "qa_id": chunk.get("qa_id"),
-                    "question": chunk.get("question", ""),
-                    "answer_preview": chunk.get("answer", "")[:200] + "...",
-                    "gate_decision": chunk.get("gate_decision", "PASS")
-                }
-                for chunk in filtered_chunks
-            ]
-        }
-    }
+#     # Stage 4: SLM 1 - Gatekeeper (Filter chunks)
+#     filtered_chunks = slm_gatekeeper.filter_chunks(user_query, fused_results)
+#     stage4_output = {
+#         "stage": "4. SLM 1 - Gatekeeper",
+#         "description": "Filter chunks using constraint-aware SLM to remove irrelevant or contradictory content",
+#         "output": {
+#             "input_chunks": len(fused_results),
+#             "filtered_chunks": len(filtered_chunks),
+#             "chunks_removed": len(fused_results) - len(filtered_chunks),
+#             "passed_chunks": [
+#                 {
+#                     "qa_id": chunk.get("qa_id"),
+#                     "question": chunk.get("question", ""),
+#                     "answer_preview": chunk.get("answer", "")[:200] + "...",
+#                     "gate_decision": chunk.get("gate_decision", "PASS")
+#                 }
+#                 for chunk in filtered_chunks
+#             ]
+#         }
+#     }
     
-    # Stage 5: SLM 2 - Blueprint Generator
-    blueprint = slm_blueprint.generate_blueprint(user_query)
-    stage5_output = {
-        "stage": "5. SLM 2 - Blueprint Generator",
-        "description": "Generate clinical blueprint outlining what a strong answer must contain",
-        "output": {
-            "blueprint": blueprint,
-            "num_requirements": len(blueprint) if isinstance(blueprint, list) else 1
-        }
-    }
+#     # Stage 5: SLM 2 - Blueprint Generator
+#     blueprint = slm_blueprint.generate_blueprint(user_query)
+#     stage5_output = {
+#         "stage": "5. SLM 2 - Blueprint Generator",
+#         "description": "Generate clinical blueprint outlining what a strong answer must contain",
+#         "output": {
+#             "blueprint": blueprint,
+#             "num_requirements": len(blueprint) if isinstance(blueprint, list) else 1
+#         }
+#     }
     
-    # Stage 6: Instruction-Following Re-ranker
-    ranked_chunks = instruction_reranker.rerank(user_query, blueprint, filtered_chunks)
-    stage6_output = {
-        "stage": "6. Instruction-Following Re-ranker",
-        "description": "Score and rank chunks based on blueprint guidance, return top 3",
-        "output": {
-            "input_chunks": len(filtered_chunks),
-            "output_top_k": len(ranked_chunks),
-            "ranked_chunks": [
-                {
-                    "rank": idx + 1,
-                    "qa_id": chunk.get("qa_id"),
-                    "question": chunk.get("question", ""),
-                    "answer_preview": chunk.get("answer", "")[:200] + "...",
-                    "rerank_score": chunk.get("rerank_score", 0)
-                }
-                for idx, chunk in enumerate(ranked_chunks)
-            ]
-        }
-    }
+#     # Stage 6: Instruction-Following Re-ranker
+#     ranked_chunks = instruction_reranker.rerank(user_query, blueprint, filtered_chunks)
+#     stage6_output = {
+#         "stage": "6. Instruction-Following Re-ranker",
+#         "description": "Score and rank chunks based on blueprint guidance, return top 3",
+#         "output": {
+#             "input_chunks": len(filtered_chunks),
+#             "output_top_k": len(ranked_chunks),
+#             "ranked_chunks": [
+#                 {
+#                     "rank": idx + 1,
+#                     "qa_id": chunk.get("qa_id"),
+#                     "question": chunk.get("question", ""),
+#                     "answer_preview": chunk.get("answer", "")[:200] + "...",
+#                     "rerank_score": chunk.get("rerank_score", 0)
+#                 }
+#                 for idx, chunk in enumerate(ranked_chunks)
+#             ]
+#         }
+#     }
     
-    # Stage 7: Final LLM - Generate Answer
-    final_answer = llm.rephrase(user_query, ranked_chunks)
-    stage7_output = {
-        "stage": "7. Final LLM - Answer Generation",
-        "description": "Generate comprehensive answer using top-ranked chunks",
-        "output": {
-            "final_answer": final_answer,
-            "chunks_used": len(ranked_chunks)
-        }
-    }
+#     # Stage 7: Final LLM - Generate Answer
+#     final_answer = llm.rephrase(user_query, ranked_chunks)
+#     stage7_output = {
+#         "stage": "7. Final LLM - Answer Generation",
+#         "description": "Generate comprehensive answer using top-ranked chunks",
+#         "output": {
+#             "final_answer": final_answer,
+#             "chunks_used": len(ranked_chunks)
+#         }
+#     }
     
-    # Return all stages
-    return {
-        "pipeline_stages": [
-            stage1_output,
-            stage2_output,
-            stage3_output,
-            stage4_output,
-            stage5_output,
-            stage6_output,
-            stage7_output
-        ],
-        "summary": {
-            "original_query": user_query,
-            "rewritten_query": rewritten_query,
-            "total_retrieved": len(fused_results),
-            "after_gatekeeper": len(filtered_chunks),
-            "final_top_k": len(ranked_chunks),
-            "final_answer": final_answer
-        }
-    }
+#     # Return all stages
+#     return {
+#         "pipeline_stages": [
+#             stage1_output,
+#             stage2_output,
+#             stage3_output,
+#             stage4_output,
+#             stage5_output,
+#             stage6_output,
+#             stage7_output
+#         ],
+#         "summary": {
+#             "original_query": user_query,
+#             "rewritten_query": rewritten_query,
+#             "total_retrieved": len(fused_results),
+#             "after_gatekeeper": len(filtered_chunks),
+#             "final_top_k": len(ranked_chunks),
+#             "final_answer": final_answer
+#         }
+#     }
 

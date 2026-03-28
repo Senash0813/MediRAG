@@ -23,7 +23,7 @@ USE_4BIT_QUANTIZATION = True  # Use 4-bit quantization on GPU to save VRAM
 # SLM1 Gatekeeper Configuration
 SLM1_BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct"  # This should have the correct Ollama model name
 SLM1_ADAPTER_PATH = str(BASE_DIR / "model_weights/slm1_lora_adapter_2")  # update this path to point to SLM 1 adapter
-SLM1_HF_TOKEN = "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"
+SLM1_HF_TOKEN = "HF_TOKEN"
 
 SLM2_BASE_MODEL = "meta-llama/Llama-3.2-3B-Instruct" 
 SLM2_ADAPTER_PATH = str(BASE_DIR / "model_weights/slm2-lora-adapter") # Update this path!
