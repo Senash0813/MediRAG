@@ -90,9 +90,22 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id;
+        if (account?.provider === 'google' && user.email) {
+          try {
+            const client = await clientPromise;
+            const doc = await client
+              .db('medirag')
+              .collection('users')
+              .findOne({ email: user.email });
+            token.id = doc?._id?.toString() ?? user.id;
+          } catch {
+            token.id = user.id;
+          }
+        } else {
+          token.id = user.id;
+        }
       }
       return token;
     },

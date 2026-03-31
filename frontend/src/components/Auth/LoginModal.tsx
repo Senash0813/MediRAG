@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { signIn } from 'next-auth/react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Mail, Lock, AlertCircle, X } from 'lucide-react';
@@ -14,20 +14,23 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: LoginModalProps) {
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Reset form when modal closes
-  useEffect(() => {
-    if (!isOpen) {
-      setEmail('');
-      setPassword('');
-      setError('');
-      setIsLoading(false);
-    }
-  }, [isOpen]);
+  const resetForm = useCallback(() => {
+    setEmail('');
+    setPassword('');
+    setError('');
+    setIsLoading(false);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    resetForm();
+    onClose();
+  }, [onClose, resetForm]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -45,12 +48,12 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose();
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) return null;
 
@@ -74,11 +77,11 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
         if (onSuccess) {
           onSuccess();
         }
-        onClose();
+        handleClose();
         // Refresh to update session
         window.location.reload();
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
       setIsLoading(false);
     }
@@ -88,7 +91,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
     setIsLoading(true);
     try {
       await signIn('google', { callbackUrl: '/' });
-    } catch (err) {
+    } catch {
       setError('Failed to sign in with Google');
       setIsLoading(false);
     }
@@ -96,7 +99,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      onClose();
+      handleClose();
     }
   };
 
@@ -116,7 +119,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
       >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${
             theme === 'dark'
               ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
@@ -129,7 +132,9 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
 
         {/* Content */}
         <div className="p-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+          <h2
+            className={`text-2xl font-bold mb-2 text-center ${isDark ? 'text-gray-100' : 'text-gray-900'}`}
+          >
             Welcome Back
           </h2>
          
@@ -137,8 +142,10 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
           {/* Error Message */}
           {error && (
             <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3 animate-in fade-in duration-300">
-              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              <AlertCircle
+                className={`w-5 h-5 shrink-0 mt-0.5 ${isDark ? 'text-red-400' : 'text-red-600'}`}
+              />
+              <p className={`text-sm ${isDark ? 'text-red-400' : 'text-red-600'}`}>{error}</p>
             </div>
           )}
 
@@ -147,7 +154,11 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full mb-4 flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
+            className={`w-full mb-4 flex items-center justify-center gap-3 px-6 py-3 border-2 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow ${
+              isDark
+                ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -175,7 +186,9 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
               <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+              <span
+                className={`px-4 ${isDark ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-500'}`}
+              >
                 Or continue with email
               </span>
             </div>
@@ -186,19 +199,21 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
             <div>
               <label
                 htmlFor="modal-email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                />
                 <input
                   id="modal-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="you@example.com"
                   disabled={isLoading}
                 />
@@ -208,19 +223,21 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
             <div>
               <label
                 htmlFor="modal-password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                />
                 <input
                   id="modal-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="••••••••"
                   disabled={isLoading}
                 />
@@ -230,21 +247,21 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           {/* Sign Up Link */}
-          <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className={`mt-6 text-center text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Don&apos;t have an account?{' '}
             <button
               onClick={() => {
-                onClose();
+                handleClose();
                 onSwitchToSignup();
               }}
-              className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
+              className={`font-medium transition-colors ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}
             >
               Sign up
             </button>
