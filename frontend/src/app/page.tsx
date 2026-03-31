@@ -5,8 +5,7 @@ import { Sidebar } from '@/components/Sidebar/Sidebar';
 import { Header } from '@/components/Header/Header';
 import { ChatArea } from '@/components/ChatArea/ChatArea';
 import { InputArea } from '@/components/InputArea/InputArea';
-import { LoginModal } from '@/components/LoginModal';
-import { SignupModal } from '@/components/SignupModal';
+import { LoginModal, SignupModal } from '@/components/Auth';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
@@ -171,12 +170,13 @@ export default function Home() {
     <div className={`flex h-screen font-sans overflow-hidden ${
       theme === 'dark' 
         ? 'bg-[#131314] text-[#e3e3e3]' 
-        : 'bg-white text-gray-900'
+        : 'bg-background text-gray-900'
     }`}>
-      <Sidebar 
-        isOpen={isSidebarOpen} 
+      <Sidebar
+        isOpen={isSidebarOpen}
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         onNewChat={handleNewChat}
+        onLoginClick={() => setIsLoginModalOpen(true)}
       />
       <main className="flex-1 flex flex-col relative overflow-hidden">
         <Header onLoginClick={() => setIsLoginModalOpen(true)} />

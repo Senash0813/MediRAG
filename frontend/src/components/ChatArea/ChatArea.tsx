@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, Heart, Stethoscope, Activity, Sparkles, Copy, Check, Moon, Sun } from 'lucide-react';
+import { Brain, Heart, Stethoscope, Activity, Sparkles, Copy, Check } from 'lucide-react';
 import { ClusterCard } from './ClusterCard';
 import { FormattedAnswer } from './FormattedAnswer';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -33,7 +33,7 @@ const loadingMessages = [
 export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQuestion, isLoading }: ChatAreaProps) => {
   const [currentLoadingMessage, setCurrentLoadingMessage] = useState(0);
   const startTimeRef = useRef<number | null>(null);
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const [copiedIndex, setCopiedIndex] = useState<{ type: 'question' | 'answer'; index: number } | null>(null);
 
   const handleCopy = async (text: string, type: 'question' | 'answer', index: number) => {
@@ -156,23 +156,6 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
               />
             ))}
           </div>
-
-          {/* Theme Toggle Button - Bottom Right */}
-          <button
-            onClick={toggleTheme}
-            className={`fixed bottom-8 right-8 p-3 rounded-full shadow-lg transition-all z-10 ${
-              theme === 'dark' 
-                ? 'bg-[#1e1f20] border border-[#3c4043] hover:bg-[#282a2c] text-[#e3e3e3]' 
-                : 'bg-white border border-gray-200 hover:bg-gray-100 text-gray-800'
-            }`}
-            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {theme === 'dark' ? (
-              <Moon className="w-5 h-5" />
-            ) : (
-              <Sun className="w-5 h-5" />
-            )}
-          </button>
         </>
       ) : (
         // Chat view - show messages at top, conversation flows down
