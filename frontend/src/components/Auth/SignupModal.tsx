@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { signIn } from 'next-auth/react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Mail, Lock, User, AlertCircle, CheckCircle, X, Check } from 'lucide-react';
@@ -20,6 +20,7 @@ interface SignupModalProps {
 
 export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: SignupModalProps) {
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,19 +34,21 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
   const passwordValidation = useMemo(() => validatePassword(password), [password]);
   const passwordRequirements = useMemo(() => getPasswordRequirements(password), [password]);
 
-  // Reset form when modal closes
-  useEffect(() => {
-    if (!isOpen) {
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setError('');
-      setSuccess(false);
-      setIsLoading(false);
-      setShowPasswordRequirements(false);
-    }
-  }, [isOpen]);
+  const resetForm = useCallback(() => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setError('');
+    setSuccess(false);
+    setIsLoading(false);
+    setShowPasswordRequirements(false);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    resetForm();
+    onClose();
+  }, [onClose, resetForm]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -63,12 +66,12 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose();
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) return null;
 
@@ -120,18 +123,18 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
         if (result?.error) {
           setError('Account created, please sign in manually');
           setTimeout(() => {
-            onClose();
+            handleClose();
             onSwitchToLogin();
           }, 2000);
         } else {
           if (onSuccess) {
             onSuccess();
           }
-          onClose();
+          handleClose();
           window.location.reload();
         }
       }, 1500);
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
       setIsLoading(false);
     }
@@ -141,7 +144,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
     setIsLoading(true);
     try {
       await signIn('google', { callbackUrl: '/' });
-    } catch (err) {
+    } catch {
       setError('Failed to sign in with Google');
       setIsLoading(false);
     }
@@ -149,7 +152,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      onClose();
+      handleClose();
     }
   };
 
@@ -169,7 +172,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
       >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className={`absolute top-4 right-4 p-2 rounded-full transition-colors z-10 ${
             theme === 'dark'
               ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
@@ -182,7 +185,9 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
 
         {/* Content */}
         <div className="p-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+          <h2
+            className={`text-2xl font-bold mb-2 text-center ${isDark ? 'text-gray-100' : 'text-gray-900'}`}
+          >
             Create Account
           </h2>
          
@@ -190,16 +195,20 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
           {/* Error Message */}
           {error && (
             <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3 animate-in fade-in duration-300">
-              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              <AlertCircle
+                className={`w-5 h-5 shrink-0 mt-0.5 ${isDark ? 'text-red-400' : 'text-red-600'}`}
+              />
+              <p className={`text-sm ${isDark ? 'text-red-400' : 'text-red-600'}`}>{error}</p>
             </div>
           )}
 
           {/* Success Message */}
           {success && (
             <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-3 animate-in fade-in duration-300">
-              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-green-600 dark:text-green-400">
+              <CheckCircle
+                className={`w-5 h-5 shrink-0 mt-0.5 ${isDark ? 'text-green-400' : 'text-green-600'}`}
+              />
+              <p className={`text-sm ${isDark ? 'text-green-400' : 'text-green-600'}`}>
                 Account created successfully! Signing you in...
               </p>
             </div>
@@ -210,7 +219,11 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading || success}
-            className="w-full mb-4 flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow"
+            className={`w-full mb-4 flex items-center justify-center gap-3 px-6 py-3 border-2 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow ${
+              isDark
+                ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -238,7 +251,9 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
               <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+              <span
+                className={`px-4 ${isDark ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-500'}`}
+              >
                 Or sign up with email
               </span>
             </div>
@@ -249,19 +264,21 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
             <div>
               <label
                 htmlFor="signup-name"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Full Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <User
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                />
                 <input
                   id="signup-name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="John Doe"
                   disabled={isLoading || success}
                 />
@@ -271,19 +288,21 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
             <div>
               <label
                 htmlFor="signup-email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                />
                 <input
                   id="signup-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="you@example.com"
                   disabled={isLoading || success}
                 />
@@ -293,12 +312,14 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
             <div>
               <label
                 htmlFor="signup-password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                />
                 <input
                   id="signup-password"
                   type="password"
@@ -306,7 +327,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={() => setShowPasswordRequirements(true)}
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="••••••••"
                   disabled={isLoading || success}
                 />
@@ -316,7 +337,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
               {password && (
                 <div className="mt-2 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                    <span className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                       Password strength:
                     </span>
                     <span className={`text-xs font-medium ${
@@ -339,21 +360,29 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
               {/* Password Requirements */}
               {showPasswordRequirements && password && (
                 <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-2 animate-in fade-in duration-200">
-                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <p className={`text-xs font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
                     Password must contain:
                   </p>
-                  {passwordRequirements.map((req, index) => (
+                  {passwordRequirements.map((req) => (
                     <div key={req.label} className="flex items-center gap-2">
                       {req.met ? (
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-green-500 shrink-0" />
                       ) : (
-                        <X className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                        <X
+                          className={`w-4 h-4 shrink-0 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                        />
                       )}
-                      <span className={`text-xs ${
-                        req.met 
-                          ? 'text-green-600 dark:text-green-400' 
-                          : 'text-gray-600 dark:text-gray-400'
-                      }`}>
+                      <span
+                        className={`text-xs ${
+                          req.met
+                            ? isDark
+                              ? 'text-green-400'
+                              : 'text-green-600'
+                            : isDark
+                              ? 'text-gray-300'
+                              : 'text-gray-600'
+                        }`}
+                      >
                         {req.label}
                       </span>
                     </div>
@@ -365,19 +394,21 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
             <div>
               <label
                 htmlFor="signup-confirm-password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className={`block text-sm font-medium mb-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
               >
                 Confirm Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock
+                  className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-300' : 'text-gray-400'}`}
+                />
                 <input
                   id="signup-confirm-password"
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="••••••••"
                   disabled={isLoading || success}
                 />
@@ -388,14 +419,14 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                   {password === confirmPassword ? (
                     <>
                       <Check className="w-4 h-4 text-green-500" />
-                      <span className="text-xs text-green-600 dark:text-green-400">
+                      <span className={`text-xs ${isDark ? 'text-green-400' : 'text-green-600'}`}>
                         Passwords match
                       </span>
                     </>
                   ) : (
                     <>
                       <X className="w-4 h-4 text-red-500" />
-                      <span className="text-xs text-red-600 dark:text-red-400">
+                      <span className={`text-xs ${isDark ? 'text-red-400' : 'text-red-600'}`}>
                         Passwords do not match
                       </span>
                     </>
@@ -414,21 +445,21 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                 !name ||
                 !email
               }
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Creating account...' : success ? 'Success!' : 'Create Account'}
             </button>
           </form>
 
           {/* Sign In Link */}
-          <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className={`mt-6 text-center text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
             Already have an account?{' '}
             <button
               onClick={() => {
-                onClose();
+                handleClose();
                 onSwitchToLogin();
               }}
-              className="font-medium text-purple-600 dark:text-purple-400 hover:text-purple-500 dark:hover:text-purple-300 transition-colors"
+              className={`font-medium transition-colors ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}
             >
               Sign in
             </button>

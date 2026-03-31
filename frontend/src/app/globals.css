@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
+/* Light theme default: soft off-white (not pure #fff). Dark vars when html.dark is set by ThemeContext. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f4f5;
+  --foreground: #18181b;
+}
+
+html.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -10,13 +16,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -62,7 +61,7 @@ body {
 }
 
 .fade-in {
-  animation: fade-in 0.5s ease-out;
+  animation: fade-in 0.3s ease-out;
 }
 
 .slide-in-from-bottom-4 {
@@ -70,7 +69,7 @@ body {
 }
 
 .zoom-in-95 {
-  animation: zoom-in 1s ease-out;
+  animation: zoom-in 0.3s ease-out;
 }
 
 .duration-500 {
