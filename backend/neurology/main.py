@@ -90,7 +90,7 @@ def query_rag(req: QueryRequest):
     filtered_chunks = slm_gatekeeper.filter_chunks(user_query, fused)
     blueprint = slm_blueprint.generate_blueprint(user_query)
     ranked_chunks = instruction_reranker.rerank(user_query, blueprint, filtered_chunks)
-    ranked_chunks = fused
+    # ranked_chunks = fused
     final_answer = llm.rephrase(user_query, ranked_chunks)
     return {
         "question": user_query,
