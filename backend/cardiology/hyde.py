@@ -66,9 +66,12 @@ def generate_hypothetical_docs(
         outputs = hyde_model.generate(
             **inputs,
             do_sample=True,
-            num_beams=4,
+            num_beams=1,  # Disable beam search for diverse sampling
             num_return_sequences=num_return_sequences,
-            temperature=0.7,
+            repetition_penalty=1.2,  # Prevent repetitive text
+            temperature=0.9,  # Higher temperature for more diversity
+            top_p=0.92,  # Nucleus sampling
+            top_k=50,  # Top-k sampling
             max_new_tokens=max_new_tokens,
         )
 
