@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useSession } from 'next-auth/react';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
 import { Header } from '@/components/Header/Header';
 import { ChatArea } from '@/components/ChatArea/ChatArea';
@@ -24,6 +25,7 @@ type QueryRequestPayload =
   | { question: string };
 
 export default function Home() {
+  const { data: session, status } = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedCluster, setSelectedCluster] = useState<number | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -31,7 +33,27 @@ export default function Home() {
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [activeConversationId, setActiveConversationId] = useState<string | null>(
+    null
+  );
+  const activeConversationIdRef = useRef<string | null>(null);
+  const [historyVersion, setHistoryVersion] = useState(0);
   const { theme } = useTheme();
+
+  const setConversationId = useCallback((id: string | null) => {
+    activeConversationIdRef.current = id;
+    setActiveConversationId(id);
+  }, []);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      setConversationId(null);
+      setMessages([]);
+      setPendingQuestion(null);
+      setSelectedCluster(null);
+      setIsLoading(false);
+    }
+  }, [status, setConversationId]);
 
   // Keep backend routing in one place to avoid accidental mismatches.
   // NOTE: Cluster 4 must use the primary care backend on port 8003.
@@ -55,9 +77,10 @@ export default function Home() {
   const handleClusterSelect = (clusterNumber: number) => {
     setSelectedCluster(selectedCluster === clusterNumber ? null : clusterNumber);
     // Clear messages and pending question when switching clusters
-    if (selectedCluster !== clusterNumber) {
+      if (selectedCluster !== clusterNumber) {
       setMessages([]);
       setPendingQuestion(null);
+      setConversationId(null);
     }
   };
 
@@ -65,6 +88,78 @@ export default function Home() {
     setSelectedCluster(null);
     setMessages([]);
     setPendingQuestion(null);
+    setConversationId(null);
+  };
+
+  const loadConversation = useCallback(
+    async (id: string) => {
+      if (status !== 'authenticated') return;
+      const r = await fetch(`/api/conversations/${id}`);
+      if (!r.ok) return;
+      const data = (await r.json()) as {
+        id: string;
+        cluster: number | null;
+        messages: Array<{
+          question: string;
+          answer: string;
+          timestamp: string;
+          verificationLevel?: number;
+        }>;
+      };
+      const cluster =
+        typeof data.cluster === 'number' && Number.isFinite(data.cluster)
+          ? data.cluster
+          : null;
+      setConversationId(data.id);
+      setSelectedCluster(cluster);
+      setMessages(
+        (data.messages || []).map((m) => ({
+          question: m.question,
+          answer: m.answer,
+          timestamp: new Date(m.timestamp),
+          cluster: cluster ?? 0,
+          verificationLevel: m.verificationLevel,
+        }))
+      );
+      setPendingQuestion(null);
+    },
+    [status, setConversationId]
+  );
+
+  const persistExchange = async (
+    question: string,
+    answer: string,
+    cluster: number,
+    verificationLevel?: number
+  ) => {
+    if (status !== 'authenticated' || !session?.user?.id) return;
+    try {
+      let cid = activeConversationIdRef.current;
+      if (!cid) {
+        const res = await fetch('/api/conversations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cluster }),
+        });
+        if (!res.ok) throw new Error('Failed to create conversation');
+        const created = (await res.json()) as { id: string };
+        cid = created.id;
+        setConversationId(cid);
+      }
+      const res = await fetch(`/api/conversations/${cid}/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          answer,
+          ...(verificationLevel !== undefined ? { verificationLevel } : {}),
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to save message');
+      setHistoryVersion((v) => v + 1);
+    } catch (e) {
+      console.error('Failed to persist conversation:', e);
+    }
   };
 
   const getSelectedClusterName = () => {
@@ -119,7 +214,7 @@ export default function Home() {
       
       if (selectedCluster === 4) {
         // Cluster 4 (Primary Care) returns: direct_answer, evidence_summary, limitations
-        formattedAnswer = data.direct_answer;
+        formattedAnswer = data.direct_answer ?? '';
         if (data.evidence_summary) {
           formattedAnswer += '\n\n**Evidence Summary:**\n' + data.evidence_summary;
         }
@@ -144,10 +239,16 @@ export default function Home() {
           answer: formattedAnswer,
           timestamp: new Date(),
           cluster: selectedCluster,
-			verificationLevel,
+          verificationLevel,
         },
       ]);
       setPendingQuestion(null);
+      void persistExchange(
+        question,
+        formattedAnswer,
+        selectedCluster,
+        verificationLevel
+      );
     } catch (error) {
       console.error('Error sending message:', error);
       // Add error message and clear pending question
@@ -167,7 +268,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`flex h-screen font-sans overflow-hidden ${
+    <div className={`flex h-screen min-h-0 font-sans overflow-hidden ${
       theme === 'dark' 
         ? 'bg-[#131314] text-[#e3e3e3]' 
         : 'bg-background text-gray-900'
@@ -177,6 +278,9 @@ export default function Home() {
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         onNewChat={handleNewChat}
         onLoginClick={() => setIsLoginModalOpen(true)}
+        historyVersion={historyVersion}
+        activeConversationId={activeConversationId}
+        onOpenConversation={loadConversation}
       />
       <main className="flex-1 flex flex-col relative overflow-hidden">
         <Header onLoginClick={() => setIsLoginModalOpen(true)} />
