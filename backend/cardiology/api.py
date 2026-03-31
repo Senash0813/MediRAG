@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import numpy as np
 import os
 
@@ -21,15 +21,11 @@ def _warm_vectorstore() -> None:
     load_vectorstore()
 
 # Allow browser requests from the frontend (development origins)
+# Permissive CORS for local demo - allows file:// URLs and any localhost port
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3001",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],  # Allow all origins for demo purposes
+    allow_credentials=False,  # Must be False when using wildcard origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -209,3 +205,255 @@ def run_query(req: QueryRequest):
         )
 
     return QueryResponse(answer=answer, retrieved_docs=retrieved_docs_text)
+
+
+# ========================================
+# STAGED PIPELINE API FOR DEMONSTRATION
+# ========================================
+
+class StageOutput(BaseModel):
+    """Output from a single stage of the pipeline."""
+    stage_name: str
+    stage_number: int
+    description: str
+    data: Dict[str, Any]
+
+
+class StagedQueryResponse(BaseModel):
+    """Complete staged pipeline output."""
+    query: str
+    stages: List[StageOutput]
+    final_answer: str
+    is_in_domain: bool
+
+
+@app.post("/query_stages", response_model=StagedQueryResponse)
+def run_query_stages(req: QueryRequest):
+    """
+    Detailed staged pipeline execution for demonstration purposes.
+    
+    Returns outputs from each stage:
+    1. Input query
+    2. Domain gate
+    3. inBEDDER + Projection Head
+    4. HyDE Hypothetical Document generation
+    5. Embedding fusion
+    6. FAISS Retrieval
+    7. Answer generation
+    """
+    if not req.query or not req.query.strip():
+        raise HTTPException(status_code=400, detail="Empty query")
+
+    stages = []
+    
+    # ==================== STAGE 1: INPUT QUERY ====================
+    stages.append(StageOutput(
+        stage_number=1,
+        stage_name="Input Query",
+        description="User's input question to the medical RAG system",
+        data={
+            "query": req.query,
+            "query_length": len(req.query),
+            "query_word_count": len(req.query.split())
+        }
+    ))
+    
+    # ==================== STAGE 2: DOMAIN GATE ====================
+    vectorstore = load_vectorstore()
+    
+    max_distance_text = (
+        req.domain_max_distance_text
+        if req.domain_max_distance_text is not None
+        else _default_domain_max_distance_text()
+    )
+    
+    in_domain_text, best_score_text = _domain_gate_text(
+        vectorstore, req.query, max_distance=max_distance_text
+    )
+    
+    stages.append(StageOutput(
+        stage_number=2,
+        stage_name="Domain Gate",
+        description="Determines if the query is within cardiology domain using FAISS similarity",
+        data={
+            "is_in_domain": in_domain_text,
+            "best_similarity_score": float(best_score_text) if best_score_text is not None else None,
+            "threshold": float(max_distance_text),
+            "decision": "IN_DOMAIN" if in_domain_text else "OUT_OF_DOMAIN",
+            "explanation": (
+                f"Query is considered {'IN' if in_domain_text else 'OUT OF'} domain. "
+                f"Best score: {best_score_text:.4f}, threshold: {max_distance_text:.4f}" 
+                if best_score_text is not None 
+                else "Domain gate check completed"
+            )
+        }
+    ))
+    
+    # If out of domain, return early
+    if not in_domain_text:
+        out_of_domain_answer = generate_out_of_domain_answer(req.query)
+        return StagedQueryResponse(
+            query=req.query,
+            stages=stages,
+            final_answer=out_of_domain_answer,
+            is_in_domain=False
+        )
+    
+    # ==================== STAGE 3: inBEDDER + PROJECTION HEAD ====================
+    proj_emb = embed_and_project(req.query)
+    proj_emb = l2_normalize(np.array(proj_emb))
+    
+    stages.append(StageOutput(
+        stage_number=3,
+        stage_name="inBEDDER + Projection Head",
+        description="Query embedding using InBEDDER model with learned projection to target space",
+        data={
+            "embedding_dimension": int(proj_emb.shape[0]),
+            "embedding_norm": float(np.linalg.norm(proj_emb)),
+            "embedding_sample": proj_emb[:10].tolist(),  # First 10 dimensions for preview
+            "model": "InBEDDER-RoBERTa-Large",
+            "projection": "768-d linear projection head",
+            "explanation": f"Generated {proj_emb.shape[0]}-dimensional normalized embedding using InBEDDER encoder with trained projection layer"
+        }
+    ))
+    
+    # ==================== STAGE 4: HyDE ====================
+    hyde_emb, hyde_docs = generate_hypothetical_docs(req.query, num_return_sequences=4)
+    hyde_emb = l2_normalize(np.array(hyde_emb))
+    
+    # Deduplicate hypothetical documents for display only 
+    # Uses similarity-based deduplication to catch near-duplicates
+    unique_hyde_docs = []
+    for doc in hyde_docs:
+        # Extract just the generated content (after the instruction prefix)
+        # Instruction format: "Represent the cardiology document for retrieval:\n<content>"
+        content = doc.split('\n', 1)[1] if '\n' in doc else doc
+        
+        # Check if this content is substantially different from existing ones
+        is_unique = True
+        for existing_doc in unique_hyde_docs:
+            existing_content = existing_doc.split('\n', 1)[1] if '\n' in existing_doc else existing_doc
+            
+            # Compare first 150 chars to determine similarity (catches near-duplicates)
+            # Strip whitespace to ignore formatting differences
+            if content[:150].strip() == existing_content[:150].strip():
+                is_unique = False
+                break
+        
+        if is_unique:
+            unique_hyde_docs.append(doc)
+    
+    stages.append(StageOutput(
+        stage_number=4,
+        stage_name="HyDE - Hypothetical Document Generation",
+        description="Generate hypothetical medical documents and embed them using Instructor model",
+        data={
+            "num_hypothetical_docs_generated": len(hyde_docs),
+            "num_unique_docs": len(unique_hyde_docs),
+            "hypothetical_documents": [doc[:200] + "..." if len(doc) > 200 else doc for doc in unique_hyde_docs],
+            "hyde_embedding_dimension": int(hyde_emb.shape[0]),
+            "hyde_embedding_norm": float(np.linalg.norm(hyde_emb)),
+            "hyde_embedding_sample": hyde_emb[:10].tolist(),
+            "model": "sciFive-cardiology-generator + Instructor-large",
+            "explanation": f"Generated {len(hyde_docs)} hypothetical documents ({len(unique_hyde_docs)} unique), embedded each, and averaged to create HyDE embedding"
+        }
+    ))
+    
+    # ==================== STAGE 5: EMBEDDING FUSION ====================
+    alpha = req.alpha if req.alpha is not None else 0.5
+    final_emb = fuse_embeddings(proj_query=proj_emb, hyde_query=hyde_emb, alpha=alpha)
+    final_emb = l2_normalize(np.array(final_emb))
+    
+    stages.append(StageOutput(
+        stage_number=5,
+        stage_name="Embedding Fusion",
+        description="Combine inBEDDER and HyDE embeddings using weighted fusion",
+        data={
+            "fusion_alpha": float(alpha),
+            "inbedder_weight": float(alpha),
+            "hyde_weight": float(1 - alpha),
+            "fused_embedding_dimension": int(final_emb.shape[0]),
+            "fused_embedding_norm": float(np.linalg.norm(final_emb)),
+            "fused_embedding_sample": final_emb[:10].tolist(),
+            "explanation": f"Fused embeddings with α={alpha:.2f} (InBEDDER) and (1-α)={1-alpha:.2f} (HyDE), then L2-normalized"
+        }
+    ))
+    
+    # ==================== STAGE 6: FAISS RETRIEVAL ====================
+    k = req.k if req.k is not None else 5
+    
+    try:
+        docs_and_scores = vectorstore.similarity_search_with_score_by_vector(
+            embedding=final_emb.tolist(),
+            k=k
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"FAISS retrieval error: {e}")
+    
+    if not docs_and_scores:
+        stages.append(StageOutput(
+            stage_number=6,
+            stage_name="FAISS Retrieval",
+            description="Retrieve top-k most similar documents from vector database",
+            data={
+                "num_retrieved": 0,
+                "retrieved_documents": [],
+                "explanation": "No documents retrieved from FAISS index"
+            }
+        ))
+        
+        return StagedQueryResponse(
+            query=req.query,
+            stages=stages,
+            final_answer="No relevant documents found.",
+            is_in_domain=True
+        )
+    
+    retrieved_items = []
+    for rank, (doc, score) in enumerate(docs_and_scores, start=1):
+        retrieved_items.append({
+            "rank": rank,
+            "score": float(score),
+            "content_preview": doc.page_content[:300] + "..." if len(doc.page_content) > 300 else doc.page_content,
+            "content_length": len(doc.page_content),
+            "metadata": doc.metadata if hasattr(doc, 'metadata') else {}
+        })
+    
+    stages.append(StageOutput(
+        stage_number=6,
+        stage_name="FAISS Retrieval",
+        description="Retrieve top-k most similar documents from cardiology knowledge base",
+        data={
+            "k": k,
+            "num_retrieved": len(docs_and_scores),
+            "retrieved_documents": retrieved_items,
+            "average_score": float(np.mean([score for _, score in docs_and_scores])),
+            "best_score": float(docs_and_scores[0][1]),
+            "explanation": f"Retrieved top {k} documents using FAISS L2 distance similarity search"
+        }
+    ))
+    
+    # ==================== STAGE 7: ANSWER GENERATION ====================
+    docs_only = [doc for doc, _ in docs_and_scores]
+    final_answer = generate_final_answer(req.query, docs_only)
+    
+    stages.append(StageOutput(
+        stage_number=7,
+        stage_name="Answer Generation",
+        description="Generate final answer using LLM with retrieved context",
+        data={
+            "answer": final_answer,
+            "answer_length": len(final_answer),
+            "answer_word_count": len(final_answer.split()),
+            "num_context_docs": len(docs_only),
+            "model": "Ollama (phi:2.7b)",
+            "explanation": f"Generated answer using {len(docs_only)} retrieved documents as context"
+        }
+    ))
+    
+    return StagedQueryResponse(
+        query=req.query,
+        stages=stages,
+        final_answer=final_answer,
+        is_in_domain=True
+    )

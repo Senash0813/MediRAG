@@ -1,1 +1,3 @@
 uvicorn api:app --host 0.0.0.0 --port 8001 --reload
+
+What are some of the factors that have been found to be associated with left ventricular hypertrophy (LVH) in patients with hypertension, cardiac disease, postmenopausal women, or the general population?
