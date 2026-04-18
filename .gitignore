@@ -9,6 +9,7 @@ backend/cardiology/models/
 backend/cardiology/vectorstore/
 backend/cardiology/qa_pairs.json
 backend/cardiology/venv
+backend/cardiology/.env
 
 backend/internal_medicine/miriad_balanced_300.json
 backend/internal_medicine/.venv/
