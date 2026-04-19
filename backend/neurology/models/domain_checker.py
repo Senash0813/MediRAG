@@ -1,70 +1,70 @@
 # models/domain_checker.py
-import requests
-import json
+
+INTENT_IN_SCOPE = "IN_SCOPE"
+INTENT_OUT_OF_SCOPE = "OUT_OF_SCOPE"
+INTENT_CHITCHAT = "CHITCHAT"
 
 
 class DomainChecker:
     """
-    Uses the Ollama LLM to determine whether a user query is within
-    the domain of Neurology and Neurosurgery before entering the RAG pipeline.
+    Uses the shared Phi model to classify user intent into one of three categories:
+    IN_SCOPE (neurology/neurosurgery), OUT_OF_SCOPE, or CHITCHAT.
     """
 
-    def __init__(self, model_name: str, base_url: str):
-        self.model_name = model_name
-        self.base_url = base_url.rstrip("/")
+    def __init__(self, shared_phi):
+        self.phi = shared_phi
 
-    def is_in_domain(self, query: str) -> bool:
+    def classify_intent(self, query: str) -> str:
         """
-        Returns True if the query is related to Neurology or Neurosurgery,
-        False otherwise.
+        Returns one of: IN_SCOPE, OUT_OF_SCOPE, CHITCHAT.
+        Fails open to IN_SCOPE on any error.
         """
-        prompt = f"""You are a strict domain classifier for a medical AI assistant that specializes exclusively in Neurology and Neurosurgery.
+        prompt = f"""You are a strict intent classifier for a medical AI assistant that specializes exclusively in Neurology and Neurosurgery.
 
-Your task: Decide whether the user's question is within the domain of Neurology or Neurosurgery.
+Your task: Classify the user's message into exactly one of three categories.
 
-Domain includes (but is not limited to):
-- Neurological diseases and disorders (e.g. epilepsy, stroke, Parkinson's, multiple sclerosis, dementia, migraines, neuropathy)
-- Neurosurgical conditions and procedures (e.g. brain tumors, spinal surgery, deep brain stimulation, aneurysm clipping, craniotomy)
-- Neuroanatomy and neurophysiology
-- Diagnostic workup for neurological symptoms (e.g. headache, seizure, weakness, numbness, tremor, gait disturbance)
-- Neuro-imaging interpretation (MRI, CT brain/spine)
-- Cerebrospinal fluid analysis
-- Neuro-oncology, neurovascular conditions, neuroinfectious disease
+Categories:
+- IN_SCOPE: The message is a medical question about Neurology or Neurosurgery.
+  Examples: neurological diseases (epilepsy, stroke, Parkinson's, MS, dementia, migraines), neurosurgical conditions/procedures (brain tumors, spinal surgery, aneurysm), neuroanatomy, neuro-imaging, CSF analysis, neurological symptoms (headache, seizure, weakness, tremor).
 
-Out of domain includes:
-- General medicine topics unrelated to neurology (e.g. diabetes management, cardiac conditions, dermatology)
-- Non-medical questions (e.g. coding, history, geography, recipes, sports)
-- Mental health / psychiatry (unless directly overlapping with neurology)
+- OUT_OF_SCOPE: The message is a question or request that is not about Neurology/Neurosurgery.
+  Examples: diabetes, cardiology, dermatology, coding, geography, sports, recipes, general knowledge.
 
-User question: "{query}"
+- CHITCHAT: The message is casual conversation with no medical question intent.
+  Examples: greetings ("hi", "hello", "how are you"), thanks ("thank you"), farewells ("bye"), compliments, or small talk.
 
-Respond with ONLY a single word: YES if in domain, NO if out of domain. No explanation, no punctuation, just YES or NO."""
+User message: "{query}"
+
+Respond with ONLY one word: IN_SCOPE, OUT_OF_SCOPE, or CHITCHAT. No explanation, no punctuation.
+Answer:"""
 
         try:
-            response = requests.post(
-                f"{self.base_url}/api/generate",
-                json={
-                    "model": self.model_name,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.0,   # Deterministic — no creativity needed
-                        "num_predict": 5,     # We only need one word
-                    }
-                },
-                timeout=30
-            )
-            response.raise_for_status()
-            result = response.json()
-            answer = result.get("response", "").strip().upper()
-            # Accept YES even if model adds minor noise like "YES." or "YES\n"
-            return answer.startswith("YES")
+            answer = self.phi.generate(prompt, max_new_tokens=10, temperature=0.0).upper()
 
-        except requests.exceptions.RequestException as e:
-            # If Ollama is unreachable, fail open (allow query through)
-            # so the pipeline doesn't break on a connectivity issue
-            print(f"[DomainChecker] Warning: Ollama request failed: {e}. Allowing query through.")
-            return True
-        except (json.JSONDecodeError, KeyError) as e:
-            print(f"[DomainChecker] Warning: Unexpected response format: {e}. Allowing query through.")
-            return True
+            if answer.startswith("CHITCHAT"):
+                return INTENT_CHITCHAT
+            if answer.startswith("OUT_OF_SCOPE"):
+                return INTENT_OUT_OF_SCOPE
+            return INTENT_IN_SCOPE
+
+        except Exception as e:
+            print(f"[DomainChecker] Warning: classify_intent failed: {e}. Allowing query through.")
+            return INTENT_IN_SCOPE
+
+    def generate_chitchat_response(self, query: str) -> str:
+        """
+        Generates a friendly conversational reply for chitchat messages.
+        """
+        prompt = f"""You are MediRAG, a friendly AI assistant specialized in Neurology and Neurosurgery.
+The user has sent you a casual message. Respond in a warm, concise, and friendly way.
+Naturally let them know you are here to help with neurology or neurosurgery questions when they are ready.
+
+User message: "{query}"
+
+Your response:"""
+
+        try:
+            return self.phi.generate(prompt, max_new_tokens=80, temperature=0.7)
+        except Exception as e:
+            print(f"[DomainChecker] Warning: generate_chitchat_response failed: {e}.")
+            return "Hello! I'm MediRAG, your Neurology and Neurosurgery assistant. Feel free to ask me any neurology-related questions!"
