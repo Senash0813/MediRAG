@@ -82,3 +82,11 @@ export const landingTestimonials = [
     org: 'Public university',
   },
 ] as const;
+
+export const landingDevelopers = {
+  title: 'Meet the team',
+  paragraphs: [
+    'MediRAG is built by engineers and clinical collaborators who care about safe, evidence-grounded tooling. We work across retrieval, evaluation, and product so each pipeline stays aligned with how specialists actually search and reason.',
+    'We iterate closely with early adopters in hospitals and digital health—your feedback shapes routing, transparency, and what “good enough” means for medical RAG in the real world.',
+  ],
+} as const;

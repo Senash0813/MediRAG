@@ -5,6 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { LandingHeader } from './LandingHeader';
 import { LandingIntro } from './LandingIntro';
 import { LandingComments } from './LandingComments';
+import { LandingDevelopers } from './LandingDevelopers';
 import { LandingFooter } from './LandingFooter';
 
 export function LandingView() {
@@ -13,7 +14,7 @@ export function LandingView() {
 
   return (
     <div
-      className={`min-h-screen w-full font-sans scroll-smooth ${
+      className={`min-h-screen w-full font-sans ${
         isDark
           ? 'bg-[#131314] text-[#e3e3e3] selection:bg-white/20 selection:text-white'
           : 'bg-[#fcfcfc] text-[#050505] selection:bg-black selection:text-white'
@@ -22,6 +23,7 @@ export function LandingView() {
       <LandingHeader />
       <LandingIntro />
       <LandingComments />
+      <LandingDevelopers />
       <LandingFooter />
     </div>
   );

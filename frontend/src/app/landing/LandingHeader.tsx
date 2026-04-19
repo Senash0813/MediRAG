@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { smoothScrollToHash } from '@/lib/smoothScrollToHash';
 
 type NavKey = 'pipelines' | 'voices' | 'developers';
 
@@ -23,6 +24,17 @@ export function LandingHeader() {
   const onNavClick = (key: NavKey) => {
     setActiveNav(key);
     setOpen(false);
+  };
+
+  const onSectionLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    key: NavKey
+  ) => {
+    const href = e.currentTarget.getAttribute('href');
+    if (!href?.startsWith('#')) return;
+    e.preventDefault();
+    smoothScrollToHash(href);
+    onNavClick(key);
   };
 
   const mobileNavLink = (key: NavKey) =>
@@ -57,21 +69,21 @@ export function LandingHeader() {
               <a
                 href="#pipelines"
                 className={`${navLinkClass} ${navLinkActiveClass(activeNav, 'pipelines')}`}
-                onClick={() => onNavClick('pipelines')}
+                onClick={(e) => onSectionLinkClick(e, 'pipelines')}
               >
                 What is it?
               </a>
               <a
                 href="#voices"
                 className={`${navLinkClass} ${navLinkActiveClass(activeNav, 'voices')}`}
-                onClick={() => onNavClick('voices')}
+                onClick={(e) => onSectionLinkClick(e, 'voices')}
               >
                 Voices
               </a>
               <a
                 href="#developers"
                 className={`${navLinkClass} ${navLinkActiveClass(activeNav, 'developers')}`}
-                onClick={() => onNavClick('developers')}
+                onClick={(e) => onSectionLinkClick(e, 'developers')}
               >
                 Meet Developers
               </a>
@@ -110,21 +122,21 @@ export function LandingHeader() {
             <a
               href="#pipelines"
               className={mobileNavLink('pipelines')}
-              onClick={() => onNavClick('pipelines')}
+              onClick={(e) => onSectionLinkClick(e, 'pipelines')}
             >
               Pipelines
             </a>
             <a
               href="#voices"
               className={mobileNavLink('voices')}
-              onClick={() => onNavClick('voices')}
+              onClick={(e) => onSectionLinkClick(e, 'voices')}
             >
               Voices
             </a>
             <a
               href="#developers"
               className={mobileNavLink('developers')}
-              onClick={() => onNavClick('developers')}
+              onClick={(e) => onSectionLinkClick(e, 'developers')}
             >
               Meet Developers
             </a>

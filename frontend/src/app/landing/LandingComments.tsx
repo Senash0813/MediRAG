@@ -1,12 +1,18 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { landingTestimonials } from './content';
 import { landingCardSurfaceClass, landingMutedSubtitleClass } from './theme';
 
 const COMMENTS_PER_PAGE = 4;
+
+/** Deterministic avatar art per person (SVG from DiceBear). */
+function testimonialAvatarSrc(seed: string): string {
+  return `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(seed)}`;
+}
 
 export function LandingComments() {
   const { theme } = useTheme();
@@ -90,17 +96,29 @@ export function LandingComments() {
               >
                 “{t.quote}”
               </p>
-              <footer className="shrink-0 pt-2">
-                <div
-                  className={`font-semibold text-[15px] ${
-                    isDark ? 'text-white' : 'text-gray-900'
+              <footer className="flex shrink-0 items-start gap-3 pt-2">
+                <Image
+                  src={testimonialAvatarSrc(t.name)}
+                  alt=""
+                  width={44}
+                  height={44}
+                  className={`h-11 w-11 shrink-0 rounded-full object-cover ${
+                    isDark ? 'ring-1 ring-white/15' : 'ring-1 ring-black/10'
                   }`}
-                >
-                  {t.name}
-                </div>
-                <div className={`text-[14px] font-medium mt-1 ${subtitle}`}>
-                  {t.role}
-                  {t.org ? ` · ${t.org}` : ''}
+                  unoptimized
+                />
+                <div className="min-w-0 flex-1">
+                  <div
+                    className={`font-semibold text-[15px] ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}
+                  >
+                    {t.name}
+                  </div>
+                  <div className={`text-[14px] font-medium mt-1 ${subtitle}`}>
+                    {t.role}
+                    {t.org ? ` · ${t.org}` : ''}
+                  </div>
                 </div>
               </footer>
             </blockquote>
