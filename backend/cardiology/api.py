@@ -9,7 +9,15 @@ from embedder import embed_and_project
 from hyde import generate_hypothetical_docs
 from fusion import fuse_embeddings
 from retriever import load_vectorstore
-from main import generate_final_answer, generate_out_of_domain_answer, l2_normalize
+from main import (
+    generate_final_answer,
+    generate_out_of_domain_answer,
+    generate_general_intent_answer,
+    generate_greeting_answer,
+    detect_general_intent,
+    is_greeting_intent,
+    l2_normalize,
+)
 
 app = FastAPI(title="MediRAG Cardiology API")
 
@@ -127,6 +135,11 @@ def run_query(req: QueryRequest):
     if not req.query or not req.query.strip():
         raise HTTPException(status_code=400, detail="Empty query")
 
+    # Short general intents (greeting/help/identity/goodbye) should not trigger domain gating or retrieval.
+    intent = detect_general_intent(req.query)
+    if intent is not None:
+        return QueryResponse(answer=generate_general_intent_answer(intent), retrieved_docs=[])
+
     # Embedding + projection (your InBEDDER-based semantic representation)
     proj_emb = embed_and_project(req.query)
     proj_emb = l2_normalize(np.array(proj_emb))
@@ -243,6 +256,38 @@ def run_query_stages(req: QueryRequest):
     """
     if not req.query or not req.query.strip():
         raise HTTPException(status_code=400, detail="Empty query")
+
+    # General intents: return a canned response and skip the pipeline.
+    intent = detect_general_intent(req.query)
+    if intent is not None:
+        stages = [
+            StageOutput(
+                stage_number=1,
+                stage_name="Input Query",
+                description="User's input question to the medical RAG system",
+                data={
+                    "query": req.query,
+                    "query_length": len(req.query),
+                    "query_word_count": len(req.query.split()),
+                },
+            ),
+            StageOutput(
+                stage_number=2,
+                stage_name="General Intent",
+                description="Detect short general intent and return a canned response without running retrieval",
+                data={
+                    "intent": intent,
+                    "action": "RETURN_CANNED_RESPONSE",
+                },
+            ),
+        ]
+
+        return StagedQueryResponse(
+            query=req.query,
+            stages=stages,
+            final_answer=generate_general_intent_answer(intent),
+            is_in_domain=True,
+        )
 
     stages = []
     

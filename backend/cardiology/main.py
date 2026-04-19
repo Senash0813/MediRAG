@@ -6,6 +6,7 @@ import numpy as np
 import requests
 import os
 from typing import List
+import re
 from langchain_community.docstore.document import Document
 
 # --------------------------------------------------
@@ -13,6 +14,116 @@ from langchain_community.docstore.document import Document
 # --------------------------------------------------
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "phi:2.7b"
+
+
+_GREETING_THANKS_PATTERN = re.compile(
+    r"^\s*(?:"
+    r"hi|hello|hey|hiya|howdy|greetings"
+    r"|good\s+(?:morning|afternoon|evening)"
+    r"|thanks|thank\s+you|thx|ty"
+    r"|how\s+are\s+you|how\s+r\s+you|hru"
+    r"|what'?s\s+up|whats\s+up"
+    r")"
+    r"(?:\s+(?:there|assistant|medirag|cardiorag|doc|doctor))?"
+    r"\s*[!.?]*\s*$",
+    re.IGNORECASE,
+)
+
+_GOODBYE_PATTERN = re.compile(
+    r"^\s*(?:bye|goodbye|see\s+you|see\s+ya|later|cya|take\s+care)\s*[!.?]*\s*$",
+    re.IGNORECASE,
+)
+
+_IDENTITY_PATTERN = re.compile(
+    r"^\s*(?:"
+    r"who\s+are\s+you|what\s+are\s+you|are\s+you\s+(?:a\s+doctor|real|human)"
+    r"|what\s+is\s+medirag|what\s+is\s+cardiorag"
+    r")\s*[!.?]*\s*$",
+    re.IGNORECASE,
+)
+
+_HELP_PATTERN = re.compile(
+    r"^\s*(?:help|what\s+can\s+you\s+do|how\s+do\s+i\s+use\s+this|how\s+does\s+this\s+work)\s*[!.?]*\s*$",
+    re.IGNORECASE,
+)
+
+
+def is_greeting_intent(user_text: str) -> bool:
+    """Backward-compatible greeting detector.
+
+    True if `user_text` is *only* a greeting/thanks/smalltalk.
+    """
+    if not user_text:
+        return False
+
+    text = user_text.strip()
+    if not text:
+        return False
+
+    # Avoid greeting classification for longer, contentful messages.
+    if len(text) > 80:
+        return False
+
+    return _GREETING_THANKS_PATTERN.match(text) is not None
+
+
+def detect_general_intent(user_text: str) -> str | None:
+    """Detect short general intents that should bypass RAG.
+
+    Returns one of: greeting, goodbye, identity, help; or None.
+    Kept conservative to avoid stealing real medical queries.
+    """
+    if not user_text:
+        return None
+
+    text = user_text.strip()
+    if not text:
+        return None
+
+    # Keep conservative: general intents are typically short.
+    if len(text) > 120:
+        return None
+
+    if _GREETING_THANKS_PATTERN.match(text):
+        return "greeting"
+    if _GOODBYE_PATTERN.match(text):
+        return "goodbye"
+    if _IDENTITY_PATTERN.match(text):
+        return "identity"
+    if _HELP_PATTERN.match(text):
+        return "help"
+
+    return None
+
+
+def generate_greeting_answer() -> str:
+    """Friendly greeting shown when the user just says hi/thanks."""
+    return (
+        "Hi — I’m MediRAG Cardiology. Ask me a cardiology question and I’ll answer using the cardiology knowledge base. "
+        "If you share key details (age/sex, symptoms, PMH, meds, vitals, ECG/echo/troponin), I can be more specific. "
+        "Examples: ‘How is atrial fibrillation managed?’ • ‘Workup for chest pain?’ • ‘When to anticoagulate for AF?’"
+    )
+
+
+def generate_general_intent_answer(intent: str) -> str:
+    """Canned response for general intents."""
+    if intent == "greeting":
+        return generate_greeting_answer()
+    if intent == "goodbye":
+        return "Glad to help. If you have another cardiology question, just send it."
+    if intent == "identity":
+        return (
+            "I’m MediRAG Cardiology — a cardiology-focused Q&A assistant. "
+            "I answer by retrieving relevant cardiology reference text and generating a concise response from that context."
+        )
+    if intent == "help":
+        return (
+            "Ask a cardiology question in one message. Helpful details: symptoms + timeline, age/sex, PMH, meds, vitals, and any ECG/echo/labs. "
+            "Examples: ‘Approach to new atrial fibrillation?’ • ‘Differential for syncope?’ • ‘Initial management of STEMI?’"
+        )
+
+    # Fallback
+    return generate_greeting_answer()
 
 
 def _ollama_generate(prompt: str, timeout_s: int = 120) -> str:
@@ -165,6 +276,11 @@ def main():
     query = input("Enter your cardiology question: ").strip()
     if not query:
         print("❌ Empty query provided. Exiting.")
+        return
+
+    intent = detect_general_intent(query)
+    if intent is not None:
+        print("\n" + generate_general_intent_answer(intent) + "\n")
         return
 
     # -----------------------------
