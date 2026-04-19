@@ -180,14 +180,14 @@ export const Sidebar = ({
       <div className="p-4 flex flex-col gap-1 shrink-0">
         <SidebarItem
           icon={<HelpCircle className="w-5 h-5" />}
-          label="Help"
+          label="Help & Community"
           isOpen={isOpen}
           onClick={() => setHelpOpen(true)}
         />
         <SidebarItem icon={<History className="w-5 h-5" />} label="Activity" isOpen={isOpen} />
         <SidebarItem
           icon={<Settings className="w-5 h-5" />}
-          label="Settings"
+          label="Settings & Account"
           isOpen={isOpen}
           onClick={() => setSettingsOpen(true)}
         />
