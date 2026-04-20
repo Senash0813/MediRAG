@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.5.1-cuda12.1-cudnn9-devel-ubuntu22.04
+FROM pytorch/pytorch:2.5.1-cuda12.1-cudnn9-devel
 
 # Keeps Python output unbuffered and prevents .pyc files
 ENV PYTHONUNBUFFERED=1
