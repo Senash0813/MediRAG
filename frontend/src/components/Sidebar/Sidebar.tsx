@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Menu, Plus, History, Settings, HelpCircle, MessageSquare } from 'lucide-react';
+import { Menu, Plus, Settings, HelpCircle, MessageSquare } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { SidebarItem } from './SidebarItem';
 import { SettingsModal } from './SettingsModal';
@@ -66,7 +66,7 @@ export const Sidebar = ({
       className={`${
         isOpen ? 'w-72' : 'w-20'
       } flex flex-col h-full min-h-0 transition-all duration-300 ease-in-out relative group ${
-        theme === 'dark' ? 'bg-[#1e1f20]' : 'bg-gray-50'
+        theme === 'dark' ? 'bg-[#1e1f20]' : 'bg-white'
       }`}
     >
       {/* Top Section */}
@@ -180,14 +180,13 @@ export const Sidebar = ({
       <div className="p-4 flex flex-col gap-1 shrink-0">
         <SidebarItem
           icon={<HelpCircle className="w-5 h-5" />}
-          label="Help"
+          label="Help & Community"
           isOpen={isOpen}
           onClick={() => setHelpOpen(true)}
         />
-        <SidebarItem icon={<History className="w-5 h-5" />} label="Activity" isOpen={isOpen} />
         <SidebarItem
           icon={<Settings className="w-5 h-5" />}
-          label="Settings"
+          label="Settings & Account"
           isOpen={isOpen}
           onClick={() => setSettingsOpen(true)}
         />

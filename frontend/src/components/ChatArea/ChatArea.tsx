@@ -131,10 +131,8 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
         // Initial view - show welcome and clusters (even when one is selected)
         <>
           <div className="w-full mb-12 mt-12 animate-in slide-in-from-bottom-4 duration-700 text-center">
-            <h1 className="text-6xl font-medium mb-2 tracking-tight">
-              <span className="bg-gradient-to-r from-[#4285f4] via-[#9b72cb] to-[#d96570] bg-clip-text text-transparent">
-                Welcome to MediRAG
-              </span>
+            <h1 className={`text-6xl font-bold mb-2 tracking-tight ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+              Welcome to MediRAG
             </h1>
             <h4 className={`text-3xl font-medium tracking-tight ${
               theme === 'dark' ? 'text-[#444746]' : 'text-gray-400'

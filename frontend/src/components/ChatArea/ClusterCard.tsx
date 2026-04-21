@@ -13,60 +13,33 @@ interface ClusterCardProps {
   isSelected?: boolean;
 }
 
-export const ClusterCard = ({ clusterNumber, name, icon: Icon, description, onSelect, isSelected = false }: ClusterCardProps) => {
+export const ClusterCard = ({ name, icon: Icon, onSelect, isSelected = false }: ClusterCardProps) => {
   const { theme } = useTheme();
-  const colorClasses = [
-    'border-blue-500/30 hover:border-blue-500/60 bg-blue-500/5',
-    'border-purple-500/30 hover:border-purple-500/60 bg-purple-500/5',
-    'border-green-500/30 hover:border-green-500/60 bg-green-500/5',
-    'border-orange-500/30 hover:border-orange-500/60 bg-orange-500/5',
-  ];
-
-  const iconColors = [
-    'text-blue-400',
-    'text-purple-400',
-    'text-green-400',
-    'text-orange-400',
-  ];
-
-  const colorClass = colorClasses[clusterNumber - 1];
-  const iconColor = iconColors[clusterNumber - 1];
 
   return (
-    <div 
+    <div
       onClick={onSelect}
       className={`
-        ${colorClass}
-        ${isSelected ? `ring-2 ring-offset-2 ${theme === 'dark' ? 'ring-offset-[#131314]' : 'ring-offset-white'}` : ''}
-        p-4 rounded-xl flex flex-col cursor-pointer 
+        border-orange-500/30 hover:border-orange-500/60
+        ${theme === 'dark' ? 'bg-orange-500/5' : 'bg-white shadow-md hover:shadow-xl'}
+        ${isSelected ? `ring-2 ring-orange-500 ring-offset-2 ${theme === 'dark' ? 'ring-offset-[#131314]' : 'ring-offset-[#d8dce5]'}` : ''}
+        p-4 rounded-xl flex items-center gap-3 cursor-pointer
         transition-all border-2 group
         ${isSelected ? 'scale-[1.02]' : 'hover:scale-[1.02]'}
       `}
     >
-      <div className="flex items-center gap-3 mb-4">
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconColor} ${
-          theme === 'dark' ? 'bg-[#1e1f20]' : 'bg-gray-100'
-        }`}>
-          <Icon className="w-4 h-4" />
-        </div>
-        <h3 className={`text-base font-medium transition-colors ${
-          theme === 'dark' 
-            ? 'text-[#e3e3e3] group-hover:text-white' 
-            : 'text-gray-900 group-hover:text-gray-800'
-        }`}>
-          {name}
-        </h3>
+      <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-orange-400 ${
+        theme === 'dark' ? 'bg-[#1e1f20]' : 'bg-gray-100'
+      }`}>
+        <Icon className="w-4 h-4" />
       </div>
-      
-      <div className="flex-1">
-        <p className={`text-[12.5px] font-medium transition-colors leading-relaxed ${
-          theme === 'dark' 
-            ? 'text-[#e3e3e3] group-hover:text-white' 
-            : 'text-gray-700 group-hover:text-gray-800'
-        }`}>
-          {description}
-        </p>
-      </div>
+      <h3 className={`text-base font-medium transition-colors ${
+        theme === 'dark'
+          ? 'text-[#e3e3e3] group-hover:text-white'
+          : 'text-gray-900 group-hover:text-gray-800'
+      }`}>
+        {name}
+      </h3>
     </div>
   );
 };

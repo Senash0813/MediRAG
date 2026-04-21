@@ -143,7 +143,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/' });
+      await signIn('google', { callbackUrl: '/chat' });
     } catch {
       setError('Failed to sign in with Google');
       setIsLoading(false);
@@ -278,7 +278,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="John Doe"
                   disabled={isLoading || success}
                 />
@@ -302,7 +302,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="you@example.com"
                   disabled={isLoading || success}
                 />
@@ -327,7 +327,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={() => setShowPasswordRequirements(true)}
                   required
-                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="••••••••"
                   disabled={isLoading || success}
                 />
@@ -408,7 +408,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="••••••••"
                   disabled={isLoading || success}
                 />
@@ -445,7 +445,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                 !name ||
                 !email
               }
-              className="w-full bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-black hover:bg-gray-900 text-white font-semibold py-3 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Creating account...' : success ? 'Success!' : 'Create Account'}
             </button>
@@ -459,7 +459,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
                 handleClose();
                 onSwitchToLogin();
               }}
-              className={`font-medium transition-colors ${isDark ? 'text-purple-400 hover:text-purple-300' : 'text-purple-600 hover:text-purple-500'}`}
+              className="font-medium transition-colors text-orange-500 hover:text-orange-400"
             >
               Sign in
             </button>

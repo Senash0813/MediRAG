@@ -38,7 +38,7 @@ export const Header = ({ onLoginClick }: HeaderProps) => {
   }, [isDropdownOpen, isUserMenuOpen]);
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: '/chat' });
   };
 
   return (
@@ -200,11 +200,7 @@ export const Header = ({ onLoginClick }: HeaderProps) => {
           // Guest user - Login button
           <button
             onClick={onLoginClick}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-              theme === 'dark'
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
-            } shadow-lg hover:shadow-xl`}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors bg-black text-white hover:bg-gray-900"
           >
             <LogIn className="w-4 h-4" />
             <span>Login</span>

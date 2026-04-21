@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" fill="none" role="img" aria-labelledby="devTeamTitle">
+  <title id="devTeamTitle">MediRAG development team</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4285f4" stop-opacity="0.12"/>
+      <stop offset="50%" stop-color="#9b72cb" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#d96570" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" rx="28" fill="#f4f4f5"/>
+  <rect width="800" height="520" rx="28" fill="url(#bg)"/>
+  <g opacity="0.9">
+    <ellipse cx="280" cy="200" rx="48" ry="48" fill="#18181b" fill-opacity="0.08"/>
+    <ellipse cx="400" cy="185" rx="54" ry="54" fill="#18181b" fill-opacity="0.1"/>
+    <ellipse cx="520" cy="200" rx="48" ry="48" fill="#18181b" fill-opacity="0.08"/>
+    <path d="M220 340c0-44 36-80 80-80h20c44 0 80 36 80 80v60H220v-60z" fill="#18181b" fill-opacity="0.06"/>
+    <path d="M340 320c0-50 40-90 90-90h20c50 0 90 40 90 90v80H340v-80z" fill="#18181b" fill-opacity="0.08"/>
+    <path d="M460 340c0-44 36-80 80-80h20c44 0 80 36 80 80v60H460v-60z" fill="#18181b" fill-opacity="0.06"/>
+  </g>
+</svg>

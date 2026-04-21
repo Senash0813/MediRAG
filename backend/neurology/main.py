@@ -11,24 +11,28 @@ from models.slm_gatekeeper import SLMGatekeeper
 from models.slm_blueprint import SLMBlueprintGenerator
 from models.instruction_reranker import InstructionReranker
 from models.shared_slm_manager import SharedSLMManager
+from models.shared_phi_manager import SharedPhiManager
 from retrieval.faiss_retriever import FaissRetriever
 from retrieval.bm25_retriever import BM25Retriever
 from retrieval.hybrid_rrf import rrf_fusion
-from models.domain_checker import DomainChecker
+from models.domain_checker import DomainChecker, INTENT_CHITCHAT, INTENT_OUT_OF_SCOPE
 
 query_rewriter = QueryRewriter(QUERY_REWRITER_DIR)
 embedder = Embedder(EMBEDDING_MODEL_NAME, hf_token=SLM1_HF_TOKEN)
 faiss_retriever = FaissRetriever(FAISS_INDEX_PATH, METADATA_PATH)
 bm25_retriever = BM25Retriever(BM25_INDEX_PATH, METADATA_PATH)
-llm = LLMRephraser(model_name=OLLAMA_MODEL_NAME, base_url=OLLAMA_BASE_URL)
 instruction_reranker = InstructionReranker(model_name=RERANKER_MODEL_NAME, top_k=RERANKER_TOP_K)
-domain_checker = DomainChecker(                          
-    model_name=OLLAMA_MODEL_NAME,
-    base_url=OLLAMA_BASE_URL
+
+shared_phi = SharedPhiManager(
+    model_name=PHI_MODEL_NAME,
+    force_gpu=FORCE_GPU,
+    use_4bit=USE_4BIT_QUANTIZATION
 )
+llm = LLMRephraser(shared_phi)
+domain_checker = DomainChecker(shared_phi)
 
 shared_slm = SharedSLMManager(
-    base_model=SLM1_BASE_MODEL, 
+    base_model=SLM1_BASE_MODEL,
     hf_token=SLM1_HF_TOKEN,
     force_gpu=FORCE_GPU,
     use_4bit=USE_4BIT_QUANTIZATION
@@ -38,6 +42,7 @@ slm_blueprint = SLMBlueprintGenerator(shared_slm)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    shared_phi.initialize()
     shared_slm.initialize(
         gatekeeper_adapter_path=SLM1_ADAPTER_PATH,
         blueprint_adapter_path=SLM2_ADAPTER_PATH
@@ -66,19 +71,25 @@ class QueryRequest(BaseModel):
     question: str
 
 OUT_OF_SCOPE_MESSAGE = (
-    "I'm sorry, but your question appears to be outside the scope of this assistant. "
-    "This system is specialized exclusively in Neurology and Neurosurgery. "
-    "Please ask a question related to neurological or neurosurgical conditions, "
-    "symptoms, diagnoses, or treatments."
+    "🧠 That question falls outside my area of expertise.\n\n"
+    "I'm MediRAG, an AI assistant specialized exclusively in Neurology and Neurosurgery. "
+    "I'm not able to help with topics outside this domain.\n\n"
+    "I can assist you with questions about:\n"
+    "  • Neurological conditions (epilepsy, stroke, Parkinson's, MS, dementia)\n"
+    "  • Neurosurgical procedures and conditions\n"
+    "  • Neurological symptoms and diagnostics\n\n"
+    "Please try asking a neurology or neurosurgery related question!"
 )
 
 @app.post("/query")
 def query_rag(req: QueryRequest):
     user_query = req.question
 
-    # --- Domain Gate ---
-    # Check if the query is within Neurology / Neurosurgery before doing anything else.
-    if not domain_checker.is_in_domain(user_query):
+    # --- Intent Classification ---
+    intent = domain_checker.classify_intent(user_query)
+    if intent == INTENT_CHITCHAT:
+        return {"question": user_query, "answer": domain_checker.generate_chitchat_response(user_query)}
+    if intent == INTENT_OUT_OF_SCOPE:
         return {"question": user_query, "answer": OUT_OF_SCOPE_MESSAGE}
 
     

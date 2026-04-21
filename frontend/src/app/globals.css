@@ -24,6 +24,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Landing in-page nav uses JS smoothScrollToHash (delay + fixed-pace duration). */
+
 /* Animation utilities */
 @keyframes fade-in {
   from {

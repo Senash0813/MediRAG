@@ -36,7 +36,7 @@ export const InputArea = ({ onSend, isLoading, disabled = false, selectedCluster
     } ${
       theme === 'dark'
         ? 'from-[#131314] via-[#131314] to-transparent'
-        : 'from-white via-white to-transparent'
+        : 'from-[#f4f4f5] via-[#f4f4f5] to-transparent'
     }`}>
       <div className={`max-w-4xl mx-auto w-full flex flex-col gap-3 transition-all duration-500 ${
         hasMessages ? 'max-w-2xl' : ''
@@ -47,7 +47,7 @@ export const InputArea = ({ onSend, isLoading, disabled = false, selectedCluster
           } ${
             theme === 'dark'
               ? 'bg-[#1e1f20] focus-within:border-[#3c4043]'
-              : 'bg-gray-100 focus-within:border-gray-300'
+              : 'bg-white shadow-xl focus-within:border-gray-300 focus-within:shadow-2xl'
           }`}>
             <input 
               type="text" 

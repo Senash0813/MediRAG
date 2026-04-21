@@ -90,7 +90,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/' });
+      await signIn('google', { callbackUrl: '/chat' });
     } catch {
       setError('Failed to sign in with Google');
       setIsLoading(false);
@@ -213,7 +213,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="you@example.com"
                   disabled={isLoading}
                 />
@@ -237,7 +237,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
+                  className={`w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 ${isDark ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`}
                   placeholder="••••••••"
                   disabled={isLoading}
                 />
@@ -247,7 +247,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-black hover:bg-gray-900 text-white font-semibold py-3 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
@@ -261,7 +261,7 @@ export function LoginModal({ isOpen, onClose, onSwitchToSignup, onSuccess }: Log
                 handleClose();
                 onSwitchToSignup();
               }}
-              className={`font-medium transition-colors ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}
+              className="font-medium transition-colors text-orange-500 hover:text-orange-400"
             >
               Sign up
             </button>
