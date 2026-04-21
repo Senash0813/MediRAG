@@ -60,7 +60,7 @@ export default function ChatPage() {
     1: 'http://127.0.0.1:8000/query',
     2: 'http://127.0.0.1:8001/query2',
     3: 'http://127.0.0.1:8002/rag/answer-verified',
-    4: 'http://127.0.0.1:8003/query4',
+    4: 'https://8vq3lykfzh8wmd-8003.proxy.runpod.net/query4',
   };
 
   const REQUEST_BODY_BY_CLUSTER: Record<SelectedCluster, (question: string) => QueryRequestPayload> = {
