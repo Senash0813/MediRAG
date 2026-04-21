@@ -143,7 +143,7 @@ export function SignupModal({ isOpen, onClose, onSwitchToLogin, onSuccess }: Sig
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/' });
+      await signIn('google', { callbackUrl: '/chat' });
     } catch {
       setError('Failed to sign in with Google');
       setIsLoading(false);

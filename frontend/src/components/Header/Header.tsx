@@ -38,7 +38,7 @@ export const Header = ({ onLoginClick }: HeaderProps) => {
   }, [isDropdownOpen, isUserMenuOpen]);
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: '/chat' });
   };
 
   return (

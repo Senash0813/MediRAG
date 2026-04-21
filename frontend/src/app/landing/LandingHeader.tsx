@@ -92,7 +92,7 @@ export function LandingHeader() {
 
           <div className="hidden md:flex items-center text-[15px] font-medium">
             <Link
-              href="/"
+              href="/chat"
               className="rounded-lg px-4 py-2 flex items-center gap-1 transition-colors bg-black text-white hover:bg-gray-900"
             >
               Open app
@@ -142,7 +142,7 @@ export function LandingHeader() {
             </a>
             <div className="pt-2">
               <Link
-                href="/"
+                href="/chat"
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-4 py-3 flex justify-center items-center gap-1 bg-black text-white hover:bg-gray-900"
               >
