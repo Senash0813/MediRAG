@@ -4,30 +4,30 @@ export const landingPipelines = [
   {
     name: 'Neurosciences',
     description:
-      'Specialized coverage for disorders of the brain, spinal cord, and peripheral nervous system—grounded in neurology and neurosurgical sources.',
+      'A dedicated pipeline for questions spanning Neurology and Neurosurgery, covering disorders of the brain, spinal cord, and peripheral nervous system, as well as the surgical interventions that treat them. From epilepsy and stroke to spinal stenosis and brain tumors, this pipeline is built to handle the full diagnostic and therapeutic breadth of neuroscientific medicine.',
     ragFocus:
-      'Retrieval-augmented answers tuned to neuroscience corpora, so responses stay tied to curated clinical material.',
+      'What sets this pipeline apart is its expert-mimicking scoring component. After retrieving candidate answers, it evaluates and ranks them the way a specialist would, weighing clinical relevance, anatomical precision, and evidence strength, before surfacing a final response.',
   },
   {
     name: 'Cardiovascular',
     description:
-      'Heart and vascular care contexts—from cardiology through cardiothoracic and vascular surgery—organized for precise literature-backed replies.',
+      'Covers the tightly interwoven fields of Cardiology, Cardiothoracic Surgery, and Vascular Surgery. These specialties share disease mechanisms like atherosclerosis, thrombosis, and aneurysms, along with common imaging modalities and overlapping clinical guidelines, making unified cross-specialty retrieval essential for accurate answers.',
     ragFocus:
-      'A dedicated pipeline that routes queries to cardiovascular indexes and merges evidence before generation.',
+      'This pipeline uses Hypothetical Document Embeddings (HyDE) combined with instruction-aware embeddings. Rather than matching your query directly, it first generates a hypothetical ideal answer and embeds that, dramatically improving retrieval precision for complex, cross-specialty cardiovascular questions.',
   },
   {
     name: 'Internal Medicine',
     description:
-      'Broad internal medicine and related specialties (renal, endocrine, pulmonary, GI, hematology, and more) in one structured knowledge path.',
+      'A broad-spectrum pipeline spanning General Internal Medicine, General Pediatrics, General Surgery, Nephrology, Endocrinology & Metabolism, Hematology, Pulmonology & Respiratory Medicine, and Gastroenterology & Hepatology, built to handle the diagnostic complexity that comes with overlapping, multi-system conditions.',
     ragFocus:
-      'Multi-domain retrieval with parameters suited to longer-form, cross-specialty clinical questions.',
+      'What distinguishes this pipeline is its multi-stage post-processing verification framework. Retrieved answers pass through successive validation layers, with each stage checking consistency, clinical plausibility, and evidence alignment, progressively narrowing down to the most fitting, well-supported response.',
   },
   {
     name: 'Primary Care & Mental Health',
     description:
-      'Holistic primary care, psychiatry, psychology, nursing, family medicine, and geriatrics—with an emphasis on safe, transparent answering.',
+      'Covers the human-centred end of medicine, including Psychiatry, Psychology & Behavioral Health, Nursing, Family Medicine & Primary Care, and Geriatrics. These specialties demand answers that are not only clinically accurate but sensitive to patient context, continuity of care, and holistic wellbeing.',
     ragFocus:
-      'Includes verification-oriented output when supported by the backend, surfacing limitations alongside synthesized guidance.',
+      'This pipeline combines two-phase evidence validation with a dynamic prompt strategy. The first phase retrieves and cross-checks candidate evidence, the second re-validates the shortlisted answers against clinical context, and the dynamic prompt adapts its instruction based on the question type, ensuring responses are appropriately nuanced across mental health, primary, and geriatric care scenarios.',
   },
 ] as const;
 
@@ -86,7 +86,8 @@ export const landingTestimonials = [
 export const landingDevelopers = {
   title: 'Meet the team',
   paragraphs: [
-    'MediRAG is built by engineers and clinical collaborators who care about safe, evidence-grounded tooling. We work across retrieval, evaluation, and product so each pipeline stays aligned with how specialists actually search and reason.',
-    'We iterate closely with early adopters in hospitals and digital health—your feedback shapes routing, transparency, and what “good enough” means for medical RAG in the real world.',
+    'MediRAG was developed by a team of final-year Data Science students at the Sri Lanka Institute of Information Technology (SLIIT) as part of their final year project.',
+    'Driven by a shared passion for AI and its real-world impact, the team focused on solving a critical challenge in medical question answering, building a system that prioritizes accuracy, reliability, and trust over generic responses.',
+    'Starting from the left, the team consists of Tharindu, Sandun, Senash, and Sajana, bringing together their skills and ideas to turn research into a practical, impactful solution.',
   ],
 } as const;

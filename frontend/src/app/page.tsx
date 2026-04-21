@@ -269,8 +269,8 @@ export default function Home() {
 
   return (
     <div className={`flex h-screen min-h-0 font-sans overflow-hidden ${
-      theme === 'dark' 
-        ? 'bg-[#131314] text-[#e3e3e3]' 
+      theme === 'dark'
+        ? 'bg-[#131314] text-[#e3e3e3]'
         : 'bg-background text-gray-900'
     }`}>
       <Sidebar

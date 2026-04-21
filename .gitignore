@@ -31,3 +31,6 @@ backend/primarycare/medirag/domain/__pycache__/
 backend/primarycare/medirag/llm/__pycache__/
 backend/primarycare/medirag/pipeline/__pycache__/
 backend/primarycare/medirag/retrieval/__pycache__/
+
+
+.claude

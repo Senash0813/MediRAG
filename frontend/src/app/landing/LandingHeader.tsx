@@ -61,7 +61,7 @@ export function LandingHeader() {
           <div className="flex items-center gap-10 lg:gap-12">
             <Link
               href="/landing"
-              className="text-black font-bold text-lg sm:text-xl tracking-tight"
+              className={`font-bold text-lg sm:text-xl tracking-tight ${isDark ? 'text-white' : 'text-black'}`}
             >
               MediRAG
             </Link>

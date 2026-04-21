@@ -24,12 +24,12 @@ export function LandingDevelopers() {
         <div
           className={`relative w-full shrink-0 overflow-hidden rounded-2xl border lg:max-w-[min(100%,480px)] lg:flex-1 ${
             isDark
-              ? 'border-[#3c4043] bg-[#1e1f20] shadow-[0_12px_40px_-8px_rgba(0,0,0,0.45)]'
-              : 'border-gray-200 bg-gray-50 shadow-[0_10px_36px_-10px_rgba(0,0,0,0.12)]'
+              ? 'border-[#3c4043] bg-[#1e1f20]/80 backdrop-blur-sm shadow-[0_12px_40px_-8px_rgba(0,0,0,0.45)]'
+              : 'border-gray-200 bg-gray-50/80 backdrop-blur-sm shadow-[0_10px_36px_-10px_rgba(0,0,0,0.12)]'
           }`}
         >
           <Image
-            src="/landing/developers-team.svg"
+            src="/landing/developers-team-bw.jpg"
             alt="MediRAG development team"
             width={800}
             height={520}

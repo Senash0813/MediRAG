@@ -35,8 +35,8 @@ export function LandingComments() {
 
   const navButtonClass = `flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-[opacity,background-color,color] disabled:pointer-events-none disabled:opacity-35 ${
     isDark
-      ? 'border-[#3c4043] bg-[#1e1f20] text-[#e3e3e3] hover:bg-[#282a2c]'
-      : 'border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50'
+      ? 'border-[#3c4043] bg-[#1e1f20]/80 text-[#e3e3e3] hover:bg-[#282a2c]/80 backdrop-blur-sm'
+      : 'border-gray-200 bg-white/80 text-gray-900 shadow-sm hover:bg-gray-50/80 backdrop-blur-sm'
   }`;
 
   return (
