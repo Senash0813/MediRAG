@@ -7,6 +7,7 @@ import { LandingIntro } from './LandingIntro';
 import { LandingComments } from './LandingComments';
 import { LandingDevelopers } from './LandingDevelopers';
 import { LandingFooter } from './LandingFooter';
+import { ParticleCanvas } from './LandingParticles';
 
 export function LandingView() {
   const { theme } = useTheme();
@@ -14,17 +15,20 @@ export function LandingView() {
 
   return (
     <div
-      className={`min-h-screen w-full font-sans ${
+      className={`relative min-h-screen w-full font-sans ${
         isDark
           ? 'bg-[#131314] text-[#e3e3e3] selection:bg-white/20 selection:text-white'
           : 'bg-[#fcfcfc] text-[#050505] selection:bg-black selection:text-white'
       }`}
     >
-      <LandingHeader />
-      <LandingIntro />
-      <LandingComments />
-      <LandingDevelopers />
-      <LandingFooter />
+      <ParticleCanvas />
+      <div className="relative z-10">
+        <LandingHeader />
+        <LandingIntro />
+        <LandingComments />
+        <LandingDevelopers />
+        <LandingFooter />
+      </div>
     </div>
   );
 }

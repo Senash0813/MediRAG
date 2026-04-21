@@ -135,7 +135,7 @@ export function SettingsModal({ isOpen, onClose, onLoginClick }: SettingsModalPr
                       onClose();
                       onLoginClick();
                     }}
-                    className="mt-3 w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                    className="mt-3 w-full bg-black hover:bg-gray-900 text-white font-semibold py-3 rounded-lg transition-colors duration-200"
                   >
                     Sign in
                   </button>
@@ -185,7 +185,7 @@ export function SettingsModal({ isOpen, onClose, onLoginClick }: SettingsModalPr
                   {individualFeatures.map((f) => (
                     <li key={f} className={`flex items-start gap-2 text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                       <span
-                        className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border bg-blue-500/10 text-blue-500 ${isDark ? 'border-gray-600' : 'border-gray-300'}`}
+                        className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border bg-orange-500/10 text-orange-500 ${isDark ? 'border-orange-500/30' : 'border-orange-300'}`}
                       >
                         <Check className="h-3 w-3" strokeWidth={3} />
                       </span>

@@ -85,8 +85,8 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
 
   const inputClass = `w-full min-h-[100px] resize-y rounded-lg border-2 px-3 py-2 text-sm outline-none box-border transition-[border-color] duration-150 ease-out ${
     isDark
-      ? 'border-gray-600 bg-gray-800 text-white placeholder-gray-400 hover:border-gray-500 focus:border-blue-500 focus:outline-none'
-      : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 hover:border-gray-400 focus:border-blue-500 focus:outline-none'
+      ? 'border-gray-600 bg-gray-800 text-white placeholder-gray-400 hover:border-gray-500 focus:border-orange-500 focus:outline-none'
+      : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500 hover:border-gray-400 focus:border-orange-500 focus:outline-none'
   }`;
 
   return (
@@ -143,7 +143,7 @@ export function HelpModal({ isOpen, onClose }: HelpModalProps) {
               type="button"
               onClick={sendByEmail}
               disabled={!message.trim()}
-              className="mt-3 w-full flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl text-sm transition-shadow duration-200"
+              className="mt-3 w-full flex items-center justify-center gap-2 bg-black hover:bg-gray-900 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg text-sm transition-colors duration-200"
             >
               <Send className="w-4 h-4" />
               Send via email

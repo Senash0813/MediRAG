@@ -14,6 +14,7 @@ export interface TypewriterSequenceProps {
   cursor?: boolean;
   cursorChar?: string;
   onComplete?: () => void;
+  inline?: boolean;
 }
 
 /**
@@ -26,6 +27,7 @@ export function TypewriterSequence({
   cursor = true,
   cursorChar = '|',
   onComplete,
+  inline = false,
 }: TypewriterSequenceProps) {
   const [segmentIndex, setSegmentIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -88,7 +90,7 @@ export function TypewriterSequence({
   }, [cursor, done]);
 
   return (
-    <span className="inline-flex w-full max-w-full flex-col items-start">
+    <span className={`inline-flex w-full max-w-full ${inline ? 'flex-row flex-wrap items-baseline' : 'flex-col items-start'}`}>
       {segments.map((seg, i) => {
         if (i > segmentIndex) return null;
         const full = seg.text;

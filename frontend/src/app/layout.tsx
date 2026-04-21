@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MediRAG",
   description: "Medical RAG System",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
