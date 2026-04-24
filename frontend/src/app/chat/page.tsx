@@ -20,8 +20,15 @@ interface Message {
 type SelectedCluster = 1 | 2 | 3 | 4;
 
 type QueryRequestPayload =
-  | { query: string; k?: number; alpha?: number }
-  | { query: string; top_k: number }
+  | {
+      query: string;
+      k?: number;
+      alpha?: number;
+      domain_max_distance?: number;
+      domain_max_distance_text?: number;
+      debug?: boolean;
+    }
+  | { query: string; top_k: number; temperature?: number; verify?: boolean }
   | { question: string };
 
 export default function ChatPage() {
@@ -59,14 +66,14 @@ export default function ChatPage() {
   const BACKEND_URL_BY_CLUSTER: Record<number, string> = {
     1: 'https://qdpihniq0plzwz-8000.proxy.runpod.net/query',
     2: 'https://yb20fah1xezte5-8001.proxy.runpod.net/query2',
-    3: 'https://2h7578rs1i9f5d-8002.proxy.runpod.net/rag/answer-verified',
+    3: 'https://2h7578rs1i9f5d-8002.proxy.runpod.net/query3',
     4: 'https://dc9jqu04z48uos-8003.proxy.runpod.net/query4',
   };
 
   const REQUEST_BODY_BY_CLUSTER: Record<SelectedCluster, (question: string) => QueryRequestPayload> = {
     1: (q: string) => ({ question: q }),
-    2: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
-    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0 }),
+    2: (q: string) => ({ query: q, k: 5, alpha: 0.5, domain_max_distance: 0.35, domain_max_distance_text: 0.35, debug: false }),
+    3: (q: string) => ({ query: q, top_k: 0, temperature: 0, verify: true }),
     4: (q: string) => ({ query: q, top_k: 5 }),
   };
 
