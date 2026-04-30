@@ -225,7 +225,27 @@ export default function ChatPage() {
           verificationLevel = data.verification_level;
         }
       } else {
-        formattedAnswer = data.answer || data.direct_answer || 'No answer received';
+        // For cluster 3 (Internal Medicine) convert backend "out of scope" notices
+        // into a clear, user-facing message. Keep other answers unchanged.
+        const raw = data.answer || data.direct_answer || '';
+        const rawLower = raw.toLowerCase();
+        const outOfScopePatternsLower = [
+          'out of scope for',
+          'out of scope',
+          'query is out of scope',
+          '❌ out of scope',
+          'insufficient evidence',
+          'insufficient evidence in the',
+        ];
+
+        const isOutOfScope =
+          selectedCluster === 3 && outOfScopePatternsLower.some((p) => rawLower.includes(p));
+
+        if (isOutOfScope) {
+          formattedAnswer = `This question is outside the scope of Internal Medicine and cannot be answered here.\n\nTry:\n• Rephrase with more specific medical context\n• Ask about a condition or topic within Internal Medicine\n• Provide a short source excerpt or citation to clarify`;
+        } else {
+          formattedAnswer = raw || 'No answer received';
+        }
       }
 
       setMessages(prev => [
