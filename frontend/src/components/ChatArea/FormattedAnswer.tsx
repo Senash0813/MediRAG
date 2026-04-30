@@ -11,6 +11,7 @@ interface FormattedAnswerProps {
 export const FormattedAnswer = ({ answer, isCluster4 = false, verificationLevel }: FormattedAnswerProps & { verificationLevel?: number }) => {
   const { theme } = useTheme();
 	const vLevel = verificationLevel ?? 1;
+	const showWarning = verificationLevel !== undefined;
 
   // If not cluster 4, just render plain text with pre-wrap
   if (!isCluster4) {
@@ -29,7 +30,7 @@ export const FormattedAnswer = ({ answer, isCluster4 = false, verificationLevel 
   return (
     <div className="space-y-3">
       {/* Medical Evidence Warning (Based on Verification Level) */}
-      {vLevel === 1 ? (
+      {showWarning && vLevel === 1 ? (
         <div className="bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 space-y-2">
           <div className="flex items-start gap-3">
             <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -47,7 +48,7 @@ export const FormattedAnswer = ({ answer, isCluster4 = false, verificationLevel 
             </div>
           </div>
         </div>
-      ) : vLevel === 2 ? (
+      ) : showWarning && vLevel === 2 ? (
         <div className="bg-amber-50 border-l-4 border-amber-500 rounded-r-lg p-4 space-y-2">
           <div className="flex items-start gap-3">
             <svg className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -65,7 +66,7 @@ export const FormattedAnswer = ({ answer, isCluster4 = false, verificationLevel 
             </div>
           </div>
         </div>
-      ) : vLevel === 3 ? (
+      ) : showWarning && vLevel === 3 ? (
         <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-4 space-y-2">
           <div className="flex items-start gap-3">
             <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -83,7 +84,7 @@ export const FormattedAnswer = ({ answer, isCluster4 = false, verificationLevel 
             </div>
           </div>
         </div>
-      ) : (
+      ) : showWarning ? (
         <div className="bg-green-50 border-l-4 border-green-500 rounded-r-lg p-4 space-y-2">
           <div className="flex items-start gap-3">
             <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -101,7 +102,7 @@ export const FormattedAnswer = ({ answer, isCluster4 = false, verificationLevel 
             </div>
           </div>
         </div>
-      )}
+      ) : null}
       {/* Main Answer */}
       {parts[0] && (
         <p className={`text-[15.5px] font-medium tracking-tight leading-relaxed ${
