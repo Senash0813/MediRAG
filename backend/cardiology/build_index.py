@@ -20,12 +20,12 @@ os.makedirs(VECTORSTORE_DIR, exist_ok=True)
 # BUILD INDEX
 # ================================
 def main():
-    print("🔹 Loading cardiology data...")
+    print("Loading cardiology data...")
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
 
     raw_data = raw_data[:10000]  # limit for testing
-    print(f"🔹 Loaded {len(raw_data)} records")
+    print(f"Loaded {len(raw_data)} records")
 
     # Prepare documents
     instruction = "Represent the cardiology answer for retrieval:"
@@ -40,27 +40,27 @@ def main():
                     metadata=row
                 )
             )
-    print(f"🔹 Prepared {len(documents)} documents for embedding")
+    print(f"Prepared {len(documents)} documents for embedding")
 
     # Load embedding model
-    print("🔹 Loading Instructor embedding model...")
+    print("Loading Instructor embedding model...")
     embeddings_model = HuggingFaceEmbeddings(model_name=INSTRUCTOR_MODEL_PATH)
 
     # OPTIONAL: check embedding of first document
     first_embedding = embeddings_model.embed_documents([documents[0].page_content])
-    print(f"🔹 Sample embedding shape (first document): {np.array(first_embedding).shape}")
+    print(f"Sample embedding shape (first document): {np.array(first_embedding).shape}")
 
     # OPTIONAL: check embedding shapes for all docs
     all_embeddings = embeddings_model.embed_documents([doc.page_content for doc in documents])
-    print(f"🔹 All embeddings shape: {np.array(all_embeddings).shape}")  # (num_docs, embedding_dim)
+    print(f"All embeddings shape: {np.array(all_embeddings).shape}")  # (num_docs, embedding_dim)
 
     # Build FAISS index
-    print("🔹 Building FAISS index...")
+    print("Building FAISS index...")
     vectorstore = FAISS.from_documents(documents, embeddings_model)
 
     # Save index
     vectorstore.save_local(INDEX_PATH)
-    print(f"\n✅ FAISS index successfully saved to: {INDEX_PATH}")
+    print(f"\nFAISS index successfully saved to: {INDEX_PATH}")
 
 # ================================
 # ENTRY POINT

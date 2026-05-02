@@ -44,7 +44,7 @@ def startup_event() -> None:
     global MODEL_READY, VECTORSTORE_READY, STARTUP_ERROR
 
     print("\n========================================")
-    print("🚀 Starting MediRAG Cardiology API")
+    print("Starting MediRAG Cardiology API")
     print("========================================")
 
     try:
@@ -53,21 +53,21 @@ def startup_event() -> None:
         print("[Startup] Loading FAISS vectorstore...")
         load_vectorstore()
         VECTORSTORE_READY = True
-        print("[Startup] ✅ Vectorstore loaded")
+        print("[Startup] Vectorstore loaded")
 
         print(f"[Startup] Downloading/loading HuggingFace model: {MODEL_NAME}")
         _get_phi_pipeline()
         MODEL_READY = True
-        print("[Startup] ✅ Phi model loaded")
+        print("[Startup] Phi model loaded")
 
         elapsed = time.time() - start
-        print(f"[Startup] ✅ Backend ready in {elapsed:.2f} seconds")
+        print(f"[Startup] Backend ready in {elapsed:.2f} seconds")
         print("========================================\n")
 
     except Exception as e:
         STARTUP_ERROR = str(e)
         MODEL_READY = False
-        print("[Startup] ❌ Startup failed:", e)
+        print("[Startup] Startup failed:", e)
         print("========================================\n")
 
 

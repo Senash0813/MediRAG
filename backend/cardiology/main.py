@@ -37,7 +37,7 @@ def _check_ollama_available() -> bool:
             # Check if our target model is available
             for model in available_models:
                 if "phi" in model.lower() and "2.7" in model:
-                    print(f"[Ollama] ✅ Found quantized Phi model: {model}")
+                    print(f"[Ollama] Found quantized Phi model: {model}")
                     return True
             
             print(f"[Ollama] ⚠️ Phi 2.7b not found in available models")
@@ -397,7 +397,7 @@ User question:
 # MAIN PIPELINE
 # --------------------------------------------------
 def main():
-    print("\n🚀 MediRAG Cardiology Assistant\n")
+    print("\nMediRAG Cardiology Assistant\n")
     query = input("Enter your cardiology question: ").strip()
     if not query:
         print("❌ Empty query provided. Exiting.")
@@ -452,7 +452,7 @@ def main():
         print("❌ No documents retrieved from FAISS.")
         return
 
-    print("\n📄 RETRIEVED DOCUMENTS (with similarity scores)")
+    print("\nRETRIEVED DOCUMENTS (with similarity scores)")
     print("=" * 80)
     for rank, (doc, score) in enumerate(docs_and_scores, start=1):
         print(f"\n--- Rank {rank} ---")
@@ -461,7 +461,7 @@ def main():
         print(doc.page_content[:400])
         print("-" * 80)
 
-    print("\n🧠 GENERATED HYPOTHETICAL ANSWERS (HyDE)")
+    print("\nGENERATED HYPOTHETICAL ANSWERS (HyDE)")
     print("=" * 80)
     for i, doc in enumerate(hyde_docs, 1):
         print(f"\n--- Hypothesis {i} ---")
@@ -474,7 +474,7 @@ def main():
     print("\n====================== FINAL ANSWER ======================")
     print(final_answer if final_answer else "❌ Empty answer returned.")
     print("=========================================================")
-    print("\n✅ Pipeline execution completed successfully.\n")
+    print("\nPipeline execution completed successfully.\n")
 
 
 if __name__ == "__main__":
