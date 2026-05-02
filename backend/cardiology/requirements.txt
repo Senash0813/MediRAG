@@ -4,9 +4,7 @@ numpy
 langchain-community
 pydantic
 langchain-huggingface
-transformers>=4.38.0
-torch
-accelerate>=0.26.0
+requests
 sentence-transformers
 sentencepiece
 faiss-cpu

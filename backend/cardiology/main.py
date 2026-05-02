@@ -6,19 +6,64 @@ import numpy as np
 import os
 import re
 import torch
+import requests
+import json
 from transformers import pipeline as hf_pipeline
-from typing import List
+from typing import List, Optional
 from langchain_community.docstore.document import Document
 
 # --------------------------------------------------
 # SETTINGS
 # --------------------------------------------------
-MODEL_NAME = "microsoft/phi-2"  # Change to "microsoft/phi-1_5" if that's what you use locally
+MODEL_NAME = "microsoft/phi-2"  # Fallback HuggingFace model
+OLLAMA_MODEL = "phi:2.7b"  # Quantized model name in Ollama
+# For unified container: localhost; for docker-compose: http://ollama:11434
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_TIMEOUT_S = int(os.getenv("OLLAMA_TIMEOUT_S", "120"))
 _phi_pipeline = None
+_use_ollama = False  # Will be set during initialization
+_ollama_available = False  # Will be checked at startup
+
+
+def _check_ollama_available() -> bool:
+    """Check if Ollama is running and has the phi model available."""
+    try:
+        response = requests.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=2)
+        if response.status_code == 200:
+            models_data = response.json()
+            available_models = [m.get("name", "") for m in models_data.get("models", [])]
+            print(f"[Ollama] Available models: {available_models}")
+            
+            # Check if our target model is available
+            for model in available_models:
+                if "phi" in model.lower() and "2.7" in model:
+                    print(f"[Ollama] ✅ Found quantized Phi model: {model}")
+                    return True
+            
+            print(f"[Ollama] ⚠️ Phi 2.7b not found in available models")
+            return False
+    except requests.exceptions.ConnectionError:
+        print(f"[Ollama] ❌ Cannot connect to Ollama at {OLLAMA_BASE_URL}")
+        return False
+    except Exception as e:
+        print(f"[Ollama] ❌ Error checking Ollama: {e}")
+        return False
 
 
 def _get_phi_pipeline():
-    global _phi_pipeline
+    """Initialize Phi model using Ollama if available, else fallback to HuggingFace."""
+    global _phi_pipeline, _use_ollama, _ollama_available
+    
+    # Check Ollama availability
+    _ollama_available = _check_ollama_available()
+    
+    if _ollama_available:
+        print("[Model] Using Ollama quantized Phi model")
+        _use_ollama = True
+        return True  # Return True to indicate success without loading a pipeline
+    
+    # Fallback to HuggingFace
+    print("[Model] Falling back to HuggingFace Phi-2...")
     if _phi_pipeline is None:
         print("Loading Phi model from HuggingFace...")
         if torch.cuda.is_available():
@@ -33,17 +78,70 @@ def _get_phi_pipeline():
         _phi_pipeline = hf_pipeline(
             "text-generation",
             model=MODEL_NAME,
-            dtype=dtype,          # fixed: was torch_dtype (deprecated)
+            dtype=dtype,
             device=device,
             trust_remote_code=True,
         )
+    _use_ollama = False
     return _phi_pipeline
 
 
-def _ollama_generate(prompt: str, timeout_s: int = 120) -> str:
-    """Uses HuggingFace transformers instead of Ollama."""
+def _ollama_generate(prompt: str, timeout_s: int = OLLAMA_TIMEOUT_S) -> str:
+    """Generate using Ollama if available, else HuggingFace transformers."""
+    global _use_ollama
+    
+    if _use_ollama and _ollama_available:
+        return _ollama_generate_request(prompt, timeout_s)
+    else:
+        return _hf_generate(prompt)
+
+
+def _ollama_generate_request(prompt: str, timeout_s: int = 120) -> str:
+    """Generate using Ollama API."""
+    try:
+        payload = {
+            "model": OLLAMA_MODEL,
+            "prompt": prompt,
+            "stream": False,
+            "temperature": 0.3,
+            "top_p": 0.9,
+            "num_predict": 300,
+        }
+        
+        response = requests.post(
+            f"{OLLAMA_BASE_URL}/api/generate",
+            json=payload,
+            timeout=timeout_s,
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            generated = result.get("response", "").strip()
+            
+            # Remove the prompt from the response if it's included
+            if generated.startswith(prompt):
+                answer = generated[len(prompt):].strip()
+            else:
+                answer = generated
+            
+            return answer if answer else "⚠️ Ollama returned empty output."
+        else:
+            print(f"[Ollama] API error: {response.status_code}")
+            return f"❌ Ollama API error: {response.status_code}"
+    
+    except requests.exceptions.Timeout:
+        return f"❌ Ollama request timed out after {timeout_s}s"
+    except Exception as e:
+        return f"❌ Ollama inference error: {e}"
+
+
+def _hf_generate(prompt: str) -> str:
+    """Generate using HuggingFace transformers."""
     try:
         pipe = _get_phi_pipeline()
+        if isinstance(pipe, bool):
+            return "❌ Model not initialized"
+        
         result = pipe(
             prompt,
             max_new_tokens=300,

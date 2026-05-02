@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: medirag-ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    volumes:
+      - ollama_data:/root/.ollama
+    # On startup, pull the quantized Phi model
+    # Note: The image must have Ollama CLI available
+    entrypoint: >
+      sh -c "
+      ollama serve &
+      sleep 5 &&
+      ollama pull phi:2.7b &&
+      wait
+      "
+    networks:
+      - medirag-network
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medirag-api
+    ports:
+      - "8001:8001"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - HF_HOME=/workspace/.cache/huggingface
+      - TRANSFORMERS_CACHE=/workspace/.cache/huggingface
+    volumes:
+      - .:/app
+      - huggingface_cache:/workspace/.cache/huggingface
+      - faiss_index:/app/vectorstore
+    depends_on:
+      - ollama
+    networks:
+      - medirag-network
+    command: uvicorn api:app --host 0.0.0.0 --port 8001 --reload
+
+volumes:
+  ollama_data:
+  huggingface_cache:
+  faiss_index:
+
+networks:
+  medirag-network:
+    driver: bridge

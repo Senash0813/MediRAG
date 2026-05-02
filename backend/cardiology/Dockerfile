@@ -27,4 +27,9 @@ EXPOSE 8001
 ENV HF_HOME=/workspace/.cache/huggingface
 ENV TRANSFORMERS_CACHE=/workspace/.cache/huggingface
 
+# Ollama settings
+# Connect to Ollama service (via docker-compose or external Ollama instance)
+# Default points to ollama service in docker-compose; override with host network if needed
+ENV OLLAMA_BASE_URL=http://ollama:11434
+
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8001"]

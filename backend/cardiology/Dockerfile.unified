@@ -1,0 +1,50 @@
+# Multi-stage build: Start from Ollama, add Python, add FastAPI app
+FROM ollama/ollama:latest AS base
+
+# Install Python and dependencies from the base distro
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-venv \
+    python3-pip \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Create an isolated Python environment so pip can install dependencies safely
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy Python requirements
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy fine-tuned models (instructor-large, inbedder-roberta-large, hyde, projector.pt)
+COPY models/ ./models/
+
+# Copy FAISS vectorstore index
+COPY vectorstore/ ./vectorstore/
+
+# Copy application code
+COPY *.py ./
+
+# Create startup script that handles both Ollama and FastAPI
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Expose ports
+# 11434 for Ollama API
+# 8001 for FastAPI
+EXPOSE 11434 8001
+
+# Set environment variables
+ENV OLLAMA_HOST=0.0.0.0:11434
+ENV OLLAMA_BASE_URL=http://localhost:11434
+ENV HF_HOME=/root/.cache/huggingface
+ENV TRANSFORMERS_CACHE=/root/.cache/huggingface
+
+# Run the startup script which starts Ollama + FastAPI
+ENTRYPOINT ["/docker-entrypoint.sh"]
