@@ -180,13 +180,6 @@ def _load_or_build_kb_index(
     kb_docs: List[Dict[str, Any]],
     force_reindex: bool,
 ):
-    if len(kb_docs) == 0:
-        print("ℹ️ Skipping KB indexing because KB is empty.")
-        embedder = SentenceTransformer(settings.embedding_model_name)
-        index = faiss.IndexFlatIP(settings.embedding_dim)
-        metadata: List[Dict[str, Any]] = []
-        return index, metadata, embedder
-
     index_path = settings.embeddings_dir / settings.kb_index_filename
     meta_path = settings.embeddings_dir / settings.kb_meta_filename
 
@@ -194,6 +187,13 @@ def _load_or_build_kb_index(
         print(f"✅ Loading existing KB FAISS index from {index_path}")
         index, metadata = load_kb_faiss_index(index_path=index_path, meta_path=meta_path)
         embedder = SentenceTransformer(settings.embedding_model_name)
+        return index, metadata, embedder
+
+    if len(kb_docs) == 0:
+        print("ℹ️ KB docs not available and no saved KB index found. Starting with empty KB index.")
+        embedder = SentenceTransformer(settings.embedding_model_name)
+        index = faiss.IndexFlatIP(settings.embedding_dim)
+        metadata = []
         return index, metadata, embedder
 
     print(f"🔧 Building KB FAISS index for {len(kb_docs)} docs using {settings.embedding_model_name}...")
@@ -211,18 +211,18 @@ def _load_or_build_kb_index(
 
 def _load_or_build_scope_index(*, state: AppState, force_reindex: bool) -> None:
     settings = state.settings
-    if len(state.kb_docs) == 0:
-        print("ℹ️ Skipping scope index because KB is empty.")
-        state.scope_index = faiss.IndexFlatIP(settings.embedding_dim)
-        state.scope_meta = []
-        return
-
     if (not force_reindex) and (state.scope_index_path.exists() and state.scope_meta_path.exists()):
         print(f"✅ Loading existing scope index from {state.scope_index_path}")
         state.scope_index, state.scope_meta = load_scope_index(
             index_path=state.scope_index_path,
             meta_path=state.scope_meta_path,
         )
+        return
+
+    if len(state.kb_docs) == 0:
+        print("ℹ️ KB docs not available and no saved scope index found. Starting with empty scope index.")
+        state.scope_index = faiss.IndexFlatIP(settings.embedding_dim)
+        state.scope_meta = []
         return
 
     print("🔧 Building scope index (passage-level) from KB...")

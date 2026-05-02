@@ -1,0 +1,10 @@
+*
+!Dockerfile
+!.dockerignore
+!requirements.txt
+!docker-entrypoint.sh
+!app/
+!app/**
+!storage/
+!storage/embeddings/
+!storage/embeddings/**

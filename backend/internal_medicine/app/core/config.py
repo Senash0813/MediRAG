@@ -95,6 +95,16 @@ class Settings(BaseSettings):
     full_hallucinated_th: float = Field(default=0.50)
     sim_for_regen: float = Field(default=0.60)
 
+    # Retrieval abstention thresholds
+    retrieval_min_top1: float = Field(default=0.45)
+    retrieval_min_avg_topk: float = Field(default=0.36)
+    retrieval_min_topk: int = Field(default=3)
+    retrieval_min_margin_top2: float = Field(default=0.02)
+    retrieval_avg_topk_override: float = Field(default=0.45)
+    retrieval_keyword_overlap_min: float = Field(default=0.20)
+    retrieval_require_distinct_docs: bool = Field(default=False)
+    retrieval_min_distinct_docs: int = Field(default=2)
+
     # Generation parameters
     gen_max_tokens: int = Field(default=256)
     regen_max_tokens: int = Field(default=128)

@@ -68,8 +68,13 @@ def rag_only(req: AnswerRequest, state: StateDep) -> RagOnlyResponse:
 
     if settings.enable_domain_gate:
         if len(state.scope_meta) == 0 or getattr(state.scope_index, "ntotal", 0) == 0:
-            # No scope index available -> skip gating.
-            info = {}
+            return RagOnlyResponse(
+                answer="❌ Out of scope for this knowledge base (scope index unavailable).",
+                retrieved=[],
+                prompt="",
+                ood=True,
+                ood_info={"reason": "scope_index_unavailable"},
+            )
         else:
             in_domain, info = domain_check(
                 query=req.query,
@@ -98,17 +103,35 @@ def rag_only(req: AnswerRequest, state: StateDep) -> RagOnlyResponse:
     else:
         info = {}
 
-    answer, retrieved, prompt, _raw = answer_question(
+    answer, retrieved, prompt, _raw, ood, ood_info = answer_question(
         query=req.query,
         embedder=state.embedder,
         index=state.index,
         metadata=state.metadata,
         top_k=top_k,
+        min_retrieval_top1=settings.retrieval_min_top1,
+        min_retrieval_avg_topk=settings.retrieval_min_avg_topk,
+        retrieval_score_topk=settings.retrieval_min_topk,
+        min_retrieval_margin_top2=settings.retrieval_min_margin_top2,
+        retrieval_avg_topk_override=settings.retrieval_avg_topk_override,
+        retrieval_keyword_overlap_min=settings.retrieval_keyword_overlap_min,
+        retrieval_require_distinct_docs=settings.retrieval_require_distinct_docs,
+        retrieval_min_distinct_docs=settings.retrieval_min_distinct_docs,
+        nli_pipeline=state.nli_pipeline,
         ollama=state.ollama,
         generator_model=settings.ollama_generator_model,
         gen_max_tokens=settings.gen_max_tokens,
         temperature=req.temperature,
     )
+
+    if ood:
+        return RagOnlyResponse(
+            answer=answer,
+            retrieved=[RetrievedDoc(**r) for r in retrieved],
+            prompt=prompt,
+            ood=True,
+            ood_info=ood_info,
+        )
 
     return RagOnlyResponse(
         answer=answer,
@@ -248,7 +271,7 @@ def evaluate_stages(req: AnswerRequest, state: StateDep) -> StageWiseResponse:
         )
         stage_a["decision"] = "IN_DOMAIN" if in_domain else "OUT_OF_DOMAIN"
         stage_a["top1_similarity"] = round(info.get("top1", 0.0), 3)
-        stage_a["avg_topk_similarity"] = round(info.get("avgk", 0.0), 3)
+        stage_a["avg_topk_similarity"] = round(info.get("avg_topk", 0.0), 3)
         stage_a["cohesion"] = round(info.get("cohesion", 0.0), 3)
         
         if not in_domain:
@@ -268,12 +291,21 @@ def evaluate_stages(req: AnswerRequest, state: StateDep) -> StageWiseResponse:
     # STAGE B: RAG Answer Generation
     # ============================================================
     top_k = req.top_k or settings.top_k
-    answer, retrieved, _prompt, _raw = answer_question(
+    answer, retrieved, _prompt, _raw, ood, ood_info = answer_question(
         query=req.query,
         embedder=state.embedder,
         index=state.index,
         metadata=state.metadata,
         top_k=top_k,
+        min_retrieval_top1=settings.retrieval_min_top1,
+        min_retrieval_avg_topk=settings.retrieval_min_avg_topk,
+        retrieval_score_topk=settings.retrieval_min_topk,
+        min_retrieval_margin_top2=settings.retrieval_min_margin_top2,
+        retrieval_avg_topk_override=settings.retrieval_avg_topk_override,
+        retrieval_keyword_overlap_min=settings.retrieval_keyword_overlap_min,
+        retrieval_require_distinct_docs=settings.retrieval_require_distinct_docs,
+        retrieval_min_distinct_docs=settings.retrieval_min_distinct_docs,
+        nli_pipeline=state.nli_pipeline,
         ollama=state.ollama,
         generator_model=settings.ollama_generator_model,
         gen_max_tokens=settings.gen_max_tokens,
@@ -286,6 +318,20 @@ def evaluate_stages(req: AnswerRequest, state: StateDep) -> StageWiseResponse:
         "num_retrieved_docs": len(retrieved),
         "top_doc_scores": [round(r["score"], 3) for r in retrieved[:3]],
     }
+
+    if ood:
+        stage_b["decision"] = "ABSTAINED"
+        stage_b["reason"] = ood_info.get("reason", "insufficient_answerability")
+        stage_b["retrieval_confidence"] = ood_info
+        return StageWiseResponse(
+            query=req.query,
+            stage_a_domain_gate=stage_a,
+            stage_b_rag=stage_b,
+            stage_c_risk_routing={"skipped": "Retrieval confidence too low"},
+            stage_d_verification={"skipped": "Retrieval confidence too low"},
+            stage_e_reconstruction={"skipped": "Retrieval confidence too low"},
+            stage_f_transparency={"final_answer": answer},
+        )
     
     # If verification disabled, return early
     if not req.verify:

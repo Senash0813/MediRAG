@@ -40,6 +40,10 @@ ANSWER_LEVEL_DISCLAIMER = (
     "Please verify with reliable medical sources or consult a qualified healthcare professional.\n\n"
 )
 
+ANSWER_LEVEL_ABSTAIN = (
+    "❌ Unsupported by the retrieved evidence. I can't answer this question reliably from the current knowledge base."
+)
+
 
 @dataclass(frozen=True)
 class VerificationConfig:
@@ -758,6 +762,8 @@ def run_full_verification(
     if intervention_detected:
         final_answer = DISCLAIMER + final_answer
     if answer_level_intervention:
+        final_answer = ANSWER_LEVEL_ABSTAIN
+    elif intervention_detected:
         final_answer = ANSWER_LEVEL_DISCLAIMER + final_answer
 
     return {
