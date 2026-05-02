@@ -199,7 +199,6 @@ export const ChatArea = ({ selectedCluster, messages, onClusterSelect, pendingQu
                   <FormattedAnswer
 						answer={message.answer}
 						isCluster4={message.cluster === 4}
-						verificationLevel={message.cluster === 4 ? message.verificationLevel : undefined}
 					/>
                 </div>
                 <button

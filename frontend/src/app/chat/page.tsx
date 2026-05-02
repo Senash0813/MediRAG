@@ -20,8 +20,15 @@ interface Message {
 type SelectedCluster = 1 | 2 | 3 | 4;
 
 type QueryRequestPayload =
-  | { query: string; k?: number; alpha?: number }
-  | { query: string; top_k: number }
+  | {
+      query: string;
+      k?: number;
+      alpha?: number;
+      domain_max_distance?: number;
+      domain_max_distance_text?: number;
+      debug?: boolean;
+    }
+  | { query: string; top_k: number; temperature?: number; verify?: boolean }
   | { question: string };
 
 export default function ChatPage() {
@@ -57,16 +64,16 @@ export default function ChatPage() {
 
   // NOTE: Cluster 4 must use the primary care backend on port 8003.
   const BACKEND_URL_BY_CLUSTER: Record<number, string> = {
-    1: 'http://127.0.0.1:8000/query',
-    2: 'http://127.0.0.1:8001/query2',
-    3: 'http://127.0.0.1:8002/rag/answer-verified',
-    4: 'http://127.0.0.1:8003/query4',
+    1: 'https://oqpmauxx45elx5-8000.proxy.runpod.net/query',
+    2: 'https://6atqznkh6t8n1c-8001.proxy.runpod.net/query2',
+    3: 'https://t0ct2rterpnw19-8002.proxy.runpod.net/query3',
+    4: 'https://072lfwzpb2451o-8003.proxy.runpod.net/query4',
   };
 
   const REQUEST_BODY_BY_CLUSTER: Record<SelectedCluster, (question: string) => QueryRequestPayload> = {
     1: (q: string) => ({ question: q }),
-    2: (q: string) => ({ query: q, k: 5, alpha: 0.5 }),
-    3: (q: string) => ({ query: q, k: 5, gen_max_length: 256, temperature: 0 }),
+    2: (q: string) => ({ query: q, k: 5, alpha: 0.5, domain_max_distance: 0.35, domain_max_distance_text: 0.35, debug: false }),
+    3: (q: string) => ({ query: q, top_k: 0, temperature: 0, verify: true }),
     4: (q: string) => ({ query: q, top_k: 5 }),
   };
 
@@ -186,6 +193,9 @@ export default function ChatPage() {
         ? requestBodyBuilder(question)
         : ({ query: question, k: 5, alpha: 0.5 } satisfies QueryRequestPayload);
 
+      console.log('Sending request to:', backendUrl);
+      console.log('Request body:', requestBody);
+
       const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
@@ -215,7 +225,27 @@ export default function ChatPage() {
           verificationLevel = data.verification_level;
         }
       } else {
-        formattedAnswer = data.answer || data.direct_answer || 'No answer received';
+        // For cluster 3 (Internal Medicine) convert backend "out of scope" notices
+        // into a clear, user-facing message. Keep other answers unchanged.
+        const raw = data.answer || data.direct_answer || '';
+        const rawLower = raw.toLowerCase();
+        const outOfScopePatternsLower = [
+          'out of scope for',
+          'out of scope',
+          'query is out of scope',
+          '❌ out of scope',
+          'insufficient evidence',
+          'insufficient evidence in the',
+        ];
+
+        const isOutOfScope =
+          selectedCluster === 3 && outOfScopePatternsLower.some((p) => rawLower.includes(p));
+
+        if (isOutOfScope) {
+          formattedAnswer = `This question is outside the scope of Internal Medicine and cannot be answered here.\n\nTry:\n• Rephrase with more specific medical context\n• Ask about a condition or topic within Internal Medicine\n• Provide a short source excerpt or citation to clarify`;
+        } else {
+          formattedAnswer = raw || 'No answer received';
+        }
       }
 
       setMessages(prev => [
