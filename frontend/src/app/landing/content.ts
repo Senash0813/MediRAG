@@ -34,52 +34,31 @@ export const landingPipelines = [
 export const landingTestimonials = [
   {
     quote:
-      'The split pipelines mirror how our department actually thinks—neuro vs cards vs medicine—instead of one generic assistant.',
-    name: 'Dr. A. Chen',
-    role: 'Attending neurologist',
-    org: 'Academic medical center',
+      'More reliable than general AI tools for clinical queries. The answers actually hold up when you fact-check them.',
+    name: 'Dr. Mohamed Rikaz Sheriff',
+    role: 'Medical Officer',
+    org: 'Ministry of Health, Education & Research Unit',
   },
   {
     quote:
-      'We piloted it with early users in quality; the ability to see which domain you are querying reduced misuse and improved trust.',
-    name: 'M. Okonkwo',
-    role: 'Clinical informatics lead',
-    org: 'Regional health system',
+      'Noticeably less hallucination compared to ChatGPT on drug dosing questions. That alone makes it worth using.',
+    name: 'Dr. Habeeba Sheriff',
+    role: 'Senior House Officer (ICU)',
+    org: 'Sri Jayewardanapura General Hospital',
   },
   {
     quote:
-      'Primary care mode’s structured limitations field is what we needed for resident teaching—not just an answer, but where it’s thin.',
-    name: 'Dr. S. Patel',
-    role: 'Program director, family medicine',
-    org: 'Community hospital',
+      'Better accuracy than I expected from an AI tool. Good starting point for looking up clinical guidelines.',
+    name: 'Dr. Navanjana Warnakulasuriya',
+    role: 'Registrar, Paediatric Surgery',
+    org: 'Lady Ridgeway Hospital for Children',
   },
   {
     quote:
-      'Fast iteration on four backends is rare in med RAG demos; this feels closer to something you could actually evaluate in production.',
-    name: 'J. Rivera',
-    role: 'Product lead, digital health',
-    org: 'Industry partner',
-  },
-  {
-    quote:
-      'Cardiovascular queries pulled from the right index meant fewer “close enough” answers during case review—we could trace claims back to the literature set.',
-    name: 'Dr. E. Matsumoto',
-    role: 'Interventional cardiologist',
-    org: 'Urban tertiary center',
-  },
-  {
-    quote:
-      'Our nurses used internal-medicine routing for complex med-surg questions; the interface made it obvious when to escalate to a specialist pipeline.',
-    name: 'K. Osei',
-    role: 'Chief nursing informatics officer',
-    org: 'Integrated delivery network',
-  },
-  {
-    quote:
-      'For grant prep we needed reproducible, domain-scoped retrieval—not a black box. The pipeline labels matched how we section our IRB and methods text.',
-    name: 'Dr. R. Feldman',
-    role: 'Health services researcher',
-    org: 'Public university',
+      'Really helpful when you need a quick, trustworthy reference during ward rounds. Doesn\'t make things up. Highly recommended for interns in teaching hospitals.',
+    name: 'Dr. B.M. Madhini Basnayaka',
+    role: 'Intern Medical Officer',
+    org: 'Colombo South Teaching Hospital',
   },
 ] as const;
 
