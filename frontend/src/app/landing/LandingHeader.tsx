@@ -63,7 +63,7 @@ export function LandingHeader() {
               href="/landing"
               className={`font-bold text-lg sm:text-xl tracking-tight ${isDark ? 'text-white' : 'text-black'}`}
             >
-              MediRAG
+              <span className="text-orange-500">+</span>{' '}MediRAG
             </Link>
             <div className="hidden md:flex items-center gap-8">
               <a

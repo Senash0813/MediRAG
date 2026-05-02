@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { landingTestimonials } from './content';
@@ -9,17 +8,15 @@ import { landingCardSurfaceClass, landingMutedSubtitleClass } from './theme';
 
 const COMMENTS_PER_PAGE = 4;
 
-/** Deterministic avatar art per person (SVG from DiceBear). */
-function testimonialAvatarSrc(seed: string): string {
-  return `https://api.dicebear.com/7.x/notionists/svg?seed=${encodeURIComponent(seed)}`;
-}
-
 export function LandingComments() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const mode = isDark ? 'dark' : 'light';
   const card = landingCardSurfaceClass(mode);
   const subtitle = landingMutedSubtitleClass(mode);
+  const cardDepth = isDark
+    ? 'shadow-md shadow-black/25'
+    : 'shadow-sm shadow-gray-900/6';
 
   const needsCarousel = landingTestimonials.length > COMMENTS_PER_PAGE;
   const pageCount = Math.ceil(landingTestimonials.length / COMMENTS_PER_PAGE);
@@ -87,7 +84,7 @@ export function LandingComments() {
           {visibleTestimonials.map((t) => (
             <blockquote
               key={t.name}
-              className={`flex h-[300px] w-full max-w-[466px] flex-col overflow-hidden rounded-2xl p-6 sm:h-[320px] sm:max-w-none sm:p-8 ${card}`}
+              className={`flex h-[300px] w-full max-w-[466px] flex-col overflow-hidden rounded-2xl p-6 sm:h-[320px] sm:max-w-none sm:p-8 ${card} ${cardDepth}`}
             >
               <p
                 className={`min-h-0 flex-1 overflow-y-auto text-[16px] sm:text-lg leading-relaxed font-medium ${
@@ -96,29 +93,17 @@ export function LandingComments() {
               >
                 “{t.quote}”
               </p>
-              <footer className="flex shrink-0 items-start gap-3 pt-2">
-                <Image
-                  src={testimonialAvatarSrc(t.name)}
-                  alt=""
-                  width={44}
-                  height={44}
-                  className={`h-11 w-11 shrink-0 rounded-full object-cover ${
-                    isDark ? 'ring-1 ring-white/15' : 'ring-1 ring-black/10'
+              <footer className="shrink-0 pt-2">
+                <div
+                  className={`font-semibold text-[15px] ${
+                    isDark ? 'text-white' : 'text-gray-900'
                   }`}
-                  unoptimized
-                />
-                <div className="min-w-0 flex-1">
-                  <div
-                    className={`font-semibold text-[15px] ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}
-                  >
-                    {t.name}
-                  </div>
-                  <div className={`text-[14px] font-medium mt-1 ${subtitle}`}>
-                    {t.role}
-                    {t.org ? ` · ${t.org}` : ''}
-                  </div>
+                >
+                  {t.name}
+                </div>
+                <div className={`text-[14px] font-medium mt-1 ${subtitle}`}>
+                  {t.role}
+                  {t.org ? ` · ${t.org}` : ''}
                 </div>
               </footer>
             </blockquote>
