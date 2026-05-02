@@ -1,0 +1,582 @@
+[
+  {
+    "variant": "full_cardiorag",
+    "query": "What are the clinical characteristics that differentiate between fulminant myocarditis and acute myocarditis?",
+    "answer": "Fulminant myocarditis is characterized by severe hemodynamic compromise requiring high doses of vasopressors or a left ventricular assist device, along with at least two of the following clinical features: fever, distinct onset of symptoms of heart failure, and a history consistent with the presence of a viral illness within the two weeks before hospitalization. On the other hand, acute myocarditis has an indistinct onset of symptoms of heart failure, is hemodynamically stable or requires only low doses of vasopressors to improve renal perfusion, and lacks fever.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe clinical criteria used to diagnose fulminant myocarditis include the presence of severe hemodynamic compromise, rapid onset of symptoms, and fever. These features distinguish fulminant myocarditis from acute myocarditis.",
+      "Represent the cardiology answer for retrieval:\nPatients with myocarditis are classified as having fulminant myocarditis if they have severe hemodynamic compromise requiring high doses of vasopressors or a left ventricular assist device, along with at least two of the following clinical features: fever, distinct onset of symptoms of heart failure, and a history consistent with the presence of a viral illness within the two weeks before hospitalization. Patients with myocarditis are classified as having acute myocarditis if they have an indistinct onset of symptoms of heart failure, are hemodynamically stable or require only low doses of vasopressors to improve renal perfusion, and have no fever.",
+      "Represent the cardiology answer for retrieval:\nPatients with fulminant myocarditis have been shown to have improved long-term survival compared to those with acute myocarditis. Fulminant myocarditis is characterized by a distinct viral prodrome and marked myocardial inflammation, while acute myocarditis has an indistinct onset of symptoms and a more variable degree of myocardial inflammation. The ability to assess prognosis at the time of presentation is important in patients with myocarditis, as both complete recovery of left ventricular function and progression to dilated cardiomyopathy have been described.",
+      "Represent the cardiology answer for retrieval:\nClinical manifestations of myocarditis can vary widely and include subclinical forms such as asymptomatic ventricular dilation and dysfunction, acute manifestations such as decompensated heart failure and fulminant myocarditis with cardiogenic shock, as well as symptoms like chest pain, palpitations, syncope or presyncope, and sudden death.",
+      "Represent the cardiology answer for retrieval:\nFulminant myocarditis can be distinguished from acute myocarditis by echocardiographic criteria. Patients with fulminant myocarditis have near-normal LV diastolic dimensions with increased septal thickness at presentation, whereas those with acute myocarditis have increased diastolic dimensions but normal septal thickness. Additionally, patients with fulminant myocarditis show significant improvement in fractional shortening after 6 months compared to patients with acute myocarditis."
+    ],
+    "scores": [
+      0.09435318410396576,
+      0.09907928109169006,
+      0.0993528962135315,
+      0.10148424655199051,
+      0.10148558020591736
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThere are several clinical characteristics that differentiate between fulminant myocarditis and acute myocarditis. These include a high number of inflammatory cells and the presence of myocardial ischemia. However, acute myocarditis is associated with a high rate of left ventricular ejection fraction (LVEF). The onset of fulminant myocarditis in the context of acute myocarditis is a relatively slow process. In contrast, acute myocarditis is characterized by a rapid onset of myocardial ischemia and has a poor prognosis.",
+      "Represent the cardiology document for retrieval:\nThe clinical characteristics that distinguish between fulminant myocarditis and acute myocarditis include a rapid onset of symptoms and signs, a relatively short duration of symptoms, a high index of severity, and a high rate of complications such as ventricular tachycardia and right ventricular ejection fraction (RVF). However, both conditions have the same clinical presentation, with a higher prevalence of ventricular tachycardia and RV ejection fraction.",
+      "Represent the cardiology document for retrieval:\nThe clinical characteristics that differentiate between fulminant myocarditis and acute myocarditis include increasing age, elevated serum creatinine, elevated cardiac troponin T levels, and an elevated ejection fraction. In acute myocarditis, there is an increased risk of sudden cardiac death, but it is important to note that the clinical presentation of acute myocarditis is unspecific and does not necessarily indicate fulminant myocarditis.",
+      "Represent the cardiology document for retrieval:\nThe clinical characteristics that differentiate between fulminant myocarditis and acute myocarditis include the presence of symptoms, signs, and symptoms of myocarditis, a history of congestive heart failure, and ventricular tachycardia. The patient may not present with a history of congestive heart failure or ventricular arrhythmias, or if the patient has a previous heart attack."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.10062971711158752,
+    "id": 1,
+    "ground_truth": "The clinical characteristics that differentiate between fulminant myocarditis and acute myocarditis include the presence of a flu-like prodrome or fever in the four weeks preceding the onset of cardiac symptoms, which is reported by all patients with fulminant myocarditis but only 21% of patients with acute myocarditis. Patients with fulminant myocarditis also have an abrupt onset of symptoms within two weeks of presentation, while symptom onset in those with acute myocarditis is indistinct and can be dated to a period of weeks to months. Additionally, all patients classified as fulminant myocarditis have New York Heart Association class III or IV heart failure symptoms, while functional limitation in those with acute myocarditis is more variable."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are some therapeutic approaches that have been attempted to reduce arterial stiffness in both the general population and CKD patients?",
+    "answer": "Several approaches have been tried to reduce arterial stiffness in both the general population and CKD patients. These include pharmacologic interventions with antihypertensives such as candesartan and thiazide diuretics, as well as nonpharmacologic interventions like smoking cessation, dietary changes, and physical exercise. Additionally, lifestyle modifications and management of underlying conditions such as hypertension, hypercholesterolemia, and diabetes are also important in reducing arterial stiffness. By targeting multiple factors that contribute to arterial stiffness, these therapeutic approaches aim to mitigate the burden of target organ damage and clinical cardiovascular disease.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nMitigating arterial stiffness may lower the burden of both target organ damage and clinical cardiovascular disease. By reducing arterial stiffness, the risk of developing target organ damage and cardiovascular disease can be decreased.",
+      "Represent the cardiology answer for retrieval:\nAge, gender, smoking, hypertension, hypercholesterolemia, and diabetes are all factors that can modify arterial stiffness and increase the risk of cardiovascular disease.",
+      "Represent the cardiology answer for retrieval:\nArteriosclerosis, which refers to the stiffening of the arteries, is associated with increased morbidity and mortality from cardiovascular disease (CVD). It has also been implicated in the development of atherosclerosis. Therefore, finding therapeutic strategies to improve arterial stiffness is crucial in order to reduce the risk of CVD.",
+      "Represent the cardiology answer for retrieval:\nArterial stiffness can be modified through various interventions, both pharmacological and nonpharmacological. Pharmacologic agents, such as those used to treat hypertension, high cholesterol, and diabetes, have been shown to improve arterial stiffness and central blood pressure. Nonpharmacological interventions, such as smoking cessation, dietary changes, and physical exercise, have also been associated with improvements in arterial stiffness. These interventions work by reducing pressure wave reflections and dilating the arteries, leading to decreased arterial stiffness.",
+      "Represent the cardiology answer for retrieval:\nReduction of arterial stiffness through antihypertensive treatment, such as with candesartan, can be favorable for reducing cardiovascular risk. Increased arterial stiffness, especially in large arteries, is associated with an increased cardiovascular risk. By improving arterial stiffness, antihypertensive treatment can reduce cardiac afterload and lower plasma levels of natriuretic peptides, which are independent risk factors for cardiovascular events. Therefore, reducing arterial stiffness through antihypertensive treatment may help mitigate cardiovascular risk."
+    ],
+    "scores": [
+      0.09056492149829865,
+      0.10115104913711548,
+      0.10119222104549408,
+      0.10140621662139893,
+      0.10203653573989868
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nSome therapeutic approaches that have been attempted to reduce arterial stiffness in both the general population and CKD patients include the use of pharmacological agents such as fibrates, calcium antagonists, and beta blockers. These agents aim to slow down the rate at which arterial stiffening in the patient's blood increases, leading to more effective control of arterial stiffness.",
+      "Represent the cardiology document for retrieval:\nSome therapeutic approaches that have been attempted to reduce arterial stiffness in both the general population and CKD patients include reducing blood pressure, reducing blood pressure, lowering resting blood pressure, lowering systolic blood pressure, and reducing hypertension.",
+      "Represent the cardiology document for retrieval:\nSeveral therapeutic approaches have been attempted to reduce arterial stiffness in both the general population and CKD patients. These include the use of low-molecular-weight heparin and statins, the use of statins, and the use of ACE inhibitors. However, there are also suggestions that these approaches may not be feasible in CKD patients.",
+      "Represent the cardiology document for retrieval:\nSeveral therapeutic approaches have been attempted to reduce arterial stiffness in both the general population and CKD patients. One approach is to reduce arterial stiffness by decreasing the stiffness of arterial plaque, as well as preventing the development of atherosclerotic lesions or thrombosis in CKD patients. Another approach is to improve exercise capacity, particularly in patients with CKD. Additionally, a combination of pharmacologic and surgical strategies has been developed to reduce arterial stiffness in patients with CKD."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.12017187476158142,
+    "id": 2,
+    "ground_truth": "Some therapeutic approaches that have been attempted to reduce arterial stiffness in both the general population and CKD patients include the use of agents that modulate mineral metabolism abnormalities, such as Sevelamer and Cinacalcet. Observational studies have shown that the use of Sevelamer, a noncalcium-containing phosphate binder, may significantly attenuate arterial stiffness in CKD patients receiving chronic dialysis. Additionally, Cinacalcet has been found to reduce arterial stiffness in hemodialysis patients. Lipid lowering agents, such as atorvastatin, have also shown promise in lowering arterial stiffness. However, the results of studies on the effectiveness of statins on arterial stiffness have been mixed. Antihypertensive agents that act on the renin-angiotensin-aldosterone system (RAAS), such as spironolactone, have also been found to reduce arterial stiffness in CKD patients."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "How is the success of endovascular repair measured and monitored in the follow-up period?",
+    "answer": "In the follow-up period, the success of endovascular repair is evaluated through regular evaluations using physical examination and sonography. If there are positive signs such as strong femoral pulses and improvement in critical limb ischemia symptoms, quarterly visits are recommended. During each visit, the treatment process is assessed, including pulse examination, disease symptomatology, and patient satisfaction. In case of any suspicion of suboptimal stent performance, CT-angiography may be requested, and if restenosis occurs, re-angiography and angioplasty are performed.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe criteria used to determine the patency of the treated segment after revascularization include the absence of symptom recurrence, a mean systolic blood pressure difference between the arms of less than 10 mm Hg, and a stent velocity by Doppler that increases by no more than 20% with an absolute measurement of less than 200 cm/s.",
+      "Represent the cardiology answer for retrieval:\nPost-operatively, patients who undergo stent graft deployment are monitored with clinical and laboratory examination, including thoracic and abdominal X-rays. CTA controls are performed at specific intervals depending on each patient's characteristics, such as 1 month, 1 year, and annually thereafter. Suspicion of endoleak or branch vessel malperfusion may be investigated by additional DSA for further evaluation and possible reintervention.",
+      "Represent the cardiology answer for retrieval:\nThe criteria used to define patency of the stented vascular segment include arteriographic evidence of restenosis (≥50% diameter reduction) or a trans-stenotic pressure gradient that is successfully treated with supplemental interventions.",
+      "Represent the cardiology answer for retrieval:\nWhile endovascular aortic stent grafting is a promising treatment for aortic transections, there are limitations and uncertainties regarding its long-term use. The durability of endografts and their performance as patients age is still largely unknown. There is also uncertainty about the long-term complications of vascular access and subclavian artery coverage. Patients treated with endografts require long-term follow-up and multiple radiological procedures, resulting in a significant cumulative radiation dose over their lifetime. Ongoing experience, national and international registries, and vigilant surveillance of patients treated with endografts are necessary to better understand and address these limitations and uncertainties.",
+      "Represent the cardiology answer for retrieval:\nAfter the endovascular therapy procedure, weekly evaluations using physical examination and sonography are recommended during the first month. If positive signs such as strong femoral pulses and recovery from critical limb ischemia symptoms are present, quarterly visits are recommended thereafter. During each visit, the treatment process is evaluated, including femoral pulse examination, improvement of disease signs and symptoms, and patient satisfaction. In case of any suspicion of suboptimal stent performance, CT-angiography is requested, and if restenosis is established, re-angiography and angioplasty are performed."
+    ],
+    "scores": [
+      0.09973809123039246,
+      0.11008411645889282,
+      0.1118679940700531,
+      0.11211887001991272,
+      0.1130896806716919
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe success of endovascular repair is monitored through an endovascular angiogram using the stent graft method. The endovascular angiogram is analyzed and compared with the stent graft procedure using the modified Simpson's criterion. The procedure is evaluated and monitored at regular intervals up to 6 months post-surgery. The stent graft technique is validated by intraoperative imaging, which allows for the observation of vessel patency and the maintenance of vascular patency.",
+      "Represent the cardiology document for retrieval:\nThe success of endovascular repair can be measured and monitored in the follow-up period using the Balloon-Atlantic balloon-expandable Stent-Femoral Endograft (B-TABE) device. The balloon-expandable STABE device allows for a continuous and accurate flow through the endograft, allowing for the use of a lower-profile stent graft at the end of the stent-graft's length.",
+      "Represent the cardiology document for retrieval:\nThe success of endovascular repair is monitored at the 1-month, 6-month, and 12-month follow-up periods. After the procedure, the endovascular repair is repeated every 4 months, and the success rate is determined by the sum of the procedural success scores (PISAs) and the reoperation rates for the stent-grafts. The follow-up period is calculated by comparing the two methods at the 1-year interval, and comparing the respective rates at 1- and 3-year follow-up.",
+      "Represent the cardiology document for retrieval:\nThe success of endovascular repair is measured and monitored in the follow-up period using the modified Rankin Scale (mRS). This score provides information about the durability of the stent grafts and the patency of the stent grafts. The mRS is defined as the percentage of stent grafts that remained patent at 6 months after the procedure."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.11800466477870941,
+    "id": 3,
+    "ground_truth": "Procedural success of endovascular repair is defined according to reporting standards. Postoperative follow-up includes blood pressure measurements, blood tests (including serum creatinine), and renal function tests such as RPS 99m TC-DTPA. Angio-CT is performed after 30 days if a type II endoleak is revealed by DSA. Midterm follow-up includes blood tests, renal function tests, and imaging (RPS 99m TC-DTPA, angio-CT, plain abdominal radiography) at specific intervals. This comprehensive monitoring strategy aims to assess the position of the endograft, detect any complications or endoleaks, and evaluate renal function stability."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What is the rationale for performing cineradiographic study after prosthetic valve replacement?",
+    "answer": "The rationale for cineradiographic study after prosthetic valve replacement is to detect paravalvular leaks and assess the degree of tilt of the prosthetic valve. However, it is important to note that a leak may occur even with a normal degree of tilt if there are intact sutures without a pivot point.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nRoutine cineradiography is recommended after prosthetic valve replacement because it can help detect paravalvular leaks and assess the degree of tilting motion of the prosthetic valve. Patients who develop a murmur or unexplained congestive failure should have repeat cineradiography to compare the degree of tilting motion between the two examinations. A change in tilt between the two examinations is considered more significant than the tilting motion on a single examination. This approach can aid in the detection and monitoring of paravalvular leaks.",
+      "Represent the cardiology answer for retrieval:\nThe rationale for cineradiographic study after prosthetic valve replacement is that it can help detect paravalvular leaks and assess the degree of tilt of the prosthetic valve. The degree of tilt can indicate if sutures have pulled through the supporting tissues, with intact sutures acting as a pivot point. However, it is important to note that a paravalvular leak may occur even with a normal degree of tilt if there are strategically placed intact sutures without a pivot point.",
+      "Represent the cardiology answer for retrieval:\nThere are several arguments supporting the view that preoperative cardiac catheterization and angiography are necessary for patients undergoing valve replacement. Firstly, the logic of evaluating the need for cardiac catheterization based on an assessment of operative and late mortality and postoperative complications is considered inappropriate. Previous experience in bypassing cardiac catheterization does not prove that it is right and correct to do so. The accuracy and reproducibility of history, physical examination, chest X-ray film, and electrocardiogram in diagnosing valve lesions and evaluating their severity are not known. Noninvasive tests, such as M-mode echocardiography, are not reliable in detecting the presence, extent, and severity of associated coronary artery disease. Additionally, relying solely on history, physical examination, and noninvasive tests may result in severe valve disease being denied surgery or patients with mild or moderate valve disease undergoing unnecessary valve replacement, which can be potentially disastrous.",
+      "Represent the cardiology answer for retrieval:\nWhile cineradiography provides valuable information about the motion of prosthetic cardiac valves, it is important to confirm these findings with angiography. Angiography allows for a more detailed assessment of the severity of paravalvular leaks, providing additional information that can guide treatment decisions. By combining the information obtained from cineradiography and angiography, clinicians can obtain a comprehensive evaluation of prosthetic valves and make informed decisions regarding patient management.",
+      "Represent the cardiology answer for retrieval:\nThe choice between cardiac CT and MR imaging depends on individual patient characteristics, the type of prosthetic valve, and the clinical situation. Cardiac CT offers advantages such as rapid acquisition, wide availability, and less operator dependency. However, it requires the use of iodinated contrast medium and a heart rate below certain limits, which may preclude its use in patients with renal failure and irregular heart rhythms. Some types of prosthetic valves produce severe artifacts on CT, limiting its assessment capabilities. Cardiac CT also involves radiation exposure. On the other hand, cardiac MR imaging has advantages such as absence of radiation exposure, no need for contrast material or heart rate control, and suitability for patients with renal dysfunction. However, it has limitations such as greater operator dependency and longer acquisition times. It is contraindicated in patients with certain medical devices but can be safely used in patients with coronary stents. Therefore, the choice between cardiac CT and MR imaging should be based on weighing the benefits and limitations and considering individual patient factors and contraindications."
+    ],
+    "scores": [
+      0.10166299343109131,
+      0.10232904553413391,
+      0.10667945444583893,
+      0.10708208382129669,
+      0.11139559000730515
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe rationale for performing cineradiographic study after prosthetic valve replacement is to determine if postoperative chest X-ray abnormalities could be detected using cineradiography. A cineradiographic study allows for the examination of both the anteroposterior and distal portions of the heart, which can help in identifying asymptomatic pulmonary stenosis or regurgitation. A pulmonary stenosis 25% has been reported as an indication for endocardial biopsy.",
+      "Represent the cardiology document for retrieval:\nCineradiographic study after prosthetic valve replacement is performed to determine the ability of the sternum to supply blood for perioperative monitoring. Cineradiographic study has been shown to reduce the risk of postoperative sternal pain and may improve the overall safety of the sternum, especially in patients with an increased risk of perioperative stroke. This is done to confirm the diagnosis and assess the effects of the valve on the myocardium, improving the efficiency of the repair.",
+      "Represent the cardiology document for retrieval:\nThe rationale for performing cineradiographic study after prosthetic valve replacement is to prevent the complications of heart failure and improve patient outcomes. It is important to avoid unnecessary pre-operative cineradiographic investigations due to a high risk of cardiac events. Cineradiographic study is advantageous in situations where the patient's heart failure symptoms are severe, such as cyanosis and sudden cardiac death.",
+      "Represent the cardiology document for retrieval:\nCineradiographic study after prosthetic valve replacement is done to detect residual stenosis and its progression. It can assess the pulmonary and systemic venous blood flow dynamics and evaluate the effects on postoperative pulmonary function. The technique involves using a slice thickness of 4.5 mm, and the reconstruction is performed using a slice thickness of 1.0 mm."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.10346566140651703,
+    "id": 4,
+    "ground_truth": "The rationale for cineradiographic study after prosthetic valve replacement is that it can help detect paravalvular leaks and assess the degree of tilt of the prosthetic valve. The degree of tilt can indicate if sutures have pulled through the supporting tissues, with intact sutures acting as a pivot point. However, it is important to note that a paravalvular leak may occur even with a normal degree of tilt if there are strategically placed intact sutures without a pivot point."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "How can the levels of circulating endothelial cells (ECs) be used to assess the efficacy of cell-based therapies in peripheral arterial disease (PAD)?",
+    "answer": "The levels of circulating ECs may serve as a marker for the risk of cardiovascular diseases and can even predict vascular function in many diseases. By quantifying sEng levels, researchers can evaluate the impact of different treatments on endothelial damage and potentially determine the effectiveness of the treatment in cardiovascular pathologies associated with endothelial dysfunction or hypercholesterolemia. In patients with PAD, the number of EPCs is reduced, potentially due to the adverse effects of cardiovascular risk factors on their mobilization or self-renewal. The burden of cardiovascular risk factors is inversely correlated with the numbers of circulating ECs. Additionally, the function of ECs is impaired in PAD, as evidenced by their reduced ability to form colonies and incorporate into pre-existing vascular networks ex vivo. Therefore, using the levels of circulating ECs to assess the efficacy of cell-based therapies in peripheral arterial disease",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nCirculating endothelial cells (CECs) and endothelial progenitor cells (EPCs) are potential biomarkers of cardiovascular diseases.",
+      "Represent the cardiology answer for retrieval:\nClinical trials conducted in CAD patients have shown that the level of circulating EPCs can serve as a surrogate biologic marker for vascular function and cumulative cardiovascular risk. Additionally, the level of circulating EPCs may also predict the occurrence of cardiovascular events and death from cardiovascular causes, which can help identify patients at increased cardiovascular risk.",
+      "Represent the cardiology answer for retrieval:\nCirculating EPCs may serve as a marker for the risk of cardiovascular diseases and can even predict vascular function in many diseases. The level of circulating EPCs and their migratory activity can indicate the risk of cardiovascular diseases (Vasa et al., 2001; Tepper et al., 2002; Baumhakel et al., 2006; Werner and Nickenig, 2006a,b).",
+      "Represent the cardiology answer for retrieval:\nsEng plasma levels could be studied as a biomarker to assess the efficacy of different antihypertensive regimens in hypertensive patients with endothelial dysfunction. By quantifying sEng levels, researchers can evaluate the impact of different treatments on endothelial damage and potentially determine the effectiveness of the treatment in cardiovascular pathologies associated with endothelial dysfunction or hypercholesterolemia.",
+      "Represent the cardiology answer for retrieval:\nIn patients with PAD, the number of EPCs is reduced, potentially due to the adverse effects of cardiovascular risk factors on their mobilization or self-renewal. The burden of cardiovascular risk factors is inversely correlated with the numbers of circulating EPCs. Additionally, the function of EPCs is impaired in PAD, as evidenced by their reduced ability to form colonies and incorporate into pre-existing vascular networks ex vivo."
+    ],
+    "scores": [
+      0.11345978826284409,
+      0.11458201706409454,
+      0.11517341434955597,
+      0.11568310856819153,
+      0.11628994345664978
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe levels of circulating ECs can be used to assess the efficacy of cell-based therapies in PAD by analyzing the levels of circulating ECs in plasma. This method is particularly useful for evaluating the prognostic impact of ECs in PAD patients who do not respond well to traditional therapies or those with an increased risk of complications.",
+      "Represent the cardiology document for retrieval:\nSeveral studies have evaluated the level of circulating ECs in patients with PAD, including the efficacy of cell-based therapies in PAD. The study showed that circulating EC levels were significantly higher than those observed in healthy individuals, suggesting that the use of ECs as a therapeutic tool may contribute to improved patient outcomes.",
+      "Represent the cardiology document for retrieval:\nThe levels of circulating endothelial cells (ECs) can be used to assess the efficacy of cell-based therapies in PAD. Studies have shown that circulating ECs have a higher proliferative capacity and angiogenesis compared to peripheral blood mononuclear cells (PBMCs). This increased production of ECs is accompanied by an increased number of platelet-derived growth factors (PDGFs), which promote the proliferation and migration of endothelial progenitor cells. Further research is needed to assess the long-term efficacy of EC-based therapies in PAD.",
+      "Represent the cardiology document for retrieval:\nThe levels of circulating ECs can serve as a parameter to assess the efficacy of cell-based therapies in PAD. ECs can be derived from different sources, such as peripheral vascular endothelial cells (PPEs), or endothelial cells from blood vessels. The presence of ECs at the level of circulating blood may help determine the potential benefits and risks of cell-based therapies in PAD."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.17646043002605438,
+    "id": 5,
+    "ground_truth": "Several studies have investigated the correlation between circulating EC levels and the pathogenesis of PAD. In comparative studies, it has been observed that specific mRNA expressions of circulating EPCs are low in the presence of ischemic PAD. Enhancing the number of EPCs in circulation has become an important target for clinical studies, and it has been shown that exercise and educational programs can increase the number of progenitor cells in circulation in PAD patients."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "Why is improving the hemolytic performance crucial in the design and development of rotary blood pumps for congestive heart failure patients?",
+    "answer": "Improving the hemolytic performance is vital in the design and development of rotary blood pumps for congestive heart failure patients to prevent adverse outcomes such as hemolysis, thrombosis, bleeding, and infection. Hemolysis can have long-term consequences on blood biochemistry, potentially reducing life expectancy. Therefore, focusing on improving hemolytic performance is critical in preventing these complications.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nEnhancing the hemolytic performance of rotary blood pumps is essential as nonoptimized designs can lead to clinical complications such as hemolysis, thrombosis, bleeding, and infection. Hemolysis, indicated by the amount of hemoglobin entering the blood plasma due to mechanical damage of red blood cell membranes, can have long-term consequences on blood biochemistry, potentially reducing life expectancy. Therefore, focusing on improving hemolytic performance is critical to prevent adverse outcomes in patients with congestive heart failure.",
+      "Represent the cardiology answer for retrieval:\nSome strategies that have been developed to improve clinical outcomes in patients with coronary heart disease include reducing the demand on the heart through the use of beta-blocking agents and improving the supply of blood to the heart through revascularization procedures.",
+      "Represent the cardiology answer for retrieval:\nCurrent therapies for congestive heart failure aim to increase heart contractility, reduce blood pressure, or reduce fluid volume. These pharmacological treatments are used to attenuate the pathological remodeling that occurs after injury and to reduce risk factors for cardiovascular disease. However, these therapies do not represent a cure but rather a palliative measure.",
+      "Represent the cardiology answer for retrieval:\nThe diagnosis of cardiac inflammation with acute heart failure and severe hemodynamic compromise is based on clinical manifestations rather than etiological or histopathological factors. Medical treatment of heart failure or arrhythmia, as well as hemodynamic support with extracorporeal membrane oxygenation (ECMO), intraaortic balloon pumps, or ventricular assist devices (VAD), have been reported as beneficial bridges to recovery.",
+      "Represent the cardiology answer for retrieval:\nAcute hemodynamic improvements observed in patients with congestive heart failure treated with vasodilating drugs include a reduction in left ventricular filling pressure, increases in cardiac index and stroke index, and directionally similar hemodynamic improvement during exercise."
+    ],
+    "scores": [
+      0.09617917984724045,
+      0.11498696357011795,
+      0.11949244141578674,
+      0.12163541465997696,
+      0.12253043800592422
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nImprovements in the hemolytic performance of rotary blood pumps for congestive heart failure patients are essential. As a result, the system must have better hemolytic performance. This improvement can potentially reduce the number of thrombi produced and improve the performance of the system.",
+      "Represent the cardiology document for retrieval:\nImprovement of the hemolytic performance is crucial in the design and development of rotary blood pumps for congestive heart failure patients. By using a rotary blood pump with a high hemolytic activity, the pump should be able to degrade hemolysin efficiently. This can lead to improved clinical outcomes and ultimately increased cost-effectiveness.",
+      "Represent the cardiology document for retrieval:\nImproving the hemolytic performance is crucial in the design and development of rotary blood pumps for congestive heart failure patients because it can improve the pump's performance in terms of hemolytic activity and efficiency. In the case of rotary pumps, the hemolytic capacity of the pump needs to be improved. However, there is a lack of evidence that improved hemolytic performance can improve the safety of the pumps.",
+      "Represent the cardiology document for retrieval:\nImprovement of the hemolytic performance is crucial in the design and development of rotary blood pumps for congestive heart failure patients. The concept of hemolytic inhibition by a monoclonal antibody is a promising strategy to minimize bacterial adherence to the rotary endothelium. While some biomedical devices have limitations such as poor device performance, they can be viewed as a limitation when the hemolytic activity of the pumps is limited to a small number of circulating molecules or bacterial enzymes. However, the use of a monoclonal antibody to inhibit bacterial adherence is not advisable because the drug-binding site on the rotary endothelium is not well defined."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.09058033674955368,
+    "id": 6,
+    "ground_truth": "Enhancing the hemolytic performance of rotary blood pumps is essential as nonoptimized designs can lead to clinical complications such as hemolysis, thrombosis, bleeding, and infection. Hemolysis, indicated by the amount of hemoglobin entering the blood plasma due to mechanical damage of red blood cell membranes, can have long-term consequences on blood biochemistry, potentially reducing life expectancy. Therefore, focusing on improving hemolytic performance is critical to prevent adverse outcomes in patients with congestive heart failure."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What is the potential prognostic significance of ischemic changes following termination of exercise?",
+    "answer": "The duration of ischemic changes following exercise may have prognostic significance in terms of predicting the severity of coronary artery disease and its potential impact on prognosis. Further studies are needed to establish the exact significance of these changes.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe duration of ischemic changes following termination of exercise may have prognostic significance. It is believed that the degree of coronary flow restriction may be inversely proportional to the severity of stress required to detect it. Therefore, the duration of ischemic changes following exercise can provide insights into the severity of coronary artery disease and its potential impact on prognosis. Further studies are needed to establish the exact significance of these changes.",
+      "Represent the cardiology answer for retrieval:\nPost-exercise HRR has been observed to be a strong indicator of mortality and morbidity risk in asymptomatic and symptomatic ischemic patients, independent of the severity of the disease and left ventricular function. Although HRR and HRV are both altered in ischemic patients, the correlations between HRR and HRV parameters are weak or even absent. Further studies are needed to determine the best algorithm for quantifying the arrhythmogenic risk using HRV and HRR parameters.",
+      "Represent the cardiology answer for retrieval:\nEvidence for cardiac ischemia during pre-operative evaluation can be obtained through graded exercise on a bicycle or a dobutamine stress echocardiography. These procedures are followed by coronary angiography when changes on the ECG are consistent with cardiac ischemia.",
+      "Represent the cardiology answer for retrieval:\nSome of the potential pathological changes observed in heart diseases include cardiac remodeling, heart failure, myocardial infarction (MI), atrial fibrillation, atherosclerosis (AS), and ischemia/reperfusion (IR).",
+      "Represent the cardiology answer for retrieval:\nBeta-blockers have been shown to improve prognosis in patients with CHD, particularly in postinfarction patients. They can have a favorable influence on the deleterious prognostic effect of exercise-induced ischemia. The introduction of beta-blockers as part of antianginal therapy can help reduce the risk of major events such as cardiac death and infarction."
+    ],
+    "scores": [
+      0.0820055603981018,
+      0.10635694116353989,
+      0.10835028439760208,
+      0.10929413139820099,
+      0.1111513301730156
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nIschemic changes following termination of exercise have been shown to be associated with a lower risk of early mortality in patients with heart failure, which is also a known risk factor for cardiovascular mortality. However, the prognostic significance of ischemic changes following termination of exercise is currently not well-established.",
+      "Represent the cardiology document for retrieval:\nIschemic changes following termination of exercise may have prognostic significance. This is supported by the identification of patients with acute myocardial infarction who have a history of prior MI. The extent of ischemic changes following exercise can be assessed using computed tomography (CT) and is associated with improved outcomes for both acute and chronic stroke patients.",
+      "Represent the cardiology document for retrieval:\nIschemic changes following termination of exercise have been shown to be an independent prognostic parameter for predicting mortality and morbidity in patients. These changes can be observed in patients with a history of ischemia, including those who have had recurrent myocardial infarction (MI) and/or a history of myocardial infarction. The presence or absence of ischemic changes at the end of exercise has been associated with a higher risk of death and morbidity. Therefore, monitoring the presence of ischemic changes following termination of exercise may provide valuable prognostic information.",
+      "Represent the cardiology document for retrieval:\nThe potential prognostic significance of ischemic changes following termination of exercise is still being explored. Some studies have shown that ischemic changes are associated with impaired physical performance in athletes, indicating the potential importance of evaluating these changes to improve the patient's health-related quality of life (HRQoL). However, others have not found any significant association between ischemic changes following termination of exercise and a better outcome for the patient."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.08167178928852081,
+    "id": 7,
+    "ground_truth": "The duration of ischemic changes following termination of exercise may have prognostic significance. It is believed that the degree of coronary flow restriction may be inversely proportional to the severity of stress required to detect it. Therefore, the duration of ischemic changes following exercise can provide insights into the severity of coronary artery disease and its potential impact on prognosis. Further studies are needed to establish the exact significance of these changes."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "How is coronary spasticity evaluated in patients undergoing coronary angiography?",
+    "answer": "The evaluation of coronary spasticity during coronary angiography involves several indices, such as the maximum reduction in diameter and the mean reduction in diameter, which measure the percentage change in diameter of the most constricted and average diameters, respectively. Additionally, the number of vessels that undergo >90% stenosis in response to ACh injection is recorded. Finally, the minimum dose of ACh required for this degree of stenosis is determined.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe manifestations of postoperative coronary artery spasm can range from asymptomatic ST elevation to hypotension and circulatory collapse, related to arrhythmias or myocardial injury. It must be considered in the differential diagnosis of acute postoperative circulatory instability because rapid recognition and specific therapy may be lifesaving.",
+      "Represent the cardiology answer for retrieval:\nCoronary spasticity in patients undergoing coronary angiography is evaluated using several indices. These include the maximum reduction of the coronary diameter, which measures the percentage change in diameter of the most constricted coronary segment in response to ACh injection. The mean reduction of the coronary diameter is also calculated, representing the average percentage change in diameter of all coronary segments. The number of vessels induced to undergo >90% stenosis in response to ACh injection is recorded, including single-vessel or multivessel coronary spasm. Additionally, the minimum dose of ACh that induced >90% stenosis is determined.",
+      "Represent the cardiology answer for retrieval:\nRisk factors for coronary artery vasospasm during coronary angiography include atherosclerosis affected coronary vessels, exaggerated contractile response of the vascular smooth muscle, and handling of catheters during the procedure.",
+      "Represent the cardiology answer for retrieval:\nThe scenarios for the use of coronary angiography in the evaluation of cardiac arrhythmias were rated differently depending on the specific arrhythmia. Coronary angiography was rated as appropriate for patients resuscitated after cardiac arrest (assuming return of reasonable neurologic function) and for those with sustained ventricular tachycardia (VT) regardless of symptoms. However, scenarios related to syncope, new onset atrial fibrillation/flutter, high-degree atrioventricular block, or new left bundle branch block were generally rated as inappropriate for patients with a low coronary heart disease (CHD) risk and uncertain with a high CHD risk.",
+      "Represent the cardiology answer for retrieval:\nCoronary artery spasm is not only implicated in variant angina but also in other types of angina pectoris and myocardial infarction, suggesting its significance in the development of ischaemic heart disease."
+    ],
+    "scores": [
+      0.1039990782737732,
+      0.10577975958585739,
+      0.11371541023254395,
+      0.11665999889373779,
+      0.11851820349693298
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nCoronary spasticity in patients undergoing coronary angiography is evaluated using the coronary spasticity index (CSAI), which is a parameter used to assess the severity of coronary spasm. The CSAI score is calculated by dividing the peak spasticity value by the systolic velocity measured on a treadmill. The CSAI is calculated by dividing the systolic velocity measured on the treadmill by the systolic velocity measured on the treadmill.",
+      "Represent the cardiology document for retrieval:\nCoronary spasticity in patients undergoing coronary angiography is evaluated through a scoring system, which takes into account the spastic response to the angiographic procedure. The score is calculated using the following formula: , where , is the percentage of spastic response at a given point in the coronary artery segment. , is the percentage of response at each point in the coronary segment. Coronary spasticity is considered the least important determinant of restenosis after coronary angiography.",
+      "Represent the cardiology document for retrieval:\nCoronary spasticity is evaluated in patients undergoing coronary angiography using a balloon-expandable catheter placed in the left atrium. In this model, a balloon-expandable catheter is placed in the left coronary artery to provide a guide for the evaluation of coronary spasticity. This catheter is placed around the heart's internal diameter and is connected to the aortic wall.",
+      "Represent the cardiology document for retrieval:\nCoronary spasticity is evaluated by evaluating the spasm index (SSI) at each post-procedure coronary angiography. SSI is defined as the smallest amplitude of SSI in any given coronary vessel and is referred to as spasm (>100% spasm). The spasticity index (CSI) is a widely used index to evaluate the spasticity of coronary vessels. It is calculated using the following equation: SSI is a measure of spasticity that is measured with a simple Doppler test and is computed using the heart rate variability (HRV)."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.1376669704914093,
+    "id": 8,
+    "ground_truth": "Coronary spasticity in patients undergoing coronary angiography is evaluated using several indices. These include the maximum reduction of the coronary diameter, which measures the percentage change in diameter of the most constricted coronary segment in response to ACh injection. The mean reduction of the coronary diameter is also calculated, representing the average percentage change in diameter of all coronary segments. The number of vessels induced to undergo >90% stenosis in response to ACh injection is recorded, including single-vessel or multivessel coronary spasm. Additionally, the minimum dose of ACh that induced >90% stenosis is determined."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are some of the surgical considerations and concerns specific to adults with congenital heart disease who require operation or reoperation?",
+    "answer": "There are several surgical considerations and concerns for adults with congenital heart disease requiring surgery or reoperation. These include potential long-term effects of the congenital defect, such as residual abnormalities and complications. It is important to monitor and address these issues in the long-term care of individuals with congenital heart disease. In addition, there may be challenges related to obtaining life insurance and medical insurance, accessing appropriate cardiac follow-up, and limited availability of specialized medical facilities for their specific needs.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nAdult patients with congenital heart disease who have undergone corrective or palliative procedures face challenges related to the long-term effects of both the congenital defect and the treatment. These challenges include the need for lifelong follow-up, the possibility of repeat operations and reinterventions, and the potential for residua of the congenital defect and sequelae of the treatment to impact their health.",
+      "Represent the cardiology answer for retrieval:\nAdults with congenital heart disease face challenges such as difficulty obtaining life insurance and medical insurance, lack of access to appropriate cardiac follow-up, and limited availability of specialized medical facilities for their specific needs.",
+      "Represent the cardiology answer for retrieval:\nFollowing surgical intervention for congenital heart disease, there can be residual abnormalities and potential complications. For example, in cases of partial endocardial cushion defect, the abnormal mitral valve may not be as durable as its normal counterpart in the long run. Additionally, aortic regurgitation and valvular anatomic residua can be potential problems years after valvotomy for aortic stenosis, assuming complete relief of obstruction. It is important to monitor and address these potential complications in the long-term care of individuals with congenital heart disease.",
+      "Represent the cardiology answer for retrieval:\nThe primary determinants of complications in adult congenital heart disease include specific congenital heart defects and the risk of acquired heart disease with increasing age.",
+      "Represent the cardiology answer for retrieval:\nSome common congenital heart defects that may require surgical intervention in adulthood include bicuspid aortic valve, aortopathies due to connective tissue diseases, and hypertrophic cardiomyopathy."
+    ],
+    "scores": [
+      0.08023479580879211,
+      0.08936367928981781,
+      0.09146928787231445,
+      0.0924510806798935,
+      0.09321773052215576
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nSome of the surgical considerations and concerns specific to adults with congenital heart disease who require operation or reoperation include the presence of a heart valve that allows for the closure of a ventricular septal defect, such as the left ventricular antepartum, which allows for cardiac support. The use of heart valve replacement devices in these patients can help reduce complications and mortality. However, the choice between surgery and reoperation is based on the individual patient's conditions and the specific needs of each patient.",
+      "Represent the cardiology document for retrieval:\nSome surgical considerations and concerns specific to adults with congenital heart disease who require operation or reoperation include the diagnosis of mitral regurgitation, aortic valve disease, and mitral regurgitation. These considerations help ensure that patients are at risk for further problems and have better outcomes.",
+      "Represent the cardiology document for retrieval:\nSome of the surgical considerations and concerns specific to adults with congenital heart disease who require operation or reoperation include the risk of cardiac malperfusion, the risk of heart transplantation, and the possibility of cardiac enlargement.",
+      "Represent the cardiology document for retrieval:\nSome surgical considerations and concerns specific to adults with congenital heart disease who require operation or reoperation include the size of the heart, the dimensions of the right heart, and the need for more sophisticated surgical procedures like cardiopulmonary bypass (CPB)."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.08855734765529633,
+    "id": 9,
+    "ground_truth": "Surgical considerations for adults with congenital heart disease involve addressing the congenital cardiac malformation, whether previously operated or unoperated, along with acquired cardiac and noncardiac diseases of adulthood. Concerns may include hematologic disorders, aortopulmonary collaterals, prosthetic materials such as conduits and valves, pulmonary vascular disease, ventricular function, myocardial protection, blood salvage techniques, the risk of infective endocarditis, and the residua and sequelae of previous cardiac surgery. Coexisting acquired heart disease may also be a factor, with the incidence varying with age."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What is the purpose of bidirectional superior cavopulmonary anastomosis (BCPA) in the treatment of complex congenital heart defects?",
+    "answer": "❌ Ollama error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120)",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nSuperior cavopulmonary anastomosis (SCPA), also known as the classic Glenn shunt, is performed for palliation of tricuspid atresia and univentricular congenital heart defects. It is an end-to-end anastomosis of the superior vena cava to the right pulmonary artery, which increases pulmonary blood flow without increasing the workload of the ventricle.",
+      "Represent the cardiology answer for retrieval:\nCardiopulmonary bypass is initiated in minimally invasive valve surgery after cannulation of the femoral artery and superior and inferior vena cava. The patient's systemic temperature is lowered to 28 °C. Caval tapes are placed to control blood flow, and a specific flexible minimally invasive cross-clamp is used to cross-clamp the aorta. Antegrade cold blood cardioplegia solution is then delivered to induce cardiac arrest. The right atrium is opened, and a retrograde cardioplegia cannula is inserted into the coronary sinus ostium. Both antegrade and retrograde cold blood cardioplegia solutions are administered to provide myocardial protection during the surgery. After the heart is arrested, the cardiac valve replacement or repair is performed using standard techniques, with intraoperative transesophageal echocardiography used to assess the success of valve repair operations.",
+      "Represent the cardiology answer for retrieval:\nPulmonary artery banding in combination with the creation of an atrial septal defect offers several advantages. This procedure is performed in patients who present with cyanosis and severe congestive heart failure, along with a ventricular septal defect, inadequate atrial septal defect, LA hypertension, arterial unsaturation, pulmonary artery hypertension, and varying degrees of pulmonary vascular obstruction. The combined approach may help alleviate symptoms and improve physiological parameters. Additionally, the fact that the pulmonary vasculature is no longer exposed to high pressure is a further advantage of the operation.",
+      "Represent the cardiology answer for retrieval:\nPatients who undergo pulmonary artery banding as a palliative surgical intervention may present with symptoms of congestive heart failure and cyanosis. Physical examination findings may include a hyperkinetic cardiac impulse, a marked deformity in the left chest, a louder systolic murmur along the lower left sternal border, and diastolic rumbles. The cardiac silhouette may appear large with active and passive pulmonary vascular engorgement. The electrocardiogram may not show significant abnormalities, but some patients may exhibit right atrial hypertrophy. Cardiac catheterization may reveal high pulmonary arterial pressure, near equilibration of pressures between the ventricles and great arteries, and a ventricular septal defect. The presence of a large pulmonary blood flow may be suggested by high systemic arterial oxygen saturation and confirmed by calculated pulmonary to systemic flow ratios.",
+      "Represent the cardiology answer for retrieval:\nThe most frequent indications for PAB in infants with complex congenital heart defects are cases where the mortality of early repair is prohibitive or when a program of total cavopulmonary connection is being considered. PAB may also be used to retrain the left ventricle in cases of untimely referral of transposition of the great arteries after atrial inversion or in double discordance."
+    ],
+    "scores": [
+      0.1191573217511177,
+      0.12402300536632538,
+      0.12492717802524567,
+      0.12505638599395752,
+      0.1251738965511322
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nBidirectional superior cavopulmonary anastomosis (BCPA) is a technique used to repair congenital heart defects. It involves the direct placement of a pulmonary artery (PVA) that separates the two main pulmonary arteries, allowing for the closure of the left pulmonary artery (LPA). The PPA is performed by inserting a suture line between the right atrium and the right atrium. The PPA is performed through the right atrium and its branches. The branch branch is located in the superior vena cava (SVC) of the PDA and anastomosed to the superior vena cava (SVC).",
+      "Represent the cardiology document for retrieval:\nBidirectional superior cavopulmonary anastomosis (BCPA) is a technique used to treat complex congenital heart defects by introducing an intercostal anastomosis between the right and left ventricles. It involves opening a small vascular conduit between the superior and inferior vena cava, creating an aortic arch and creating a venous conduit between the superior and inferior vena cava.",
+      "Represent the cardiology document for retrieval:\nBidirectional superior cavopulmonary anastomosis (BCPA) is performed to provide continuous support to the failing pulmonary artery for the complete anastomosis of complex congenital heart defects. This allows for the placement of an anastomosis to the left pulmonary artery, providing support for the failing pulmonary artery. The cuffs are then ligated between the pulmonary artery and the pulmonary vein, and the cuffs are placed in the right atrium. This helps reduce the need for additional procedures.",
+      "Represent the cardiology document for retrieval:\nBidirectional superior cavopulmonary anastomosis (BCPA) is performed in patients with complex congenital heart defects to restore pulmonary artery flow. It involves grafting the left pulmonary artery, creating a distal space between the inferior vena cava and the pulmonary artery in the lower pulmonary artery. The anastomosis is done using a technique called modified-segment technique with end-to-end anastomosis. It allows for the delivery of blood to the pulmonary artery in the pulmonary artery, which helps prevent further obstruction and re-entry after surgery."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.16293580830097198,
+    "id": 10,
+    "ground_truth": "The purpose of BCPA is to redirect systemic venous return to pulmonary arteries bypassing the right ventricle, aiming for an ideal palliation that provides controlled pulmonary blood flow, prevents damage to the pulmonary circulation and systemic ventricle, and serves as the final palliation or its part."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "How does endovascular repair using stent-grafts compare to open surgical repair for AAAs?",
+    "answer": "Endovascular repair using stent-grafts is a less invasive approach that offers benefits such as reduced pain, shorter hospitalization, and faster recovery. It has shown significant improvements since its introduction in 2010. However, it may not be suitable for emergency situations and requires specialized equipment and expertise. The mortality rates are similar between the two approaches, but endovascular repair may have higher costs.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nEndovascular repair using stent-grafts is a less invasive procedure that may avoid many of the risks associated with open surgical repair. It offers less pain, shorter hospitalization, and recovery time. Stent-graft treatment of AAAs has advanced rapidly since its introduction in 1990, with significant improvements in design and delivery. These improvements potentially lower the need for urgent major vascular surgery.",
+      "Represent the cardiology answer for retrieval:\nEndovascular repair of ruptured AAA is associated with better surgical outcomes, but it presents challenges, especially in emergency situations. Not all institutions are equipped to perform minimally invasive endovascular repairs for ruptured AAA, and transferring patients to such institutions can be associated with increased mortality rates compared to repair within the same institution.",
+      "Represent the cardiology answer for retrieval:\nEndovascular repair for AAA has a higher rate of complications such as endoleak, thrombosis, and other complications that may require follow-up imaging and catheter-based interventional procedures. While it has lower operative morbidity and mortality rates compared to open surgical repair, some studies have reported similar mortality rates and higher costs for endovascular repair. The need for a catheter-based intervention following endovascular repair may diminish in subsequent years, but it is estimated that 10% of patients may require such procedures.",
+      "Represent the cardiology answer for retrieval:\nEndovascular stent grafting offers a feasible and safe alternative to conventional open repair for thoracic aortic aneurysms. It is associated with smaller perioperative mortality and a shorter hospital stay. This less invasive approach is particularly valuable for elderly patients or those with coexisting conditions that increase the risk of conventional treatment. However, longer follow-up is needed to fully assess the long-term results, especially for patients with vasculitis.",
+      "Represent the cardiology answer for retrieval:\nEndovascular repair using aortic stent grafts is a safe, minimally invasive, and effective treatment for thoracic aortic disease. It is particularly beneficial for patients who are poor surgical candidates. Short-term morbidity and mortality rates from endovascular repair compare favorably with those from surgery."
+    ],
+    "scores": [
+      0.07093235850334167,
+      0.09585212171077728,
+      0.09609154611825943,
+      0.09702866524457932,
+      0.0990460067987442
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nEndovascular repair using stent-grafts for AAAs is a less invasive approach compared to open surgical repair. In a study, the incidence of AAA rupture following endovascular repair was found to be higher in patients with large AAAs treated with stent-grafts compared to those treated with stent-grafts. This suggests that endovascular repair may be superior to open surgical repair for AAAs.",
+      "Represent the cardiology document for retrieval:\nEndovascular repair using stent-grafts has been shown to be less invasive and safer than open surgical repair for AAAs. It is associated with lower rate of rupture, more complications, and a higher risk of mortality compared to open surgical repair. However, in randomized clinical trials, there was no difference in the rate of death from AAA after endovascular repair.",
+      "Represent the cardiology document for retrieval:\nEndovascular repair using stent-grafts has been shown to have better patency rates compared to open surgical repair for AAAs. Although the use of stent-grafts has been associated with higher rates of AAA reoperation and death, the outcomes of endovascular repair remain controversial. Studies have shown that the patency rate of stent-grafts after an endovascular repair is generally good. However, more research is needed to evaluate the long-term benefits and risks of endovascular repair in this patient population.",
+      "Represent the cardiology document for retrieval:\nEndovascular repair using stent-grafts is a less invasive method for AAA repair compared to open surgical repair. It involves creating a stent-graft with a stent-graft and guiding the endograft to the AAA. However, there is no consensus regarding the appropriate size of the stent-graft. The decision to use endovascular repair should be made at a tertiary center in the United States, as the long-term results of endovascular repair have not been well-documented."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.08135977387428284,
+    "id": 11,
+    "ground_truth": "Endovascular repair using stent-grafts is a less invasive procedure that may avoid many of the risks associated with open surgical repair. It offers less pain, shorter hospitalization, and recovery time. Stent-graft treatment of AAAs has advanced rapidly since its introduction in 1990, with significant improvements in design and delivery. These improvements potentially lower the need for urgent major vascular surgery."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "How does the modulation of LTCC function affect cardiac arrhythmias?",
+    "answer": "❌ Ollama error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120)",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nModulation of LTCC (L-type calcium channel) function can have an impact on cardiac arrhythmias. Augmentation of LTCC activity has been proposed as a major contributing factor to arrhythmogenesis, and blocking LTCC current (I Ca,L ) has been shown to suppress ventricular arrhythmogenesis. Inappropriate release of calcium from the sarcoplasmic reticulum (SR) is likely causative in various cardiac arrhythmias, and LTCC plays a role in regulating this process. Therefore, the modulation of LTCC function can influence the occurrence and severity of cardiac arrhythmias.",
+      "Represent the cardiology answer for retrieval:\nCurrent clinical treatments for AF, such as ablation and cardioversion procedures, have relatively low success rates and a high recurrence rate. Available anti-arrhythmic drug therapies for AF also have moderate effectiveness and risk of life-threatening proarrhythmic complications. A better understanding of the underlying mechanisms of AF can help tailor drug therapies to the evolving dynamics of AF, increasing the efficacy and safety of pharmacological treatments.",
+      "Represent the cardiology answer for retrieval:\nPatients with atrial fibrillation (AF) have an increased risk for developing complications such as heart failure, stroke, and premature death. The pathophysiology of AF involves pro-inflammatory responses, structural remodeling, tissue fibrosis, and electrophysiological remodeling, which create a pro-arrhythmic substrate for arrhythmogenesis. These changes in the heart can lead to the development of complications.",
+      "Represent the cardiology answer for retrieval:\nThe key factors in the management of patients with cardiomyopathies are improving systolic function and preventing sudden death due to ventricular arrhythmias. This is typically achieved through medical management with diuretics, beta-blockers, angiotensin converting enzyme inhibitors, or angiotensin receptor blockers.",
+      "Represent the cardiology answer for retrieval:\nPatients with coronary artery disease and impaired left ventricular function, heart failure secondary to ischemia or idiopathic dilated cardiomyopathy, hypertrophic cardiomyopathy, documented sustained ventricular tachycardia or fibrillation, and survivors of cardiac arrest are at greatest risk for life-threatening arrhythmias."
+    ],
+    "scores": [
+      0.10811024159193039,
+      0.12123532593250275,
+      0.12405720353126526,
+      0.12543156743049622,
+      0.12597182393074036
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe modulation of LTCC function can lead to changes in cardiac arrhythmias, including the development of atrial fibrillation (AF). While the presence of AF is a well-known phenomenon, the effect of AF on LTCC function is less well understood. This suggests that AF may be mediated through changes in the function of LTCCs. However, the mechanisms by which AF increases the frequency and severity of AF are not fully understood.",
+      "Represent the cardiology document for retrieval:\nLTCC function is important in the regulation of cardiac arrhythmias. In healthy adults, LTCC function is affected by low frequency stimulation of the LTCC, which results in enhanced LTCC activity and enhanced cardiac arrhythmia susceptibility. However, the exact mechanism of the LTCC function modulation remains unclear, but it is hypothesized that LTCC dysfunction may contribute to cardiac arrhythmogenesis.",
+      "Represent the cardiology document for retrieval:\nThe modulation of LTCC function has been shown to lead to a reduction in arrhythmia frequency and duration. This can lead to reduced amplitudes of LTCC current and an increase in refractory period. The LTCC-dependent repolarization is required for the generation of a ventricular tachycardia and subsequent systolic action potentials, leading to ventricular tachycardia and ventricular tachycardia.",
+      "Represent the cardiology document for retrieval:\nThe modulation of LTCC function has been shown to improve cardiac arrhythmias and improve the outcomes of pharmacological treatments. By enhancing LTCC function, the risk of atrial tachycardia (AT) in patients with a history of atrial fibrillation is reduced. Additionally, the LTCC-mediated channel blockade of the sodium-channel blocker niflumic acid (NNBA) can reverse the LTCC-mediated blockade of LTCC, which is believed to ameliorate the incidence of atrioventricular block."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.12484706938266754,
+    "id": 12,
+    "ground_truth": "Modulation of LTCC (L-type calcium channel) function can have an impact on cardiac arrhythmias. Augmentation of LTCC activity has been proposed as a major contributing factor to arrhythmogenesis, and blocking LTCC current (I Ca,L ) has been shown to suppress ventricular arrhythmogenesis. Inappropriate release of calcium from the sarcoplasmic reticulum (SR) is likely causative in various cardiac arrhythmias, and LTCC plays a role in regulating this process. Therefore, the modulation of LTCC function can influence the occurrence and severity of cardiac arrhythmias."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are the causes of superior vena cava syndrome (SVCS)?",
+    "answer": "The most common cause of SVCS is malignancy (more than 80%), followed by thrombophilia and chronic disorders. Additionally, iatrogenic factors such as peripheral venous line or central venous catheter insertion, collagen vascular diseases, and Behçet's disease can also lead to SVC thrombosis.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe risk factors for SVC thrombosis include malignancy, invasive catheterization, and certain genetic mutations such as the methyl-tetrahydrofolate reductase A1298C mutation.",
+      "Represent the cardiology answer for retrieval:\nThe majority of SVCS cases (more than 80%) are caused by malignancies.",
+      "Represent the cardiology answer for retrieval:\nThe risk factors for developing SVC thrombosis include malignancy, thrombophilia, chronic disorders, iatrogenic factors such as insertion of peripheral venous lines or central venous catheters (CVC), proximally-placed CVC, collagen vascular diseases, and Behçet's disease.",
+      "Represent the cardiology answer for retrieval:\nThe possible mechanisms leading to CSX include atherothrombosis, endothelial dysfunction, and vasospasm. These factors are suggested as the responsible factors for CSX, although the exact mechanisms are not clear.",
+      "Represent the cardiology answer for retrieval:\nRisk factors for heart failure include hypertension, valve pathology, coronary artery disease, and inherited mutations in genes coding for sarcomeric proteins. Additionally, cardiac infections can also lead to heart failure."
+    ],
+    "scores": [
+      0.09583820402622223,
+      0.09691265225410461,
+      0.10419720411300659,
+      0.10770298540592194,
+      0.10779771208763123
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe causes of SVCS are not entirely clear, but they can be associated with various conditions such as thromboembolism, venous hypertension, and heparin-induced renal artery stenosis.",
+      "Represent the cardiology document for retrieval:\nThe cause of SVCS can be influenced by a variety of factors. These include a history of cardiovascular disease, cardiac irradiation, pulmonary embolism, and cardiac surgery.",
+      "Represent the cardiology document for retrieval:\nThe causes of SVCS include shunting into the inferior vena cava, obstruction into the superior vena cava, and the presence of a large blood vessel in the inferior vena cava.",
+      "Represent the cardiology document for retrieval:\nThe causes of SVCS include hereditary factors, congenital anomalies, and vascular anomalies."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.10051829367876053,
+    "id": 13,
+    "ground_truth": "The majority of SVCS cases, about 85-97%, are caused by malignant intrathoracic tumors, with pulmonary tumors being responsible for 80% of these cases. Thoracic lymphomas account for about 14% of SVCS cases. Other less common causes include benign conditions such as tuberculous mediastinitis, syphilitic aortic aneurysms, mediastinal fibrosis, post-irradiation fibrosis, posttraumatic strictures, and intrathoracic goiter. Iatrogenic causes, such as catheter manipulations, pacemaker wire implantation, and aortic valve replacement, should also be considered."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are the treatment options for visceral artery aneurysms (VAAs)?",
+    "answer": "The treatment of VAA depends on various factors such as location, configuration, comorbidities, and acute clinical condition. Surgery or intervention is used in treating VAA, with endovascular therapy being preferred for extensive comorbidities. However, the timing and indication for therapy still require further investigation due to a lack of high-quality evidence.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe treatment options for visceral artery aneurysms (VAAs) and pseudoaneurysms depend on factors such as the location, configuration, comorbidities, and acute clinical condition of the patient. Surgery or intervention can be used to treat VAAs, with endovascular therapy being preferred in cases of extensive comorbidities.",
+      "Represent the cardiology answer for retrieval:\nThe treatment strategy for VAA depends on various factors, including the type and location of the aneurysm. In the recent years, there has been a shift towards treating VAA with radiological intervention, such as endovascular procedures. However, the timing and indication for therapy, especially in the absence of VAA-related symptoms, is still a topic of debate due to the lack of high-quality evidence.",
+      "Represent the cardiology answer for retrieval:\nThe choice between surgical and endovascular approaches in the treatment of CAAs depends on factors such as the patient's anatomy, risk factors, and underlying pathophysiologic mechanism. Surgical treatment involves aneurysmorrhaphy with closure or resection and revascularization of peripheral vessels. Endovascular approaches, including stent graft exclusion and embolization, are preferred in certain cases, such as advanced age, multiple comorbidities, or unfavorable operative anatomy.",
+      "Represent the cardiology answer for retrieval:\nThe evaluation of aneurysm treatment using endovascular techniques considered factors such as patient age and sex, aneurysm location, type of aneurysm, presence of previous treatment, size, rupture status at presentation, degree of occlusion, intraflow-diverter stenosis, patency of merging artery, and clinical complications.",
+      "Represent the cardiology answer for retrieval:\nEndovascular procedures for treating VAAs carry the risk of coil compaction and/or aneurysm regrowth, which can lead to recanalisation. This limitation of the treatment method requires long-term imaging follow-up [4] [5] [6]."
+    ],
+    "scores": [
+      0.07804806530475616,
+      0.08828902989625931,
+      0.08941211551427841,
+      0.09201623499393463,
+      0.09243783354759216
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe treatment options for VAAs depend on the size and location of the aneurysm, with wide-neck resection being the most widely performed procedure. However, a conservative approach using surgery alone may be effective in some cases.",
+      "Represent the cardiology document for retrieval:\nThe treatment options for VAAs include surgical excision, endovascular stent grafting, and endovascular treatment. These procedures aim to relieve symptoms and restore blood flow to the affected organs. However, they have limitations, such as a high incidence of recurrence and re-aneurysms after surgery.",
+      "Represent the cardiology document for retrieval:\nThe treatment options for visceral artery aneurysms (VAAs) include open surgery, endovascular thrombectomy, endovascular resection, and endovascular stenting. Endovascular stenting involves the use of a combination of stents, balloons, and coils. Exclusion of the aneurysm is important in the treatment of VAAs.",
+      "Represent the cardiology document for retrieval:\nThe treatment options for visceral artery aneurysms (VAAs) include endovascular procedures, such as coil embolization, coil embolization, and coil embolization. Endovascular treatment involves either clipping or ligation of the aneurysm, as well as direct ligation of the aneurysm. Conventional techniques are considered the treatment of choice for VAAs. However, it is important to consider the potential risks and complications of these procedures before they become routinely applicable in practice."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.09668155014514923,
+    "id": 14,
+    "ground_truth": "The treatment options for VAA include open surgery, endovascular treatment (EVT), or a combination thereof, depending on the size, site, and etiology of the aneurysm. Open surgery includes aneurysmectomy, ligation, and resection of the ischemic bowel if necessary. EVT includes embolization and endografting. EVT is becoming more common with the development of endovascular techniques and devices. Bowel ischemia can usually be avoided when EVT is performed because of the rich collateral network."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are the common symptoms of pericarditis and how do they differ from other conditions with similar symptoms?",
+    "answer": "The most common symptoms of pericarditis include chest pain, fever, tachycardia (rapid heart rate), and gastrointestinal disturbances. Unlike myocarditis which presents with new-onset heart failure and arrhythmias and chronic heart failure from dilated cardiomyopathy, pericarditis does not usually have these more serious complications.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe symptoms of pericarditis can include chest pain, fever, tachycardia (rapid heart rate), and gastrointestinal disturbances. In this case, the patient developed a low-grade fever and mild gastrointestinal disturbance along with tachycardia.",
+      "Represent the cardiology answer for retrieval:\nThe most common symptoms of acute pericarditis include prodromic fever, myalgia, pleuritic chest pain, non-productive cough, and shortness of breath. The diagnosis of acute pericarditis is based on history, physical examination, ECG (typical anterior and inferior concave ST-segment elevation), and echocardiography (pericardial effusion confirms diagnosis).",
+      "Represent the cardiology answer for retrieval:\nMyocarditis may present with symptoms ranging from chest pain to new-onset heart failure, atrial or ventricular arrhythmias, cardiogenic shock, and sudden death. The major long-term sequel of myocarditis is chronic heart failure from dilated cardiomyopathy.",
+      "Represent the cardiology answer for retrieval:\nThe common symptoms of pericarditis include chest pain, pericardial friction, and compatible ECG abnormalities such as ST segment elevation and PR segment depression. The diagnosis is typically clinical and electrical, based on at least two of these criteria. Additionally, echocardiogram pericardial effusion can also be used for diagnosis.",
+      "Represent the cardiology answer for retrieval:\nSome common symptoms experienced by patients with heart problems include chest pain, dyspnea (shortness of breath), fatigue, sleep disorders, and dyspepsia (indigestion)."
+    ],
+    "scores": [
+      0.08586256951093674,
+      0.08629818260669708,
+      0.08860619366168976,
+      0.08965155482292175,
+      0.09039433300495148
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThe most common symptoms of pericarditis include fever, chills, dyspnea, nausea, vomiting, or abdominal pain. Other conditions with similar symptoms include other conditions that are more atypical, such as chronic bronchitis, chronic obstructive pulmonary disease (COPD), and pulmonary hypertension.",
+      "Represent the cardiology document for retrieval:\nThe common symptoms of pericarditis are dyspnea, heart murmur, pain in the chest and back, pleuritic heart murmur, and respiratory distress. These symptoms are not specific to pericarditis and are more likely to occur in patients with cardiac cirrhosis, thrombosis, pericarditis, and other conditions with similar symptoms.",
+      "Represent the cardiology document for retrieval:\nThe common symptoms of pericarditis include dyspnea, heart failure, and chest pain. These symptoms are more commonly seen in patients with pericarditis, which may be attributed to myocardial necrosis or thrombosis.",
+      "Represent the cardiology document for retrieval:\nThe common symptoms of pericarditis include dyspnea, abdominal pain, and aortic bruit. Other conditions with similar symptoms can also present with symptoms such as fever, septic shock, and anaemia."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.16501015424728394,
+    "id": 15,
+    "ground_truth": "The common symptoms of pericarditis include chest pain, usually pleuritic, which is exacerbated by inspiration or coughing. The pain is alleviated when the patient sits up and leans forward. Other reported symptoms include dyspnea, palpitations, and the presence of a pericardial friction rub. These symptoms help differentiate pericarditis from other conditions such as myocardial ischemia, pulmonary embolism, aortic dissection, pleuritis, pneumothorax, gastroesophageal reflux disease, and musculoskeletal pain."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are some of the factors that have been found to be associated with left ventricular hypertrophy (LVH) in patients with hypertension, cardiac disease, postmenopausal women, or the general population?",
+    "answer": "Some risk factors associated with LVH in these populations include uncontrolled hypertension, older age, obesity, excessive alcohol consumption, daily tobacco use, diabetes, high LDL-C levels, low HDL-C levels, and the use of certain antihypertensive drugs. Other potential risk factors for LVH may include family history of cardiovascular disease, gender (male sex is a known risk factor), and other underlying conditions that can affect blood flow and cardiac function, such as heart failure or coronary artery disease. It is important to note that the specific risk factors for LVH may vary depending on individual characteristics and medical history.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThe risk factors associated with LVH in hypertensive patients include uncontrolled hypertension, older age, obesity, excessive alcohol consumption, daily tobacco use, diabetes, high LDL-C levels, low HDL-C levels, and the use of certain antihypertensive drugs.",
+      "Represent the cardiology answer for retrieval:\nRisk factors associated with hypertensive LVH include hypertension itself, as well as factors such as age, gender, obesity, smoking, and family history of cardiovascular disease. LVH is also more common in patients with uncontrolled blood pressure and those with long-standing hypertension.",
+      "Represent the cardiology answer for retrieval:\nThe risk factors associated with LVH in hypertensive patients include age over 65 years, blood glucose over 6.1 mmol/l, SBP (systolic blood pressure) over 150 mmHg, and PP (pulse pressure) over 60 mmHg.",
+      "Represent the cardiology answer for retrieval:\nRisk factors for the development of heart failure include long-standing hypertension, myocardial ischemia/infarction, valve disease, obesity, and diabetes.",
+      "Represent the cardiology answer for retrieval:\nRisk factors for developing heart failure include coronary artery disease, smoking, hypertension, obesity, diabetes mellitus, and valvular heart disease."
+    ],
+    "scores": [
+      0.07523117959499359,
+      0.07810337096452713,
+      0.08013905584812164,
+      0.08087116479873657,
+      0.0811343863606453
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nSome of the factors that have been found to be associated with LVH in patients with hypertension, cardiac disease, postmenopausal women, or the general population include age, hyperlipidemia, lipid profile, smoking, lipid profile, and DM.",
+      "Represent the cardiology document for retrieval:\nSome of the factors that have been found to be associated with LVH in patients with hypertension, cardiac disease, postmenopausal women, or the general population include LV diameter (QTc), LV mass index (Qa), and LV mass index (LVMI).",
+      "Represent the cardiology document for retrieval:\nSome of the factors that have been found to be associated with LVH in patients with hypertension, cardiac disease, postmenopausal women, or the general population include advanced age, diabetes, CAD, hyperlipidemia, and vascular calcification. These factors contribute to the development of LVH and contribute to cardiovascular disease in these patients.",
+      "Represent the cardiology document for retrieval:\nFactors that have been found to be associated with LVH in patients with hypertension, cardiac disease, postmenopausal women, or the general population include age (>45 years), smoking status, family history of hypertension, previous strokes, and diabetes mellitus."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.08409285545349121,
+    "id": 16,
+    "ground_truth": "Several factors have been found to be associated with LVH in these patient populations, including increased SUA levels, hypertension, coronary heart disease, cerebral infarction, and the use of antihypertensive agents. However, the relationship between SUA and LVH remains unclear and debatable, as some epidemiological studies have not found a significant association after adjusting for classic risk factors."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are the common causes and risk factors associated with chronic heart failure?",
+    "answer": "The most common cause of chronic heart failure is coronary artery disease (CAD), which can lead to weakening of the left ventricle and reduced blood flow. Other significant risk factors include hypertension, obesity, smoking, and diabetes mellitus. These factors contribute to the development and progression of heart failure, making it essential for individuals at high risk to receive proper medical attention and lifestyle modifications.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nRisk factors associated with heart failure include older age, smoking, obesity, hypertension, diabetes, less physical activity, and prevalent coronary heart disease.",
+      "Represent the cardiology answer for retrieval:\nRisk factors for chronic heart failure include advanced age, cardiovascular diseases, such as hypertension and coronary artery disease, obesity, diabetes, smoking, and a sedentary lifestyle.",
+      "Represent the cardiology answer for retrieval:\nRisk factors for developing heart failure include coronary artery disease, smoking, hypertension, obesity, diabetes mellitus, and valvular heart disease.",
+      "Represent the cardiology answer for retrieval:\nRisk factors associated with heart failure include hypertension, diabetes, obesity, smoking, and advanced age. These factors increase the likelihood of developing heart failure and contribute to its rising prevalence.",
+      "Represent the cardiology answer for retrieval:\nThe risk factors associated with heart failure include coronary heart disease, cigarette smoking, hypertension, obesity, diabetes, and valvular heart disease. These factors contribute to the development and progression of heart failure."
+    ],
+    "scores": [
+      0.06336741149425507,
+      0.06349360942840576,
+      0.06710384786128998,
+      0.06740139424800873,
+      0.06779435276985168
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nChronic heart failure is associated with many common causes and risk factors. These include age, male gender, and the presence of comorbidities such as coronary artery disease. These factors can contribute to the development of chronic heart failure and can increase the risk of hospitalization and cardiovascular events.",
+      "Represent the cardiology document for retrieval:\nThe common causes of chronic heart failure include hypertension, diabetes mellitus, and smoking. These risk factors are also associated with chronic heart failure, affecting approximately 60% of all people with heart failure.",
+      "Represent the cardiology document for retrieval:\nChronic heart failure can be caused by several common causes and risk factors. One common cause is atrial fibrillation, which can lead to ventricular arrhythmias, ventricular arrhythmias, obstructive sleep apnea, and impaired left ventricular function. The risk of ventricular arrhythmias increases with age, with higher prevalence in older patients. This suggests that age-related changes in cardiac structure and function may contribute to the development of chronic heart failure.",
+      "Represent the cardiology document for retrieval:\nChronic heart failure can be caused by various factors and risk factors, including obesity, diabetes, smoking, and smoking cessation. In the case provided, the patient had a history of smoking, diabetes, and smoking cessation, which are common causes of chronic heart failure."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.13331422209739685,
+    "id": 17,
+    "ground_truth": "Chronic heart failure can be caused by chronic primary myocardial disease, long-term high blood pressure, or circulatory overload. Risk factors for chronic heart failure include environmental and lifestyle changes, as well as the increase in the aging population."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What is the importance of early defibrillation in improving survival rates following sudden cardiac arrest?",
+    "answer": "❌ Ollama error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120)",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nEarly defibrillation is crucial in cases of sudden cardiac arrest as it can significantly improve survival rates. Survival rates after ventricular fibrillation decrease 7% to 10% for every minute defibrillation is delayed. Therefore, access to an AED for early defibrillation is essential.",
+      "Represent the cardiology answer for retrieval:\nEarly defibrillation, along with high-quality CPR, and early transfer to the nearest medical facility, can significantly improve the chances of survival for cardiac arrest patients. These interventions are critical in restoring normal heart rhythm and maintaining blood circulation until advanced medical care can be provided.",
+      "Represent the cardiology answer for retrieval:\nThe risk of sudden cardiac death after MI has declined substantially over the past quarter of a century, even before the widespread use of defibrillators. This decline can be attributed to the implementation of evidence-based therapies for acute MI, such as reperfusion and secondary prevention. These findings highlight the importance of timely and effective treatment for MI in reducing the risk of sudden cardiac death.",
+      "Represent the cardiology answer for retrieval:\nEarly defibrillation is crucial in cardiac arrest cases because the delay from collapse to the delivery of the first shock is the most significant factor in determining survival. The chances of successful defibrillation decline with each minute of delay, making early defibrillation essential for improving outcomes.",
+      "Represent the cardiology answer for retrieval:\nThe four key elements associated with an increased likelihood of survival in patients with sudden cardiac arrest are early access, early CPR, early defibrillation, and early advanced cardiac life support (ACLS)."
+    ],
+    "scores": [
+      0.08865956962108612,
+      0.09344533085823059,
+      0.09647064656019211,
+      0.09805744886398315,
+      0.10049737989902496
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nEarly defibrillation is crucial in improving survival rates following sudden cardiac arrest. Earlier defibrillation may improve the quality of life for patients who are already at high risk of dying, with no mortality. However, this delay in defibrillation has been linked to poor outcomes and low survival rates. It is important to recognize the need for early defibrillation to identify any potential threats to life.",
+      "Represent the cardiology document for retrieval:\nEarly defibrillation is crucial in improving survival rates following sudden cardiac arrest. It can help avoid complications such as ventricular fibrillation or sudden death.",
+      "Represent the cardiology document for retrieval:\nEarly defibrillation is important for improving survival rates following sudden cardiac arrest. Several studies have shown that defibrillation with a high risk of mortality in acute myocardial infarction has been linked to improved survival, including improved heart function and mortality in patients with pulmonary hypertension. However, it is unclear whether such defibrillation is beneficial for the long-term survival of patients with sudden cardiac arrest.",
+      "Represent the cardiology document for retrieval:\nEarly defibrillation is crucial in improving survival rates following sudden cardiac arrest. A meta-analysis found that early defibrillation, which was used to treat 15% of sudden cardiac arrests, significantly improved survival rates compared to the standard care strategy. This is because most patients with early defibrillation experienced a rapid return to normal activity on the first night after the arrest."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.1093297153711319,
+    "id": 18,
+    "ground_truth": "Early defibrillation is crucial in improving survival rates following sudden cardiac arrest. The time from collapse to defibrillation is the single greatest determinant of survival, with survival rates declining 7% to 10% per minute defibrillation is delayed. The placement of automated external defibrillators (AEDs) in public locations, such as athletic venues, has shown a clear survival benefit. If bystander cardiopulmonary resuscitation (CPR) is provided and defibrillation occurs within 3 to 5 minutes of arrest, survival rates of 41% to 74% have been achieved. This has led to the implementation of AEDs at athletic venues as part of comprehensive emergency action plans to prevent sudden cardiac death in both athletes and nonathletes attending athletic events."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "What are the differences in clinical outcomes between FFR-guided PCI using different cutoff values?",
+    "answer": "The FFR-guided PCI has been associated with significantly better long-term clinical outcomes compared to conventional angiography-guided PCI. Studies have shown that routine measurement of FFR not only reduces the total number of major adverse cardiac events (MACE), but also decreases mortality and occurrence of myocardial infarction (MI). This improvement in outcomes is consistent across different subgroups, including patients with diabetes, unstable angina, or previous PCI. Additionally, FFR values between 0.75 and",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nFFR-guided PCI has been associated with significantly better long-term clinical outcomes in several large randomized trials. It provides a well-defined cut-off value for deciding whether to revascularize immediately or defer intervention. FFR has been validated for use in stable patients with single or multi-vessel coronary artery disease, equivocal left main lesions, bifurcation lesions, and even patients with acute coronary syndrome.",
+      "Represent the cardiology answer for retrieval:\nThe use of FFR in guiding PCI can lead to better long-term outcomes and a lower incidence of death or myocardial infarction (MI). FFR helps identify functionally severe lesions that may have been excluded from PCI based on visual assessment alone. It also prevents unnecessary PCI for haemodynamically insignificant lesions. FFR has been validated in various clinical and anatomical subsets, making PCI a more effective and appropriate treatment. Additionally, FFR values between 0.75 and 0.80, previously considered a \"grey zone,\" can now be used as a threshold for decision-making regarding revascularization.",
+      "Represent the cardiology answer for retrieval:\nThe meta-analysis indicated that FFR-guided PCI offers favorable treatment outcomes over conventional angiography-guided PCI. Patients who underwent FFR-guided PCI had a lower mortality rate, and the number of stents used per patient was reduced compared to the angiography group. The FAME study also reported similar findings, with a lower event rate and reduced number of stents in the FFR group compared to the angiography group.",
+      "Represent the cardiology answer for retrieval:\nFFR-guided PCI has been shown to significantly improve outcomes compared to standard angiography-guided PCI. Studies have demonstrated that routine measurement of FFR not only reduces the total number of major adverse cardiac events (MACE), but also decreases mortality and occurrence of myocardial infarction. This improvement in outcomes is consistent across different subgroups, including patients with diabetes, unstable angina, or previous PCI.",
+      "Represent the cardiology answer for retrieval:\nFFR-guided PCI has shown improved outcomes in patients with less than class III angina, despite not meeting the 'appropriate' criteria. Many patients with class II angina experience a severely limited quality of life and desire intervention. FFR can provide objective evidence of the functional significance of a coronary lesion, allowing physicians to justify PCI in these cases. This suggests that modifying the AUC criteria to include positive FFR results could lead to better outcomes for patients with less severe angina symptoms."
+    ],
+    "scores": [
+      0.09068375825881958,
+      0.09402240812778473,
+      0.09540365636348724,
+      0.09561087936162949,
+      0.0957632064819336
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nFFR-guided PCI using cutoff values below 100 mL/min had better clinical outcomes compared to conventional PCI using 100 mL/min. However, with the use of a cutoff value between 400 mL/min and 400 mL/min, the clinical outcomes did not differ significantly from the FFR-guided PCI using 100 mL/min. In addition, in patients with severe myocardial infarction, the stent failed to provide an increase in left ventricular function at 6 months.",
+      "Represent the cardiology document for retrieval:\nThe clinical outcomes between FFR-guided PCI using different cutoff values differ based on the type of percutaneous coronary intervention (PCI) and the angiographic technique. Angiography is associated with a higher risk of death and MI, but there is no difference in primary patency rates between the two approaches. In contrast, percutaneous coronary intervention (PCI) using angiography has similar clinical outcomes to percutaneous coronary intervention (PCI).",
+      "Represent the cardiology document for retrieval:\nFFR-guided PCI using different cutoff values has been shown to have better clinical outcomes compared to non-guided PCI. One limitation is that both patients with more recent coronary artery disease and low baseline FFR are at higher risk of death or heart failure. The overall cardiovascular outcomes are similar in both groups, but the differences are significantly larger in patients with a higher baseline FFR. On the other hand, FFR-guided PCI using a higher cutoff value has better results in terms of clinical outcomes compared to non-guided PCI.",
+      "Represent the cardiology document for retrieval:\nFFR-guided PCI using different cutoff values has been shown to have lower rates of aortic dissection compared to non-femoral PCI. However, the rates of aortic dissections using less than 15 mmHg remain unchanged after 1 year."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.1406342089176178,
+    "id": 19,
+    "ground_truth": "Studies have shown that FFR-guided PCI (percutaneous coronary intervention) improves clinical outcomes. However, different studies have used different FFR cutoff values. The DEFER study, using FFR <0.75 as the cutoff, showed that deferring PCI in intermediate coronary stenosis had good clinical outcomes. On the other hand, the FAME 1 and 2 studies used an FFR cutoff value of 0.80 and demonstrated favorable clinical outcomes. Registry data comparing compliance and noncompliance groups also showed better outcomes with an FFR cutoff value of 0.80. The controversy lies in whether borderline FFR values between 0.75 and 0.80 require revascularization."
+  },
+  {
+    "variant": "full_cardiorag",
+    "query": "How does three-dimensional echocardiography contribute to the diagnosis and evaluation of mitral valve prolapse?",
+    "answer": "Three-dimensional echocardiography plays a significant role in the diagnosis and evaluation of mitral valve prolapse. It offers detailed insights into the topography and dynamics of the mitral valve, allowing for better understanding and assessment of its anatomy, function, and pathology. This imaging technique provides accurate identification and quantification of leaflet abnormalities, such as prolapse of individual segments, which are crucial in determining surgical approaches and treatment strategies. Additionally, three-dimensional echocardiography helps in identifying other contributing factors, such as chordae tendineae dysfunction or annular regurgitation. By providing a comprehensive view of the mitral valve apparatus, it enhances the diagnostic accuracy and supports evidence-based decision-making for patients with mitral valve prolapse.",
+    "retrieved_docs": [
+      "Represent the cardiology answer for retrieval:\nThree-dimensional echocardiography can provide a comprehensive assessment of the mitral valve apparatus in patients with mitral valve prolapse. It can clarify the mechanism of mitral regurgitation and help define the surgical approach for valve repair. Additionally, it can identify which portion of the valve has the most abnormal motion, which is crucial for approaching it correctly during surgery.",
+      "Represent the cardiology answer for retrieval:\nThree-dimensional echocardiography offers a more comprehensive view of the mitral valve anatomy, allowing for a better understanding of its structure and function. It provides detailed information about the topography of the mitral valve, its nonplanarity, and the dynamics of the mitral annulus. This imaging technique allows for accurate identification and quantification of prolapse of individual segments of the mitral valve leaflets, as well as assessment of mitral regurgitation severity. Overall, three-dimensional echocardiography enhances the knowledge of mitral valve pathology and can potentially guide surgical interventions, particularly in mitral valve repair.",
+      "Represent the cardiology answer for retrieval:\nThree-dimensional echocardiography provides additional information and visualization of the mitral valve apparatus, allowing for a comprehensive assessment of mitral valve pathology. It helps in evaluating the different anatomical elements comprising the leaflets, annulus, chordae tendineae, papillary muscles, and the left atrial and left ventricular walls, which are crucial for the functional integrity of the mitral valve.",
+      "Represent the cardiology answer for retrieval:\nThree-dimensional echocardiography offers high precision in the evaluation of the mitral valve, particularly in patients with complex valve anatomy. It provides easily interpretable images and can complement two-dimensional studies in cases where surgical decisions are challenging.",
+      "Represent the cardiology answer for retrieval:\nThree-dimensional echocardiography is the most utilized imaging modality for the diagnosis of mitral valve prolapse. M-mode and 2D echocardiography often lead to false-positive and false-negative diagnoses due to the nonplanar leafleteannular relations of the mitral valve. Three-dimensional echocardiography allows for a better visualization of the mitral valvular anatomy, enabling the detection of commissural splitting, leaflet tears, and other abnormalities that may not be seen on 2D imaging. It provides a more accurate assessment of mitral valve prolapse and helps in guiding treatment decisions."
+    ],
+    "scores": [
+      0.06056308001279831,
+      0.06152518838644028,
+      0.06547066569328308,
+      0.06547549366950989,
+      0.06709518283605576
+    ],
+    "hyde_docs": [
+      "Represent the cardiology document for retrieval:\nThree-dimensional echocardiography is a technique that allows for the assessment of valve motion, including its components, valve shape, and morphology. It has been used successfully in patients with mitral valve prolapse and valvular regurgitation. The technique has shown good results in the diagnosis and evaluation of mitral valve prolapse.",
+      "Represent the cardiology document for retrieval:\nThree-dimensional echocardiography is a noninvasive technique that allows for the visualization of aortic valve annuli in three dimensions. It has been shown to be a reliable diagnostic tool for mitral valve prolapse. However, there are limitations in this technique. One limitation is that the use of aortic valve imaging for valvular morphology is not appropriate for clinical and imaging studies. Another limitation is that three-dimensional echocardiography does not allow for the visualization of the mitral valve or annulus and allows for the assessment of the mitral valve anatomy and function.",
+      "Represent the cardiology document for retrieval:\nThree-dimensional echocardiography, which uses three-dimensional echo images to visualize the mitral valve leaflets, has the advantage of providing comprehensive visualization of the mitral valve leaflets. It allows for the visualization of the mitral valve leaflets at different levels of the mitral valve, enabling detailed evaluation of valve function.",
+      "Represent the cardiology document for retrieval:\nThree-dimensional echocardiography is a non-invasive technique that can be used to perform a detailed examination of the mitral valve apparatus. It helps in the identification and characterization of the mitral valve annulus and lateral wall. It can also be used to detect the presence of mitral valve prolapse, which is a specific disease condition that can be asymptomatic. However, this technique is not suitable for evaluating patients with mitral valve prolapse, but it may be necessary for patients with a large mitral valve or a long mitral valve and an annulus that is proximal to the prolapsed mitral leaflet."
+    ],
+    "domain_gate_passed": true,
+    "domain_gate_score": 0.06945449113845825,
+    "id": 20,
+    "ground_truth": "Three-dimensional echocardiography is the most utilized imaging modality for the diagnosis of mitral valve prolapse. M-mode and 2D echocardiography often lead to false-positive and false-negative diagnoses due to the nonplanar leafleteannular relations of the mitral valve. Three-dimensional echocardiography allows for a better visualization of the mitral valvular anatomy, enabling the detection of commissural splitting, leaflet tears, and other abnormalities that may not be seen on 2D imaging. It provides a more accurate assessment of mitral valve prolapse and helps in guiding treatment decisions."
+  }
+]
