@@ -1,0 +1,8 @@
+{
+  "variant": "rag_only",
+  "description": "Retrieval + generation only",
+  "ood_rate": 0.0,
+  "avg_retrieved_count": 5.0,
+  "exact_match": 0.3,
+  "token_f1": 0.7792066621799906
+}

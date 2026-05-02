@@ -1,0 +1,8 @@
+{
+  "variant": "baseline",
+  "description": "All stages enabled with default settings",
+  "ood_rate": 0.0,
+  "avg_retrieved_count": 5.0,
+  "exact_match": 0.3,
+  "token_f1": 0.7689602712107079
+}

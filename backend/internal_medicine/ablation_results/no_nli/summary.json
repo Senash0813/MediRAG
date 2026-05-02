@@ -1,0 +1,8 @@
+{
+  "variant": "no_nli",
+  "description": "Disable NLI verification",
+  "ood_rate": 0.0,
+  "avg_retrieved_count": 5.0,
+  "exact_match": 0.0,
+  "token_f1": 0.09945035327464358
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "variant": "baseline",
+    "description": "All stages enabled with default settings",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.3,
+    "token_f1": 0.7689602712107079
+  },
+  {
+    "variant": "no_domain_gate",
+    "description": "Skip scope/domain filtering",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.3,
+    "token_f1": 0.7689602712107079
+  },
+  {
+    "variant": "rag_only",
+    "description": "Retrieval + generation only",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.3,
+    "token_f1": 0.7792066621799906
+  },
+  {
+    "variant": "no_ner",
+    "description": "Disable NER-driven risk routing",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.3,
+    "token_f1": 0.7689602712107079
+  },
+  {
+    "variant": "no_nli",
+    "description": "Disable NLI verification",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.0,
+    "token_f1": 0.09945035327464358
+  },
+  {
+    "variant": "strict_retrieval",
+    "description": "Tighten retrieval confidence filters",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.3,
+    "token_f1": 0.7689602712107079
+  },
+  {
+    "variant": "loose_retrieval",
+    "description": "Relax retrieval confidence filters",
+    "ood_rate": 0.0,
+    "avg_retrieved_count": 5.0,
+    "exact_match": 0.3,
+    "token_f1": 0.7689602712107079
+  }
+]

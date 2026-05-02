@@ -57,6 +57,27 @@ Example request:
 }
 ```
 
+## 5.1) Ablation study
+
+You can run a stage ablation sweep from the project root with a JSON or JSONL file of examples. Each example should contain at least `query`, and can optionally include `reference_answer` for simple text metrics.
+
+```bash
+python -m app.scripts.ablation_study --input data/ablation_examples.json --output-dir ablation_results
+```
+
+If you are on Windows PowerShell, you can use the wrapper instead:
+
+```powershell
+.\run_ablation.ps1
+```
+
+The script writes:
+- `summary.json` with one aggregate record per variant
+- `all_rows.csv` with per-query results across variants
+- One folder per variant with its own `rows.csv` and `summary.json`
+
+Useful variants include `baseline`, `no_domain_gate`, `rag_only`, `no_ner`, `no_nli`, `strict_retrieval`, and `loose_retrieval`.
+
 ## Optional: SciSpacy models
 
 If you want SciSpacy sentence splitting + BC5CDR NER (as in the notebook), install the optional dependencies and models listed at the bottom of `requirements.txt`.
