@@ -23,10 +23,6 @@ class QueryResponse(BaseModel):
 	direct_answer: str = Field(..., description="Primary answer text.")
 	evidence_summary: str = Field(..., description="Bullet-style evidence summary.")
 	limitations: str = Field(..., description="Limitations and caveats.")
-	verification_level: Optional[int] = Field(
-		default=None,
-		description="Verification level (1-4) reflecting overall evidence strength.",
-	)
 
 	# Optional: could later include verified_docs or debug fields if desired.
 	debug: Optional[dict] = Field(

@@ -1,0 +1,370 @@
+[
+  {
+    "question_id": "38_79733545_0_2",
+    "question": "What factors contribute to the growing demand for nursing care?",
+    "direct_answer": "The growing demand for nursing care is influenced by several factors, including an aging population requiring more healthcare services, a shortage of nurses due to retirement and limited recruitment, and increased female labor force participation leading to higher numbers of elderly widows living alone. Additionally, the economic crisis has led to reduced public spending on health care, resulting in cutbacks that have exacerbated nursing shortages.",
+    "doc_ids_in_evidence_summary": [
+      "11338772",
+      "205118541"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 10.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The growing demand for nursing care is influenced by several factors, including an aging population requiring more healthcare services, a shortage of nurses due to retirement and limited recruitment, and increased female labor force participation leading to higher numbers of elderly widows living alone. Additionally, the economic crisis has led to reduced public spending on health care, resulting in cutbacks that have exacerbated nursing shortages.",
+    "raw_response": "{\n  \"groundedness_score\": 8,\n  \"coverage_score\": 9,\n  \"overall_faithfulness_score\": 10,\n  \"verdict\": \"PASS\",\n  \"unsupported_claims\": [],\n  \"rationale\": \"The growing demand for nursing care is influenced by several factors, including an aging population requiring more healthcare services, a shortage of nurses due to retirement and limited recruitment, and increased female labor force participation leading to higher numbers of elderly widows living alone. Additionally, the economic crisis has led to reduced public spending on health care, resulting in cutbacks that have exacerbated nursing shortages.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "38_6276512_2_3",
+    "question": "How does aging contribute to shifts in the immune system?",
+    "direct_answer": "The provided evidence shows that aging contributes to shifts in the immune system, primarily through changes in thymic function leading to decreased production of naïve T cells. This results in a decline in the diversity of the T cell receptor (TCR) repertoire and an imbalance between self-reactive T cells and regulatory T cells, which can lead to chronic inflammation and autoimmune responses. Additionally, aging affects both innate and adaptive immune responses, with the latter showing reduced functional response to vaccines and impaired activation of naïve T cells.",
+    "doc_ids_in_evidence_summary": [
+      "3520296",
+      "210716934"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "FAIL",
+    "unsupported_claims": [],
+    "rationale": "The article provides a comprehensive review of the cellular and molecular events underlying age-induced alterations in the immune system. It highlights the decline in thymic function leading to decreased production of naïve T cells, which results in a decrease in the diversity of the TCR repertoire and an imbalance between self-reactive T cells and regulatory T cells. Additionally, aging affects both innate and adaptive immune responses, with the latter showing reduced functional response to vaccines and impaired activation of naïve T cells. The article emphasizes the importance of understanding these age-induced changes in order to design strategies to rejuvenate the immune system in the elderly.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 7,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"FAIL\",\n\"unsupported_claims\": [],\n\"rationale\": \"The article provides a comprehensive review of the cellular and molecular events underlying age-induced alterations in the immune system. It highlights the decline in thymic function leading to decreased production of naïve T cells, which results in a decrease in the diversity of the TCR repertoire and an imbalance between self-reactive T cells and regulatory T cells. Additionally, aging affects both innate and adaptive immune responses, with the latter showing reduced functional response to vaccines and impaired activation of naïve T cells. The article emphasizes the importance of understanding these age-induced changes in order to design strategies to rejuvenate the immune system in the elderly.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "22_23496682_6_1",
+    "question": "What are some potential nutritional interventions that have been studied for the treatment of fibromyalgia?",
+    "direct_answer": "The provided evidence does not explicitly show any specific nutritional interventions for fibromyalgia (FM). However, it suggests that maintaining a normal weight and possibly following a vegetarian diet could help with FM symptoms. There are also indications of potential depletions in magnesium, selenium, zinc, iodine, iron, vitamin D, melatonin, branched chain amino acids, among others. The use of some botanicals like Chlorella pyreinoidosa algae and gingko biloba, as well as antioxidants such as coenzyme Q10 and ascorbigen, has been evaluated in studies with positive results. However, more clinical trials are needed to confirm these findings.",
+    "doc_ids_in_evidence_summary": [
+      "23496682",
+      "13994439"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The provided evidence does not explicitly show any specific nutritional interventions for fibromyalgia (FM). However, it suggests that maintaining a normal weight and possibly following a vegetarian diet could help with FM symptoms. There are also indications of potential depletions in magnesium, selenium, zinc, iodine, iron, vitamin D, melatonin, branched chain amino acids, among others. The use of some botanicals like Chlorella pyreinoidosa algae and gingko biloba, as well as antioxidants such as coenzyme Q10 and ascorbigen, has been evaluated in studies with positive results. However, more clinical trials are needed to confirm these findings.",
+    "raw_response": "{\n  \"groundedness_score\": 8,\n  \"coverage_score\": 7,\n  \"overall_faithfulness_score\": 9,\n  \"verdict\": \"Pass\",\n  \"unsupported_claims\": [],\n  \"rationale\": \"The provided evidence does not explicitly show any specific nutritional interventions for fibromyalgia (FM). However, it suggests that maintaining a normal weight and possibly following a vegetarian diet could help with FM symptoms. There are also indications of potential depletions in magnesium, selenium, zinc, iodine, iron, vitamin D, melatonin, branched chain amino acids, among others. The use of some botanicals like Chlorella pyreinoidosa algae and gingko biloba, as well as antioxidants such as coenzyme Q10 and ascorbigen, has been evaluated in studies with positive results. However, more clinical trials are needed to confirm these findings.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "57_40274863_3_1",
+    "question": "What factors are considered in the administration and scoring of the Mini-Cog test, and how are the results interpreted to identify dementia?",
+    "direct_answer": "The administration and scoring of the Mini-Cog test in community settings considers several factors. These include who administers and interprets the test (typically a trained healthcare professional), whether or not they are blinded to results, and how participants are recruited and sampled. Results from the Mini-Cog are interpreted based on scores for delayed word recall tasks and clock drawing tests. A positive result is indicated by either a score of 0 in delayed recall or a combination of 1-2 points in delayed recall with an abnormal clock drawing test.",
+    "doc_ids_in_evidence_summary": [
+      "40274863",
+      "14089810"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The Mini-Cog test is a brief cognitive screening tool that has been widely used in community settings to identify individuals at risk for dementia. It consists of two components: delayed word recall and clock drawing. The test has been found to have high sensitivity and specificity, making it an effective tool for detecting early signs of Alzheimer'S disease.",
+    "raw_response": "{\n  \"groundedness_score\": 8,\n  \"coverage_score\": 7,\n  \"overall_faithfulness_score\": 9,\n  \"verdict\": \"PASS\",\n  \"unsupported_claims\": [],\n  \"rationale\": \"The Mini-Cog test is a brief cognitive screening tool that has been widely used in community settings to identify individuals at risk for dementia. It consists of two components: delayed word recall and clock drawing. The test has been found to have high sensitivity and specificity, making it an effective tool for detecting early signs of Alzheimer'S disease.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "50_53217809_4_1",
+    "question": "How does malnutrition affect gut mucosal integrity and antimicrobial peptides in patients with liver cirrhosis?",
+    "direct_answer": "The provided evidence does not explicitly show how malnutrition affects gut mucosal integrity in patients with liver cirrhosis, nor does it provide specific information about antimicrobial peptides. However, the context suggests that malnutrition is prevalent among cirrhotic patients and can lead to various complications such as infections and ascites. Additionally, there are indications of impaired absorption and digestion contributing to malnutrition in these patients.",
+    "doc_ids_in_evidence_summary": [
+      "53108118",
+      "7546913",
+      "53217809"
+    ],
+    "groundedness_score": 7.0,
+    "coverage_score": 8.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The provided evidence does not explicitly show how malnutrition affects gut mucosal integrity in patients with liver cirrhosis, nor does it provide specific information about antimicrobial peptides. However, the context suggests that malnutrition is prevalent among cirrhotic patients and can lead to various complications such as infections and ascites. Additionally, there are indications of impaired absorption and digestion contributing to malnutrition in these patients.",
+    "raw_response": "{\n\"groundedness_score\": 7,\n\"coverage_score\": 8,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"Pass\",\n\"unsupported_claims\": [],\n\"rationale\": \"The provided evidence does not explicitly show how malnutrition affects gut mucosal integrity in patients with liver cirrhosis, nor does it provide specific information about antimicrobial peptides. However, the context suggests that malnutrition is prevalent among cirrhotic patients and can lead to various complications such as infections and ascites. Additionally, there are indications of impaired absorption and digestion contributing to malnutrition in these patients.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "8_33630656_4_2",
+    "question": "What are the implications of maternal pre-pregnancy BMI on offspring body composition, particularly in relation to fat mass, body fat percent, and fat-free mass?",
+    "direct_answer": "The provided evidence does not explicitly show a clear relationship between maternal pre-pregnancy BMI and the specific outcomes of fat mass, body fat percent, and fat-free mass in offspring. However, it suggests that higher maternal BMI may be associated with increased risk factors for adverse pregnancy outcomes such as preeclampsia, gestational diabetes, and delivery of an infant with excessive weight (LGA). The evidence also hints at the potential influence of genetic factors on adiposity in children, but does not provide direct data linking maternal pre-pregnancy BMI to offspring body composition. There is a suggestion that fetal over-nutrition may play a role in explaining the relationship between maternal obesity and offspring obesity.",
+    "doc_ids_in_evidence_summary": [
+      "13666019",
+      "33630656"
+    ],
+    "groundedness_score": 7.0,
+    "coverage_score": 8.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The evidence suggests that maternal pre-pregnancy BMI may have an impact on offspring body composition, particularly in relation to fat mass, body fat percent, and fat-free mass. However, the provided evidence does not provide a clear relationship between these factors. Further research is needed to fully understand the implications of maternal pre-pregnancy BMI on offspring body composition.",
+    "raw_response": "{\n\"groundedness_score\": 7,\n\"coverage_score\": 8,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"Pass\",\n\"unsupported_claims\": [],\n\"rationale\": \"The evidence suggests that maternal pre-pregnancy BMI may have an impact on offspring body composition, particularly in relation to fat mass, body fat percent, and fat-free mass. However, the provided evidence does not provide a clear relationship between these factors. Further research is needed to fully understand the implications of maternal pre-pregnancy BMI on offspring body composition.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "75_845829_4_3",
+    "question": "How does the management of excessive daytime sleepiness (EDS) contribute to improving the quality of life for patients with Parkinson's disease, and what are the challenges associated with current pharmacological approaches to EDS?",
+    "direct_answer": "it shows that EDS is a common symptom in PD and can be associated with negative impacts on quality of life. Regarding pharmacological approaches, the studies indicate that dopamine agonists are often linked to EDS, but there is also evidence suggesting other factors like depression and sleep disorders may contribute to this condition.",
+    "doc_ids_in_evidence_summary": [
+      "845829",
+      "15974361",
+      "8802670"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The management of excessive daytime sleepiness in Parkinson's disease can be achieved through a combination of lifestyle modifications and pharmacological interventions. Lifestyle changes such as maintaining a regular sleep schedule, avoiding caffeine and heavy meals before bedtime, and creating a comfortable sleep environment can help improve sleep quality. Additionally, certain medications like melatonin or cognitive-behavioral therapy for insomnia (CBT-I) may be beneficial in managing excessive daytime sleepiness. However, the use of dopamine agonists is associated with an increased risk of developing EDS, so careful consideration should be given to the potential benefits and risks of these medications.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 7,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The management of excessive daytime sleepiness in Parkinson's disease can be achieved through a combination of lifestyle modifications and pharmacological interventions. Lifestyle changes such as maintaining a regular sleep schedule, avoiding caffeine and heavy meals before bedtime, and creating a comfortable sleep environment can help improve sleep quality. Additionally, certain medications like melatonin or cognitive-behavioral therapy for insomnia (CBT-I) may be beneficial in managing excessive daytime sleepiness. However, the use of dopamine agonists is associated with an increased risk of developing EDS, so careful consideration should be given to the potential benefits and risks of these medications.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "60_46827041_1_1",
+    "question": "What are the potential complications of severe postoperative pain in elderly lower limb fracture patients?",
+    "direct_answer": "The provided evidence does not explicitly detail the potential complications of severe postoperative pain in elderly lower limb fracture patients. However, it mentions that elderly patients with fragility fractures are at increased risk for poor outcomes after internal fixation due to their comorbidities and inability to limit weight-bearing postoperatively.",
+    "doc_ids_in_evidence_summary": [
+      "738241",
+      "79087966"
+    ],
+    "groundedness_score": 8.5,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 10.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The use of a long, locked calcaneotalotibial nail for the fixation of a fragility fracture of the ankle in a frail, elderly group of patients has been shown to be safe and effective. The study found that immediate partial or unrestricted weight-bearing was possible with this method.",
+    "raw_response": "{\n  \"groundedness_score\": 8.5,\n  \"coverage_score\": 9,\n  \"overall_faithfulness_score\": 10,\n  \"verdict\": \"Pass\",\n  \"unsupported_claims\": [],\n  \"rationale\": \"The use of a long, locked calcaneotalotibial nail for the fixation of a fragility fracture of the ankle in a frail, elderly group of patients has been shown to be safe and effective. The study found that immediate partial or unrestricted weight-bearing was possible with this method.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "38_2622398_0_2",
+    "question": "What are some theories that explain the association between PTSD and sleep problems?",
+    "direct_answer": "The provided evidence shows that there are several theories explaining the association between PTSD and sleep problems. One theory is that nightmares are a central feature of PTSD among both military combat veterans and trauma-exposed civilians, contributing to delayed return to sleep and associated with adverse consequences such as fatigue, difficulties in concentration, irritability, and feelings of helplessness. Another theory suggests that chronic nightmares in PTSD patients often lead to insomnia, which can persist for many decades and be resistant to existing therapy.",
+    "doc_ids_in_evidence_summary": [
+      "18122462",
+      "54473202"
+    ],
+    "groundedness_score": 10.0,
+    "coverage_score": 8.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The provided evidence shows that there are several theories explaining the association between PTSD and sleep problems. One theory is that nightmares are a central feature of PTSD among both military combat veterans and trauma-exposed civilians, contributing to delayed return to sleep and associated with adverse consequences such as fatigue, difficulties in concentration, irritability, and feelings of helplessness.",
+    "raw_response": "{\n\"groundedness_score\": 10,\n\"coverage_score\": 8,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The provided evidence shows that there are several theories explaining the association between PTSD and sleep problems. One theory is that nightmares are a central feature of PTSD among both military combat veterans and trauma-exposed civilians, contributing to delayed return to sleep and associated with adverse consequences such as fatigue, difficulties in concentration, irritability, and feelings of helplessness.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "38_1296417_2_2",
+    "question": "How does the ICAF scale categorize coping strategies for fibromyalgia patients?",
+    "direct_answer": "The ICAF scale categorizes coping strategies for fibromyalgia patients into four main factors: Emotional Factor, Physical-Activity scale, Active Coping, and Passive Coping. The Emotional Factor assesses anxiety and depression impacts on social aspects, while the Physical-Activity scale evaluates pain, fatigue, sleep quality, and functional capacity. The Active Coping scale includes positive coping strategies and self-efficacy, whereas the Passive Coping scale identifies severely affected patients.",
+    "doc_ids_in_evidence_summary": [
+      "1296417",
+      "13994897"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The ICAF scale categorizes coping strategies for fibromyalgia patients into four main factors: Emotional Factor, Physical-Activity scale, Active Coping, and Passive Coping. The Emotional Factor assesses anxiety and depression impacts on social aspects, while the Physical-Activity scale evaluates pain, fatigue, sleep quality, and functional capacity. The Active Coping scale includes positive coping strategies and self-efficacy, whereas the Passive Coping scale identifies severely affected patients.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 7,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The ICAF scale categorizes coping strategies for fibromyalgia patients into four main factors: Emotional Factor, Physical-Activity scale, Active Coping, and Passive Coping. The Emotional Factor assesses anxiety and depression impacts on social aspects, while the Physical-Activity scale evaluates pain, fatigue, sleep quality, and functional capacity. The Active Coping scale includes positive coping strategies and self-efficacy, whereas the Passive Coping scale identifies severely affected patients.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "36_26154596_0_3",
+    "question": "How can the presence of apathy and cognitive impairment impact the physical activity level of stroke patients, and why is it important to consider these factors in rehabilitation programs?",
+    "direct_answer": "The presence of apathy and cognitive impairment in stroke patients can significantly impact their physical activity level by reducing motivation to engage in activities and impairing the ability to perform daily tasks independently. Considering these factors is crucial for effective rehabilitation programs as they influence outcomes such as functional independence and quality of life.",
+    "doc_ids_in_evidence_summary": [
+      "10202434",
+      "26154596"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The presence of apathy and cognitive impairment in stroke patients can significantly impact their physical activity level by reducing motivation to engage in activities and impairing the ability to perform daily tasks independently. Considering these factors is crucial for effective rehabilitation programs as they influence outcomes such as functional independence and quality of life.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 7,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The presence of apathy and cognitive impairment in stroke patients can significantly impact their physical activity level by reducing motivation to engage in activities and impairing the ability to perform daily tasks independently. Considering these factors is crucial for effective rehabilitation programs as they influence outcomes such as functional independence and quality of life.\"}",
+    "error": ""
+  },
+  {
+    "question_id": "36_58695026_0_3",
+    "question": "What are the key objectives of the educational resource created to raise awareness of oral health problems in patients with Parkinson's disease, and how can this resource benefit dental students and professionals in their practice?",
+    "direct_answer": "The educational resource created aims to introduce dental professionals to the oral health needs of patients with Parkinson's disease. It emphasizes the importance of timely treatment for symptoms such as teeth/gum problems, dry mouth, drooling, and dysphagia. The module also provides strategies for accommodating these patients in a dental office setting and encourages collaboration among various healthcare providers. This resource can benefit dental students and professionals by enhancing their understanding of how to recognize and treat this patient population effectively.",
+    "doc_ids_in_evidence_summary": [
+      "58695026",
+      "44096957"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 10.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The educational resource created to raise awareness of oral health problems in patients with Parkinson'S disease is a comprehensive and evidence-based module that provides dental professionals with the necessary knowledge and strategies to recognize and treat this patient population effectively. The module emphasizes the importance of timely treatment for symptoms such as teeth/gum problems, dry mouth, drooling, and dysphagia, which can significantly impact the quality of life of patients with PD. By incorporating this resource into their education and continuing education programs, dental students and professionals will be better equipped to address the oral health needs of patients with PD in an interprofessional manner.",
+    "raw_response": "{\n\"strictness\": \"high\",\n\"groundedness_score\": 8,\n\"coverage_score\": 9,\n\"overall_faithfulness_score\": 10,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The educational resource created to raise awareness of oral health problems in patients with Parkinson'S disease is a comprehensive and evidence-based module that provides dental professionals with the necessary knowledge and strategies to recognize and treat this patient population effectively. The module emphasizes the importance of timely treatment for symptoms such as teeth/gum problems, dry mouth, drooling, and dysphagia, which can significantly impact the quality of life of patients with PD. By incorporating this resource into their education and continuing education programs, dental students and professionals will be better equipped to address the oral health needs of patients with PD in an interprofessional manner.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "36_18533795_2_1",
+    "question": "How does the MITI tool contribute to assessing motivational interviewing treatment integrity and what specific aspects of interviewer behavior does it measure?",
+    "direct_answer": "The MITI tool contributes to assessing motivational interviewing (MI) treatment integrity by providing a structured way to evaluate the fidelity of MI implementation, which is crucial for understanding how well MI principles are being applied in practice. It measures specific aspects of interviewer behavior such as evocation, collaboration, supporting autonomy, direction, and empathy, along with their frequency and adherence to MI guidelines. This tool helps identify areas where interviewers may be excelling or need improvement, thereby enhancing the quality and effectiveness of MI sessions.",
+    "doc_ids_in_evidence_summary": [
+      "18533795",
+      "15538024",
+      "87227755",
+      "8661242",
+      "728792"
+    ],
+    "groundedness_score": 8.5,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 10.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The MITI tool contributes to assessing motivational interviewing treatment integrity by providing a structured way to evaluate the fidelity of MI implementation.",
+    "raw_response": "{\n  \"scored_text\": {\n    \"groundedness_score\": 8.5,\n    \"coverage_score\": 9.0,\n    \"overall_faithfulness_score\": 10.0,\n    \"verdict\": \"PASS\",\n    \"unsupported_claims\": [],\n    \"rationale\": \"The MITI tool contributes to assessing motivational interviewing treatment integrity by providing a structured way to evaluate the fidelity of MI implementation.\"\n  }\n}",
+    "error": ""
+  },
+  {
+    "question_id": "36_11167310_4_1",
+    "question": "How do the PTSD diagnostic algorithms for young children demonstrate adaptability and specificity compared to the DSM-IV criteria?",
+    "direct_answer": "The evidence shows that the DSM-5 subtype for children 6 years and younger has adapted some avoidance symptoms to be more appropriate for young children, such as removing two avoidance symptoms and adding one new symptom. This adaptation makes it better suited for identifying PTSD in this age group compared to the DSM-IV criteria. Despite these adaptations, both algorithms (DSM-5 subtype and PTSD-AA) identify the same children with substantial PTSS.",
+    "doc_ids_in_evidence_summary": [
+      "11167310"
+    ],
+    "groundedness_score": 10.0,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 8.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The PTSD diagnostic algorithms for young children demonstrate adaptability and specificity compared to the DSM-IV criteria. The evidence shows that the DSM-5 subtype for children 6 years and younger has adapted some avoidance symptoms to be more appropriate for young children, such as removing two avoidance symptoms and adding one new symptom. This adaptation makes it better suited for identifying PTSD in this age group compared to the DSM-IV criteria. Despite these adaptations, both algorithms (DSM-5 subtype and PTSD-AA) identify the same children with substantial PTSS.",
+    "raw_response": "{\n\"groundedness_score\": 10,\n\"coverage_score\": 9,\n\"overall_faithfulness_score\": 8,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The PTSD diagnostic algorithms for young children demonstrate adaptability and specificity compared to the DSM-IV criteria. The evidence shows that the DSM-5 subtype for children 6 years and younger has adapted some avoidance symptoms to be more appropriate for young children, such as removing two avoidance symptoms and adding one new symptom. This adaptation makes it better suited for identifying PTSD in this age group compared to the DSM-IV criteria. Despite these adaptations, both algorithms (DSM-5 subtype and PTSD-AA) identify the same children with substantial PTSS.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "36_4230700_0_2",
+    "question": "What are some of the bioactive components found in human milk and how do they support infant development and health?",
+    "direct_answer": "The provided evidence shows that human breast milk contains various bioactive components, including proteins, carbohydrates, lipids, growth factors, cytokines, and cells such as stem cells. These components play a crucial role in supporting infant development and health by providing protection against infections, promoting immune system maturation, and aiding in the proper development of organs like the brain and retina.",
+    "doc_ids_in_evidence_summary": [
+      "135441627",
+      "169036384"
+    ],
+    "groundedness_score": 10.0,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 8.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "Human milk contains various bioactive components, including proteins, carbohydrates, lipids, growth factors, cytokines, and cells such as stem cells. These components play a crucial role in supporting infant development and health by providing protection against infections, promoting immune system maturation, and aiding in the proper development of organs like the brain and retina.",
+    "raw_response": "{\n\"groundedness_score\": 10,\n\"coverage_score\": 9,\n\"overall_faithfulness_score\": 8,\n\"verdict\": \"Pass\",\n\"unsupported_claims\": [],\n\"rationale\": \"Human milk contains various bioactive components, including proteins, carbohydrates, lipids, growth factors, cytokines, and cells such as stem cells. These components play a crucial role in supporting infant development and health by providing protection against infections, promoting immune system maturation, and aiding in the proper development of organs like the brain and retina.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "36_15640360_1_1",
+    "question": "What are the criteria used in STOPP/START version 2 to assess antithrombotic therapy in elderly patients?",
+    "direct_answer": "The STOPP/START version 2 criteria for antithrombotic therapy assessment in elderly patients includes specific sections A1 and A2 that are not applied due to being too implicit or lacking sufficient information. For the remaining criteria, it focuses on identifying potentially inappropriate prescribing (PIP) of antithrombotic agents before hospital discharge. The criteria include assessing whether a patient is at risk for thromboembolic events while also considering their history of bleeding complications and other comorbidities.",
+    "doc_ids_in_evidence_summary": [
+      "15640360",
+      "13674531",
+      "79660691"
+    ],
+    "groundedness_score": 9.0,
+    "coverage_score": 8.0,
+    "overall_faithfulness_score": 7.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The STOPP/START version 2 criteria for antithrombotic therapy assessment in elderly patients includes specific sections A1 and A2 that are not applied due to being too implicit or lacking sufficient information. For the remaining criteria, it focuses on identifying potentially inappropriate prescribing (IP) of antithrombotics before hospital discharge. The criteria include assessing whether a patient is at risk for thromboembolic events while also considering their history of bleeding complications and other comorbidities. A medication review is the structured evaluation of a patient's medication regimen aimed at optimizing drug therapy by minimizing the number of drug-related problems (DRPs). A DRP is defined as 'an event or circumstance involving drug therapy that actually or potentially interferes with desired health outcomes'. Several studies have shown the effectiveness of medication reviews conducted by healthcare practitioners at reducing the number of DRPs and the number of potentially inappropriate medicines (PIMs). Conducting medication reviews in the elderly population is especially important due to the high incidence of inappropriate drug prescribing, leading to higher rates of DRPs, hospitalizations, and adverse drug reactions. Several specific criteria for identifying inappropriate prescribing (IP) in elderly patients have been developed, including the Beers criteria, Canadian criteria, improved criteria in the elderly tool, Prescribing Appropriateness Index, Zhan's criteria, French Consensus Panel List, Australian Prescribing Indicators Tool, Norwegian General Practice criteria, and aspirin with no evidence-based clinical indication. The STOPP/START version 2 criteria are relevant to antithrombotic therapy for this study.",
+    "raw_response": "{\n  \"groundedness_score\": 9,\n  \"coverage_score\": 8,\n  \"overall_faithfulness_score\": 7,\n  \"verdict\": \"PASS\",\n  \"unsupported_claims\": [],\n  \"rationale\": \"The STOPP/START version 2 criteria for antithrombotic therapy assessment in elderly patients includes specific sections A1 and A2 that are not applied due to being too implicit or lacking sufficient information. For the remaining criteria, it focuses on identifying potentially inappropriate prescribing (IP) of antithrombotics before hospital discharge. The criteria include assessing whether a patient is at risk for thromboembolic events while also considering their history of bleeding complications and other comorbidities. A medication review is the structured evaluation of a patient's medication regimen aimed at optimizing drug therapy by minimizing the number of drug-related problems (DRPs). A DRP is defined as 'an event or circumstance involving drug therapy that actually or potentially interferes with desired health outcomes'. Several studies have shown the effectiveness of medication reviews conducted by healthcare practitioners at reducing the number of DRPs and the number of potentially inappropriate medicines (PIMs). Conducting medication reviews in the elderly population is especially important due to the high incidence of inappropriate drug prescribing, leading to higher rates of DRPs, hospitalizations, and adverse drug reactions. Several specific criteria for identifying inappropriate prescribing (IP) in elderly patients have been developed, including the Beers criteria, Canadian criteria, improved criteria in the elderly tool, Prescribing Appropriateness Index, Zhan's criteria, French Consensus Panel List, Australian Prescribing Indicators Tool, Norwegian General Practice criteria, and aspirin with no evidence-based clinical indication. The STOPP/START version 2 criteria are relevant to antithrombotic therapy for this study.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "70_7187892_4_3",
+    "question": "What are some potential causes of decreased HCT, MCV, and serum iron concentrations in older dogs?",
+    "direct_answer": "The provided evidence does not explicitly state specific causes of decreased HCT, MCV, and serum iron concentrations in older dogs. However, it mentions that chronic kidney disease, anemia of chronic inflammation, myeloproliferative and lymphoproliferative disorders, and idiopathic causes are major contributors to anemia in the elderly population. The study by Olver et al. \"Hematology and biochemistry of aging—evidence of “anemia of the elderly” in old dogs\" suggests that aging alone may cause changes in CBC and biochemistry variables in clinically healthy dogs, including potential alterations due to \"inflammaging,\" a term referring to increased levels of systemic inflammation associated with older individuals.",
+    "doc_ids_in_evidence_summary": [
+      "7187892",
+      "32353432"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The study by Olver et al. suggests that aging alone may cause changes in CBC and biochemistry variables in clinically healthy dogs, including potential alterations due to 'inflammaging.' However, the provided evidence does not explicitly state specific causes of decreased HCT, MCV, and serum iron concentrations in older dogs.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 7,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"Pass\",\n\"unsupported_claims\": [],\n\"rationale\": \"The study by Olver et al. suggests that aging alone may cause changes in CBC and biochemistry variables in clinically healthy dogs, including potential alterations due to 'inflammaging.' However, the provided evidence does not explicitly state specific causes of decreased HCT, MCV, and serum iron concentrations in older dogs.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "10_17064827_1_1",
+    "question": "What is the Lazarus cognitive stress model and how does it relate to perceived stress?",
+    "direct_answer": "The Lazarus cognitive stress model posits that perceived stress is a relationship between an individual and their environment, appraised as taxing or exceeding resources and endangering well-being. This perspective aligns with the model's structure of appraisal, coping, and outcome stages. Perceived stress, according to this framework, involves evaluating threats in relation to personal goals and resources.",
+    "doc_ids_in_evidence_summary": [
+      "24971277",
+      "35268573"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 10.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The Lazarus cognitive stress model posits that perceived stress is a relationship between an individual and their environment, appraised as taxing or exceeding resources and endangering well-being. This perspective aligns with the model' structure of appraisal, coping, and outcome stages.",
+    "raw_response": "{\n  \"groundedness_score\": 8,\n  \"coverage_score\": 9,\n  \"overall_faithfulness_score\": 10,\n  \"verdict\": \"PASS\",\n  \"unsupported_claims\": [],\n  \"rationale\": \"The Lazarus cognitive stress model posits that perceived stress is a relationship between an individual and their environment, appraised as taxing or exceeding resources and endangering well-being. This perspective aligns with the model' structure of appraisal, coping, and outcome stages.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "70_16028130_2_1",
+    "question": "What are some coping mechanisms that PLHIV on ART use to deal with stigma and discrimination?",
+    "direct_answer": "The provided evidence does not explicitly detail specific coping mechanisms used by PLHIV on ART to deal with stigma and discrimination. However, it mentions that some people choose to be secretive about their HIV status as a way of avoiding stigma, which can lead to non-adherence to medication due to fear of being seen at health facilities. Another strategy mentioned is seeking information or exchanging views through support groups, which can foster positive living.",
+    "doc_ids_in_evidence_summary": [
+      "16028130",
+      "9575042"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 7.0,
+    "overall_faithfulness_score": 9.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The provided evidence does not explicitly detail specific coping mechanisms used by PLHIV on ART to deal with stigma and discrimination. However, it mentions that some people choose to be secretive about their HIV status as a way of avoiding stigma, which can lead to non-adherence to medication due to fear of being seen at health facilities. Another strategy mentioned is seeking information or exchanging views through support groups, which can foster positive living.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 7,\n\"overall_faithfulness_score\": 9,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The provided evidence does not explicitly detail specific coping mechanisms used by PLHIV on ART to deal with stigma and discrimination. However, it mentions that some people choose to be secretive about their HIV status as a way of avoiding stigma, which can lead to non-adherence to medication due to fear of being seen at health facilities. Another strategy mentioned is seeking information or exchanging views through support groups, which can foster positive living.\"\n}",
+    "error": ""
+  },
+  {
+    "question_id": "0_54538893_7_3",
+    "question": "Are there any reported side effects or negative factors associated with mulberry?",
+    "direct_answer": "The provided evidence does not explicitly mention any reported side effects or negative factors associated with mulberry. However, it highlights that mulberry leaf has been used traditionally in China for treating diabetes and obesity without observing adverse effects in normal rats fed with mulberry leaf. There is also a study suggesting that mulberry extract can improve glucose metabolism and insulin sensitivity in diabetic animal models.",
+    "doc_ids_in_evidence_summary": [
+      "54538893",
+      "208213406",
+      "73463020",
+      "18526510",
+      "14820163"
+    ],
+    "groundedness_score": 8.0,
+    "coverage_score": 9.0,
+    "overall_faithfulness_score": 10.0,
+    "verdict": "PASS",
+    "judge_verdict_raw": "PASS",
+    "unsupported_claims": [],
+    "rationale": "The provided evidence does not explicitly mention any reported side effects or negative factors associated with mulberry. However, it highlights that mulberry leaf has been used traditionally in China for treating diabetes and obesity without observing adverse effects in normal rats fed with mulberry leaf. There is also a study suggesting that mulberry extract can improve glucose metabolism and insulin sensitivity in diabetic animal models.",
+    "raw_response": "{\n\"groundedness_score\": 8,\n\"coverage_score\": 9,\n\"overall_faithfulness_score\": 10,\n\"verdict\": \"PASS\",\n\"unsupported_claims\": [],\n\"rationale\": \"The provided evidence does not explicitly mention any reported side effects or negative factors associated with mulberry. However, it highlights that mulberry leaf has been used traditionally in China for treating diabetes and obesity without observing adverse effects in normal rats fed with mulberry leaf. There is also a study suggesting that mulberry extract can improve glucose metabolism and insulin sensitivity in diabetic animal models.\"\n}",
+    "error": ""
+  }
+]

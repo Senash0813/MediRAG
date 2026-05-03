@@ -5,6 +5,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from medirag.api.ablation_schemas import AblationDirectAnswerResponse
 from medirag.api.schemas import (
 	QueryRequest,
 	QueryResponse,
@@ -18,6 +19,7 @@ from medirag.api.schemas import (
 )
 from medirag.config import load_settings
 from medirag.pipeline.orchestrator import init_assets, run_pipeline, run_detailed_pipeline
+from medirag.pipeline.ablation_standard import run_standard_rag_ablation
 from medirag.retrieval.verifier import verify_and_rank_final_flat
 
 
@@ -64,6 +66,22 @@ def query(req: QueryRequest) -> QueryResponse:
 			),
 			evidence_summary="",
 			limitations="",
+		)
+
+
+@app.post("/query4-ablation", response_model=AblationDirectAnswerResponse)
+def query_ablation(req: QueryRequest) -> AblationDirectAnswerResponse:
+	"""Ablation endpoint: standard RAG (no validation engine, no dynamic prompt)."""
+	try:
+		result = run_standard_rag_ablation(assets=_assets, query=req.query, k=req.top_k)
+		return AblationDirectAnswerResponse(**result)
+	except Exception:  # pragma: no cover - defensive logging
+		logger.exception("/query4-ablation failed")
+		return AblationDirectAnswerResponse(
+			direct_answer=(
+				"The ablation pipeline failed to generate an answer. "
+				"Please try again."
+			)
 		)
 
 
@@ -210,6 +228,4 @@ def batch_query(req: BatchQueryRequest) -> BatchQueryResponse:
 		total_queries=len(req.queries),
 		successful=successful_count,
 	)
-
-
 
