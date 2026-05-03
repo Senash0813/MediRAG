@@ -67,7 +67,7 @@ export default function ChatPage() {
     1: 'https://oqpmauxx45elx5-8000.proxy.runpod.net/query',
     2: 'https://6atqznkh6t8n1c-8001.proxy.runpod.net/query2',
     3: 'https://t0ct2rterpnw19-8002.proxy.runpod.net/query3',
-    4: 'https://072lfwzpb2451o-8003.proxy.runpod.net/query4',
+    4: 'https://af0tupjzwh7t2c-8003.proxy.runpod.net/query4',
   };
 
   const REQUEST_BODY_BY_CLUSTER: Record<SelectedCluster, (question: string) => QueryRequestPayload> = {
