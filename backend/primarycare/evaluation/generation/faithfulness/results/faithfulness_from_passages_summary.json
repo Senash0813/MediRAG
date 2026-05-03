@@ -1,0 +1,22 @@
+{
+  "total_rows": 20,
+  "successful_rows": 20,
+  "failed_rows": 0,
+  "mean_groundedness_score": 8.3,
+  "mean_coverage_score": 8.0,
+  "mean_overall_faithfulness_score": 9.1,
+  "avg_unsupported_claims": 0,
+  "pass_threshold": 6.0,
+  "pass_count": 20,
+  "pass_rate": 1.0,
+  "run_config": {
+    "dataset_path": "evaluation\\faithfulness_dataset_fix\\faithfulness_with_passages_20.jsonl",
+    "model": "phi:2.7b",
+    "ollama_url": "http://127.0.0.1:11434/api/generate",
+    "timeout": 300.0,
+    "retries": 2,
+    "pass_threshold": 6.0,
+    "max_context_chars": 6000,
+    "timestamp": "2026-04-15T04:45:45.480671+00:00"
+  }
+}

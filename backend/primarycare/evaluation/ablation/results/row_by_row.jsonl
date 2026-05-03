@@ -1,0 +1,441 @@
+{
+  "source_question_id": "38_79733545_0_2",
+  "scores": {
+    "no_validation_answer": 9.0,
+    "static_prompt_answer": 7.5,
+    "answer": 7.0
+  },
+  "ranking": [
+    "no_validation_answer",
+    "static_prompt_answer",
+    "answer"
+  ],
+  "summary": {
+    "best_answer": "no_validation_answer",
+    "reason": "Most aligned with ground truth, correctly includes aging population and chronic diseases, and partially captures long-term care aspects.",
+    "common_issues": [
+      "Missing explicit mention of chronic diseases and disabilities in weaker answers",
+      "Overemphasis on workforce shortages instead of demand-side factors",
+      "Introduction of unsupported factors like economic pressures"
+    ]
+  }
+}
+{
+  "source_question_id": "38_6276512_2_3",
+  "scores": {
+    "no_validation_answer": 7.5,
+    "static_prompt_answer": 7.0,
+    "answer": 9.0
+  },
+  "ranking": [
+    "answer",
+    "no_validation_answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most closely aligned with ground truth by correctly identifying thymic involution, reduced naive T cell production, and broader immune system decline affecting both innate and adaptive immunity.",
+    "common_issues": [
+      "Missing explicit mention of Th1/Th2 shift (key ground truth concept)",
+      "Overemphasis on cytokines or inflammation without linking to immune balance changes",
+      "Introduction of partially unsupported details (e.g., specific cytokines, macrophage sensitivity)"
+    ]
+  }
+}
+{
+  "source_question_id": "22_23496682_6_1",
+  "scores": {
+    "no_validation_answer": 9.5,
+    "static_prompt_answer": 6.0,
+    "answer": 6.5
+  },
+  "ranking": [
+    "no_validation_answer",
+    "answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "no_validation_answer",
+    "reason": "Directly matches ground truth by correctly listing key studied supplements (e.g., Chlorella, CoQ10, Ginkgo, acetyl-carnitine, SAMe) and acknowledging need for further research.",
+    "common_issues": [
+      "Failure to explicitly list key nutritional supplements mentioned in ground truth",
+      "Overgeneralization (e.g., focusing only on weight or diet instead of specific interventions)",
+      "Missing important compounds like 5-HTP and SAMe in weaker answers"
+    ]
+  }
+}
+{
+  "source_question_id": "57_40274863_3_1",
+  "scores": {
+    "no_validation_answer": 9.0,
+    "static_prompt_answer": 8.5,
+    "answer": 9.5
+  },
+  "ranking": [
+    "answer",
+    "no_validation_answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most complete and closely aligned with ground truth, correctly describing both components (recall + clock), scoring logic, and interpretation criteria while adding useful but non-conflicting context.",
+    "common_issues": [
+      "Minor omissions such as not explicitly stating negative test conditions",
+      "Addition of irrelevant details (e.g., blinding, reference standards) not required by the question",
+      "Slight variation in describing scoring ranges but generally consistent"
+    ]
+  }
+}
+{
+  "source_question_id": "50_53217809_4_1",
+  "scores": {
+    "no_validation_answer": 4.5,
+    "static_prompt_answer": 6.5,
+    "answer": 8.5
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most aligned with ground truth by correctly identifying compromised gut mucosal integrity and acknowledging impact in cirrhosis, though partially incomplete on antimicrobial peptide deficiency.",
+    "common_issues": [
+      "Failure to explicitly state antimicrobial peptide deficiency",
+      "Overuse of 'not explicitly stated in evidence' leading to missed correct conclusions",
+      "Incomplete linkage between malnutrition, mucosal damage, and infection risk (bacterial translocation)"
+    ]
+  }
+}
+{
+  "source_question_id": "8_33630656_4_2",
+  "scores": {
+    "no_validation_answer": 6.5,
+    "static_prompt_answer": 5.0,
+    "answer": 5.5
+  },
+  "ranking": [
+    "no_validation_answer",
+    "answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "no_validation_answer",
+    "reason": "Partially aligns with ground truth by acknowledging increased adiposity (fat mass) in offspring of higher BMI mothers, though lacks explicit detail on body fat percent and fat-free mass.",
+    "common_issues": [
+      "Failure to clearly state key relationships (higher fat mass, body fat percent, and fat-free mass)",
+      "Overuse of uncertainty ('no clear relationship') despite ground truth indicating consistent associations",
+      "Focus on indirect pregnancy outcomes (e.g., GDM, preeclampsia) instead of offspring body composition",
+      "Missing discussion of gestational weight gain interactions"
+    ]
+  }
+}
+{
+  "source_question_id": "75_845829_4_3",
+  "scores": {
+    "no_validation_answer": 6.5,
+    "static_prompt_answer": 7.5,
+    "answer": 8.5
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Best captures the impact of EDS on quality of life and correctly links pharmacological challenges such as dopaminergic medications worsening sleepiness, aligning with ground truth on treatment limitations.",
+    "common_issues": [
+      "Missing explicit mention of inconsistent efficacy of treatments like modafinil",
+      "Limited discussion of broader management strategies (e.g., sleep hygiene)",
+      "Answers tend to generalize challenges without detailing specific drug-related issues (e.g., sleep attacks from dopamine agonists)"
+    ]
+  }
+}
+{
+  "source_question_id": "60_46827041_1_1",
+  "scores": {
+    "no_validation_answer": 3.5,
+    "static_prompt_answer": 4.5,
+    "answer": 6.0
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Partially aligns by mentioning complications (e.g., delirium) and the importance of pain management, though it misses key ground truth complications like hypertension, angina, and atelectasis.",
+    "common_issues": [
+      "Failure to identify specific complications (angina, atelectasis, increased blood pressure)",
+      "Overreliance on stating lack of explicit evidence instead of extracting implied clinical outcomes",
+      "Generalization of complications without linking directly to severe postoperative pain"
+    ]
+  }
+}
+{
+  "source_question_id": "38_2622398_0_2",
+  "scores": {
+    "no_validation_answer": 4.5,
+    "static_prompt_answer": 5.5,
+    "answer": 7.0
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Best captures the bidirectional relationship between PTSD and sleep disturbances and partially aligns with theoretical explanations, though not explicitly naming key theories.",
+    "common_issues": [
+      "Failure to explicitly mention core theories (emotional processing theory, hyperarousal theory)",
+      "Over-reliance on descriptive associations rather than theoretical explanations",
+      "Missing explanation of how sleep problems contribute to PTSD maintenance"
+    ]
+  }
+}
+{
+  "source_question_id": "38_1296417_2_2",
+  "scores": {
+    "no_validation_answer": 6.5,
+    "static_prompt_answer": 9.5,
+    "answer": 7.0
+  },
+  "ranking": [
+    "static_prompt_answer",
+    "answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "static_prompt_answer",
+    "reason": "Directly matches ground truth by correctly identifying the two categories (active and passive coping) and their characteristics without introducing unrelated factors.",
+    "common_issues": [
+      "Incorrect expansion to four factors instead of focusing on coping categories",
+      "Mixing unrelated dimensions (emotional, physical activity) with coping strategies",
+      "Lack of clear distinction between active and passive coping definitions"
+    ]
+  }
+}
+{
+  "source_question_id": "36_26154596_0_3",
+  "scores": {
+    "no_validation_answer": 8.5,
+    "static_prompt_answer": 9.0,
+    "answer": 9.5
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most closely aligned with ground truth by clearly linking apathy and cognitive impairment to reduced motivation, impaired functional ability, and decreased participation in rehabilitation, while addressing their importance in therapy engagement.",
+    "common_issues": [
+      "Some answers lack explicit mention of functional impairment linkage",
+      "Limited emphasis on early-stage cognitive/mood differences in stroke patients",
+      "Minor omission of how tailored interventions improve outcomes"
+    ]
+  }
+}
+{
+  "source_question_id": "36_58695026_0_3",
+  "scores": {
+    "no_validation_answer": 9.5,
+    "static_prompt_answer": 8.5,
+    "answer": 10.0
+  },
+  "ranking": [
+    "answer",
+    "no_validation_answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Fully aligns with ground truth by covering all key objectives (awareness, timely treatment, accommodation strategies, collaboration) and clearly explaining benefits for both students and professionals.",
+    "common_issues": [
+      "Some answers lack completeness in listing all objectives (e.g., accommodation strategies)",
+      "Limited explanation of practical benefits for learners and professionals",
+      "Occasional omission of interprofessional collaboration emphasis"
+    ]
+  }
+}
+{
+  "source_question_id": "36_18533795_2_1",
+  "scores": {
+    "no_validation_answer": 9.0,
+    "static_prompt_answer": 9.5,
+    "answer": 9.5
+  },
+  "ranking": [
+    "static_prompt_answer",
+    "answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "static_prompt_answer",
+    "reason": "Most comprehensive and closely aligned with ground truth, accurately covering both global MI principles and specific behavioral metrics (e.g., question types, reflections) with clarity.",
+    "common_issues": [
+      "Minor omission of feedback function (strengths and improvement areas)",
+      "Occasional lack of mention that MITI focuses only on interviewer behavior (not client)",
+      "Small variations in terminology (e.g., motivation-adjunctive vs adherent)"
+    ]
+  }
+}
+{
+  "source_question_id": "36_11167310_4_1",
+  "scores": {
+    "no_validation_answer": 9.5,
+    "static_prompt_answer": 9.0,
+    "answer": 9.0
+  },
+  "ranking": [
+    "no_validation_answer",
+    "static_prompt_answer",
+    "answer"
+  ],
+  "summary": {
+    "best_answer": "no_validation_answer",
+    "reason": "Most complete and aligned with ground truth, clearly describing key adaptations (threshold reduction, symptom modification, addition/removal) and linking them to improved identification (specificity/sensitivity).",
+    "common_issues": [
+      "Overly specific details not required (e.g., exact symptom counts) while missing broader explanation of adaptability",
+      "Limited explicit discussion of how these changes improve specificity",
+      "Minor redundancy across answers without clearly distinguishing DSM-IV limitations"
+    ]
+  }
+}
+{
+  "source_question_id": "36_4230700_0_2",
+  "scores": {
+    "no_validation_answer": 7.0,
+    "static_prompt_answer": 9.0,
+    "answer": 9.5
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most comprehensive and aligned with ground truth, covering a wide range of bioactive components and clearly explaining their roles in immune development, protection, and overall infant health.",
+    "common_issues": [
+      "Limited mention of key components like prebiotics and metabolic regulation in weaker answers",
+      "Overly narrow focus on antimicrobial properties instead of broader developmental roles",
+      "Missing discussion of long-term health implications (e.g., metabolic programming)"
+    ]
+  }
+}
+{
+  "source_question_id": "36_15640360_1_1",
+  "scores": {
+    "no_validation_answer": 6.5,
+    "static_prompt_answer": 7.0,
+    "answer": 8.5
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Best aligns with ground truth by clearly stating that STOPP/START criteria are used to identify potentially inappropriate medications and prescribing issues, which directly matches the core concept of PIM evaluation.",
+    "common_issues": [
+      "Overly detailed or fabricated sub-criteria (e.g., sections A1–A5) not supported by ground truth",
+      "Lack of direct mention of PIM focus in weaker answers",
+      "Unnecessary contextual additions (e.g., hospital discharge, readmission risk)"
+    ]
+  }
+}
+{
+  "source_question_id": "70_7187892_4_3",
+  "scores": {
+    "no_validation_answer": 8.5,
+    "static_prompt_answer": 7.5,
+    "answer": 9.0
+  },
+  "ranking": [
+    "answer",
+    "no_validation_answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most aligned with ground truth by correctly identifying gastrointestinal bleeding, iron deficiency, and chronic inflammation (ACD-related mechanisms) as key causes.",
+    "common_issues": [
+      "Failure to explicitly mention chronic gastrointestinal disease or neoplasia",
+      "Overuse of uncertainty despite clear causal links in ground truth",
+      "Inclusion of irrelevant or loosely related study references"
+    ]
+  }
+}
+{
+  "source_question_id": "10_17064827_1_1",
+  "scores": {
+    "no_validation_answer": 8.0,
+    "static_prompt_answer": 9.5,
+    "answer": 9.0
+  },
+  "ranking": [
+    "static_prompt_answer",
+    "answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "static_prompt_answer",
+    "reason": "Most directly and accurately aligns with ground truth by clearly describing stress as a person–environment relationship and emphasizing appraisal without adding irrelevant concepts.",
+    "common_issues": [
+      "Introduction of unrelated theories (e.g., bereavement model)",
+      "Unnecessary contextual additions (e.g., specific populations or scales)",
+      "Minor omission of explicit emphasis on subjective perception"
+    ]
+  }
+}
+{
+  "source_question_id": "70_16028130_2_1",
+  "scores": {
+    "no_validation_answer": 6.0,
+    "static_prompt_answer": 9.0,
+    "answer": 9.5
+  },
+  "ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most complete and aligned with ground truth, correctly listing key coping mechanisms (support groups, acceptance, secrecy, spiritual devotion) and acknowledging adaptive vs maladaptive aspects.",
+    "common_issues": [
+      "Missing key coping strategies such as spiritual devotion and preemptive disclosure in weaker answers",
+      "Introduction of unrelated factors (e.g., depression, alcohol use)",
+      "Lack of distinction between adaptive and maladaptive coping strategies"
+    ]
+  }
+}
+{
+  "source_question_id": "0_54538893_7_3",
+  "scores": {
+    "no_validation_answer": 8.5,
+    "static_prompt_answer": 8.5,
+    "answer": 9.5
+  },
+  "ranking": [
+    "answer",
+    "no_validation_answer",
+    "static_prompt_answer"
+  ],
+  "summary": {
+    "best_answer": "answer",
+    "reason": "Most aligned with ground truth by correctly stating that no side effects have been reported while also emphasizing the need for further research on safety.",
+    "common_issues": [
+      "Missing mention of the need for further safety research in weaker answers",
+      "Unnecessary additional context (e.g., traditional use, benefits) not required by the question",
+      "Slight lack of emphasis on uncertainty regarding long-term safety"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "average_scores": {
+    "no_validation_answer": 7.33,
+    "static_prompt_answer": 7.88,
+    "answer": 8.73
+  },
+  "overall_ranking": [
+    "answer",
+    "static_prompt_answer",
+    "no_validation_answer"
+  ],
+  "win_counts": {
+    "answer": 12,
+    "static_prompt_answer": 4,
+    "no_validation_answer": 4
+  },
+  "total_questions": 20,
+  "summary": "Across all 20 questions, the 'answer' pipeline clearly performs best in both average score and win count. 'static_prompt_answer' is consistently moderate, while 'no_validation_answer' is the weakest overall despite occasional strong performance."
+}
