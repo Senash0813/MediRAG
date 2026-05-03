@@ -64,10 +64,10 @@ export default function ChatPage() {
 
   // NOTE: Cluster 4 must use the primary care backend on port 8003.
   const BACKEND_URL_BY_CLUSTER: Record<number, string> = {
-    1: 'https://oqpmauxx45elx5-8000.proxy.runpod.net/query',
-    2: 'https://0e3sny3b1yxe1l-8001.proxy.runpod.net/query2',
-    3: 'https://t0ct2rterpnw19-8002.proxy.runpod.net/query3',
-    4: 'https://072lfwzpb2451o-8003.proxy.runpod.net/query4',
+    1: 'https://vsc88y4licsogr-8000.proxy.runpod.net/query',
+    2: 'https://4ohgsy752uu9z9-8001.proxy.runpod.net/query2',
+    3: 'https://doh176b5rhsbyc-8002.proxy.runpod.net/query3',
+    4: 'https://0nss4nd4ppxpe8-8003.proxy.runpod.net/query4',
   };
 
   const REQUEST_BODY_BY_CLUSTER: Record<SelectedCluster, (question: string) => QueryRequestPayload> = {
